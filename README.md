@@ -1,6 +1,6 @@
-# Frontend Service for Titanic Survivor Prediction Application
+# Frontend Service for Titanic Survivor Prediction Application 
 
-The frontend is a React and TypeScript Single Page Application (SPA) that powers the user interface for the Titanic Survivor Prediction Application. Designed to be responsive, robust, and intuitive, this service delivers a seamless user experience across all devices. All necessary configurations are pre-integrated, negating the need for manual environment setups.
+This React and TypeScript Single Page Application (SPA) provides the user interface for the Titanic Survivor Prediction Application. It is designed to be responsive, robust, and production-ready with zero manual configuration required.
 
 ## Table of Contents
 
@@ -15,31 +15,23 @@ The frontend is a React and TypeScript Single Page Application (SPA) that powers
 
 ## Overview
 
-This frontend service provides:
-- An interactive landing page introducing both the survival prediction tool and AI course advertisements.
-- Real-time user interface updates for survival prediction outcomes.
-- Secure communication with the backend API for authentication and predictions.
-- A responsive design that ensures optimal performance on desktop and mobile devices.
-
-The SPA is architected following modern React best practices and is fully production-ready using the latest TypeScript standards.
+The frontend service offers:
+- An interactive landing page showcasing both the survival prediction tool and AI course advertisements.
+- Real-time updates for prediction outcomes.
+- Secure communication with the backend API for authentication and prediction requests.
+- A fully responsive design ensuring optimal performance across devices.
 
 ## Features
 
-- **Dynamic User Interface:**  
-  Provides real-time updates and interactive elements for a smooth user experience.
-- **Responsive Design:**  
-  Fully compatible with desktop and mobile devices without additional configuration.
-- **Seamless API Integration:**  
-  Communicates directly with the backend for authenticated survival predictions and administrative actions.
-- **Production-Ready Build:**  
-  Optimized for performance and scalability, including a robust Docker integration for streamlined deployment.
-- **Zero Manual Configuration:**  
-  All settings are pre-configured to work in a containerized environment.
+- **Dynamic User Interface**: Provides an intuitive and interactive experience.
+- **Responsive Design**: Optimized for desktop and mobile devices.
+- **Seamless API Integration**: Communicates effectively with the backend.
+- **Production-Ready**: Pre-configured for containerized deployment with Docker Compose.
+- **Zero Manual Configuration**: All settings are integrated out-of-the-box.
 
 ## Getting Started
 
 1. **Clone the Repository:**
-
    ```bash
    git clone https://your.git.repo/app/frontend.git
    cd app/frontend
@@ -48,77 +40,61 @@ The SPA is architected following modern React best practices and is fully produc
 2. **Install Dependencies:**
 
    Using npm:
-   
    ```bash
    npm install
    ```
-   
-   or using yarn:
-   
+
+   Or using yarn:
    ```bash
    yarn install
    ```
 
 ## Development
 
-- **Run Locally with Hot Reload:**  
-  Start the development server to see changes in real-time:
-  
+- **Run Locally with Hot Reload:**
   ```bash
   npm start
   ```
-  
   The development server will be available at [http://localhost:3000](http://localhost:3000).
 
-- **Code Quality Tools:**  
-  - **Linting:** Execute `npm run lint` to check code quality.
-  - **Formatting:** Run `npm run format` to apply Prettier formatting consistently.
+- **Code Quality Tools:**
+  - Run `npm run lint` to check code quality.
+  - Run `npm run format` to apply Prettier formatting consistently.
 
 ## Testing
 
-- **Unit and Integration Tests:**  
-  Run tests using:
-  
-  ```bash
-  npm test
-  ```
+Run tests using:
+```bash
+npm test
+```
+Ensure that unit and integration tests are updated as you develop new features.
 
 ## Deployment
 
-The frontend is designed to be deployed seamlessly alongside other services using Docker Compose.
+Build the production-ready version with:
+```bash
+npm run build
+```
 
-- **Production Build and Docker Deployment:**  
-  Build the production-ready version with:
-  
-  ```bash
-  npm run build
-  ```
-  
-  Then, deploy within the full orchestration by issuing:
-  
-  ```bash
-  docker-compose up --build -d
-  ```
-  
-  This single command deploys the complete multi-service application including frontend, backend, model service, and Supabase without requiring manual intervention.
+Then deploy the full service stack using Docker Compose:
+```bash
+docker-compose up --build -d
+```
 
 ## Troubleshooting
 
 - **Common Issues:**
-  - Check the browser's console for any JavaScript errors.
-  - Verify that the backend API is accessible and running at the predefined endpoint.
-  - Examine the Docker logs for the frontend container if the application does not load as expected:
-    
+  - Check the browser’s console for JavaScript errors.
+  - Confirm that the backend API is accessible.
+  - Review Docker logs if the application fails to load:
     ```bash
     docker-compose logs frontend
     ```
-    
-  - Use `docker-compose ps` to verify that all containers are up and running.
+  - Verify container statuses with:
+    ```bash
+    docker-compose ps
+    ```
 
 ## Documentation
 
-For detailed information on API integration, component structure, and further architectural insights, refer to the project documentation available in the `/docs` submodule. Documentation aligns with the overall Project Charter and agile development cycles.
-
----
-
-*This frontend service is part of a comprehensive system designed to offer an intuitive, high-performing, and scalable solution for the Titanic Survivor Prediction Application, adhering strictly to production-ready standards and agile methodologies.*
+For detailed API integration, component structure, and further architectural insights, please refer to the project documentation available in the [docs submodule](https://mygit.th-deg.de/schober-teaching/student-projects/ain-23-software-engineering/ss-25/Random_Iceberg/docker-compose/-/wikis/home).
