@@ -2,6 +2,25 @@
 
 This React and TypeScript Single Page Application (SPA) provides the user interface for the Titanic Survivor Prediction Application. It is designed to be responsive, robust, and production-ready with zero manual configuration required.
 
+## Project Structure
+
+The frontend folder is structured to ensure clear separation of concerns for efficient development and maintainability:
+
+```
+app/frontend/
+├── README.md             # Frontend service documentation
+├── package.json          # Node.js dependency and script definitions
+├── public/               # Static assets and HTML templates
+├── src/                  # Main source code
+│   ├── components/       # Reusable React components (with inline Tailwind CSS classes)
+│   ├── assets/           # Images, fonts, icons, etc.
+│   ├── services/         # API integration and utility modules
+│   └── App.tsx           # Root React component
+├── tailwind.config.js    # Tailwind CSS configuration
+├── postcss.config.js     # PostCSS configuration for Tailwind CSS
+└── tests/                # Unit and integration tests for frontend components
+```
+
 ## Table of Contents
 
 - [Overview](#overview)
