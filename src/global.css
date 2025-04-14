@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 245 40% 98%;
+    --foreground: 220 15% 20%;
+    --primary: 210 40% 30%;
+    --secondary: 210 40% 90%;
+    --accent: 210 40% 50%;
+    --font-base: 'Inter', sans-serif;
+  }
+
+  body {
+    @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))] font-sans;
+  }
+}
