@@ -1,9 +1,16 @@
 import React from 'react';
 
 const PredictionButton: React.FC = () => {
+  const handleClick = () => {
+    console.log("Clicked!");
+  };
+
   return (
-    <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
-        Predict
+    <button 
+      onClick={handleClick}
+      className="bg-background hover:bg-blue-400 text-foreground font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
+    >
+      Predict
     </button>
   );
 };
