@@ -14,48 +14,42 @@ type CheckboxProps = {
 };
 
 export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedOption, setSelectedOption] = useState(label);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(label);
 
-    function changeState() {
-        setIsOpen(!isOpen);
-    }
+  function changeState() {
+    setIsOpen(!isOpen);
+  }
 
-    const handleSelect = (value: string) => {
-        setSelectedOption(value);
-        setIsOpen(false);
-    };
+  const handleSelect = (value: string) => {
+    setSelectedOption(value);
+    setIsOpen(false);
+  };
 
-    return (
-        <div className="relative inline-block w-full max-w-sm group mb-4">
-        <div className="flex items-center space-x-2">
-            <span className="text-red-500 text-lg">*</span>
-            <button
-            onClick={changeState}
-            className="w-full text-left bg-background text-foreground text-sm font-medium px-4 py-2 rounded-md shadow-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  return (
+    <div className="relative w-full max-w-sm">
+      <button
+        onClick={changeState}
+        className="w-full text-left bg-background text-foreground text-sm font-medium px-4 py-2 rounded-md shadow-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        {selectedOption}
+      </button>
+
+      {isOpen && (
+        <div className="absolute left-0 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md z-10">
+          {React.Children.map(children, (child: any) => (
+            <div
+              onClick={() => handleSelect(child.props.children)}
+              className="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer text-sm font-medium"
             >
-            {selectedOption}
-            </button>
-        </div>
-
-        <div className="absolute w-full mt-1 rounded-md bg-white border border-gray-300 shadow-md scale-y-0 group-hover:scale-y-100 group-focus-within:scale-y-100 origin-top transition-transform duration-200 z-10">
-            <div className="flex flex-col">
-            {React.Children.map(children, (child: any) => {
-                return (
-                <div
-                    onClick={() => handleSelect(child.props.children)}
-                    className="w-full px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md cursor-pointer text-sm font-medium"
-                >
-                    {child}
-                </div>
-                );
-            })}
+              {child}
             </div>
+          ))}
         </div>
-        </div>
-    );
+      )}
+    </div>
+  );
 };
-  
 
 export const InputButton: React.FC<InputButtonProps> = ({ label }) => {
   return (
