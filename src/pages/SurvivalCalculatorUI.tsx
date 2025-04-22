@@ -3,6 +3,38 @@ import { DropDownButton } from "../components/InputForm";
 import { InputButton } from "../components/InputForm";
 import { CheckBox } from "../components/InputForm";
 
+function inputValidation() {
+    let validated = true;
+
+    // Getting all of the values. //
+    const age = (document.getElementById("age") as HTMLInputElement).value;
+    const sibsp = (document.getElementById("sibsp") as HTMLInputElement).value;
+    const parch = (document.getElementById("parch") as HTMLInputElement).value;
+    
+    const passengerClass = (document.getElementById("passenger-class") as HTMLButtonElement).innerText;
+    const sex = (document.getElementById("sex") as HTMLButtonElement).innerText;
+    const embarkationPort = (document.getElementById("embarkation-port") as HTMLButtonElement).innerText;
+    
+    const wereAlone = (document.getElementById("were-alone") as HTMLInputElement).checked;
+    const cabinKnown = (document.getElementById("cabin-known") as HTMLInputElement).checked;
+
+    // Validation of data. //
+    if (isNaN(Number(age)) || age === '') validated = false;
+    if (isNaN(Number(sibsp)) || sibsp === '') validated = false;
+    if (isNaN(Number(parch)) || parch === '') validated = false;
+
+    if (!passengerClass || !sex || !embarkationPort) validated = false;
+
+    if (typeof wereAlone !== 'boolean' || typeof cabinKnown !== 'boolean') validated = false;
+
+    if (validated) {
+        console.log("Worked!");
+    } else {
+        console.log("Did not work!");
+    }
+}
+
+
 function SurvivalCalculatorUI() {
     return (
         <div className="min-h-screen bg-background text-foreground flex flex-col justify-between">
@@ -18,41 +50,41 @@ function SurvivalCalculatorUI() {
             <main className="flex-grow flex items-center justify-center p-6">
                 <form className="w-full max-w-lg space-y-6 bg-white p-6 rounded-lg shadow-md border border-gray-300">
                     {/* Passenger Class */}
-                    <DropDownButton label="Passenger Class">
+                    <DropDownButton label="Passenger Class" id="passenger-class">
                         <a href="#" className="block px-4 py-2 hover:bg-gray-100 rounded">1</a>
                         <a href="#" className="block px-4 py-2 hover:bg-gray-100 rounded">2</a>
                         <a href="#" className="block px-4 py-2 hover:bg-gray-100 rounded">3</a>
                     </DropDownButton>
 
                     {/* Sex */}
-                    <DropDownButton label="Sex">
+                    <DropDownButton label="Sex" id="sex">
                         <a href="#" className="block px-4 py-2 hover:bg-gray-100 rounded">Male</a>
                         <a href="#" className="block px-4 py-2 hover:bg-gray-100 rounded">Female</a>
                     </DropDownButton>
 
                     {/* Embarkation Port */}
-                    <DropDownButton label="Embarkation Port">
+                    <DropDownButton label="Embarkation Port" id="embarkation-port">
                         <a href="#" className="block px-4 py-2 hover:bg-gray-100 rounded">Cherbourg</a>
                         <a href="#" className="block px-4 py-2 hover:bg-gray-100 rounded">Queenstown</a>
                         <a href="#" className="block px-4 py-2 hover:bg-gray-100 rounded">Southampton</a>
                     </DropDownButton>
 
                     {/* Age */}
-                    <InputButton label="Age" />
+                    <InputButton label="Age" id="age"/>
 
                     {/* Number of siblings/spouses */}
-                    <InputButton label="Number of siblings/spouses" />
+                    <InputButton label="Number of siblings/spouses" id="sibsp"/>
 
                     {/* Number of parents/children */}
-                    <InputButton label="Number of parents/children" />
+                    <InputButton label="Number of parents/children" id="parch"/>
 
                     {/* Checkboxes */}
-                    <CheckBox label="Were they alone?" />
-                    <CheckBox label="Was their cabin known?" />
+                    <CheckBox label="Were they alone?" id="were-alone"/>
+                    <CheckBox label="Was their cabin known?" id="cabin-known"/>
 
                     {/* Submit Button */}
                     <div className="flex justify-center">
-                        <PredictionButton />
+                        <PredictionButton onClick={inputValidation}/>
                     </div>
                 </form>
             </main>

@@ -3,17 +3,20 @@ import React, { useState } from 'react';
 type DropDownButtonProps = {
   label: string;
   children: React.ReactNode;
+  id: string;
 };
 
 type InputButtonProps = {
   label: string;
+  id: string;
 };
 
 type CheckboxProps = {
   label: string;
+  id: string;
 };
 
-export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children }) => {
+export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children, id }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(label);
 
@@ -28,7 +31,11 @@ export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children 
 
   return (
     <div className="relative w-full max-w-sm">
+      <span className="text-red-500 mr-1">*</span>
+      <label htmlFor={id} className="text-sm font-medium text-foreground">{label}</label>
       <button
+        type="button"
+        id={id}
         onClick={changeState}
         className="w-full text-left bg-background text-foreground text-sm font-medium px-4 py-2 rounded-md shadow-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
@@ -51,35 +58,36 @@ export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children 
   );
 };
 
-export const InputButton: React.FC<InputButtonProps> = ({ label }) => {
+export const InputButton: React.FC<InputButtonProps> = ({ label, id }) => {
   return (
     <div className="mb-4">
-      <label className="flex items-center mb-1 text-sm font-medium text-foreground">
+      <label className="flex items-center mb-1 text-sm font-medium text-foreground" htmlFor={id}>
         <span className="text-red-500 mr-1">*</span>
         <span>{label}</span>
       </label>
       <input
         type="text"
+        id={id}
         className="h-10 w-64 px-3 py-2 bg-background text-foreground border-2 rounded-md border-gray-300 border-opacity-50 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 text-sm"
-        required
+        aria-required="true"
       />
     </div>
   );
 };
 
-export const CheckBox: React.FC<CheckboxProps> = ({ label }) => {
-    return (
-      <div className="mb-4">
-        <label className="flex items-center space-x-2">
-          <span className="text-foreground text-sm font-medium flex items-center">
-            {label}
-          </span>
-          <input
-            type="checkbox"
-            className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-          />
-        </label>
-      </div>
-    );
-  };
-  
+export const CheckBox: React.FC<CheckboxProps> = ({ label, id }) => {
+  return (
+    <div className="mb-4">
+      <label className="flex items-center space-x-2">
+        <span className="text-foreground text-sm font-medium flex items-center">
+          {label}
+        </span>
+        <input
+          type="checkbox"
+          id={id}
+          className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+        />
+      </label>
+    </div>
+  );
+};
