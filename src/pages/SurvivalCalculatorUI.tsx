@@ -2,40 +2,63 @@ import PredictionButton from "../components/PredictionButton";
 import { DropDownButton } from "../components/InputForm";
 import { InputButton } from "../components/InputForm";
 import { CheckBox } from "../components/InputForm";
-
-function inputValidation() {
-    let validated = true;
-
-    // Getting all of the values. //
-    const age = (document.getElementById("age") as HTMLInputElement).value;
-    const sibsp = (document.getElementById("sibsp") as HTMLInputElement).value;
-    const parch = (document.getElementById("parch") as HTMLInputElement).value;
-    
-    const passengerClass = (document.getElementById("passenger-class") as HTMLButtonElement).innerText;
-    const sex = (document.getElementById("sex") as HTMLButtonElement).innerText;
-    const embarkationPort = (document.getElementById("embarkation-port") as HTMLButtonElement).innerText;
-    
-    const wereAlone = (document.getElementById("were-alone") as HTMLInputElement).checked;
-    const cabinKnown = (document.getElementById("cabin-known") as HTMLInputElement).checked;
-
-    // Validation of data. //
-    if (isNaN(Number(age)) || age === '') validated = false;
-    if (isNaN(Number(sibsp)) || sibsp === '') validated = false;
-    if (isNaN(Number(parch)) || parch === '') validated = false;
-
-    if (!passengerClass || !sex || !embarkationPort) validated = false;
-
-    if (typeof wereAlone !== 'boolean' || typeof cabinKnown !== 'boolean') validated = false;
-
-    if (validated) {
-        console.log("Worked!");
-    } else {
-        console.log("Did not work!");
-    }
-}
-
+import ErrorMessage from "../components/ErrorMessage";
+import React, { useState } from "react";
 
 function SurvivalCalculatorUI() {
+    const [showWarning, setShowWarning] = useState(false);
+
+    const handlePrediction = () => {
+        let validated = true;
+
+        // Getting all of the values. //
+        const age = (document.getElementById("age") as HTMLInputElement).value;
+        const sibsp = (document.getElementById("sibsp") as HTMLInputElement).value;
+        const parch = (document.getElementById("parch") as HTMLInputElement).value;
+        
+        const passengerClass = (document.getElementById("passenger-class") as HTMLButtonElement).innerText;
+        const sex = (document.getElementById("sex") as HTMLButtonElement).innerText;
+        const embarkationPort = (document.getElementById("embarkation-port") as HTMLButtonElement).innerText;
+        
+        const wereAlone = (document.getElementById("were-alone") as HTMLInputElement).checked;
+        const cabinKnown = (document.getElementById("cabin-known") as HTMLInputElement).checked;
+
+        // Validation of data. //
+        if (isNaN(Number(age)) || age === '') validated = false;
+        if (isNaN(Number(sibsp)) || sibsp === '') validated = false;
+        if (isNaN(Number(parch)) || parch === '') validated = false;
+
+        if (!passengerClass || !sex || !embarkationPort) validated = false;
+
+        if (validated) {
+            setShowWarning(false);
+            const data = {
+                age: age,
+                sibsp: sibsp,
+                parch: parch,
+                passengerClass: passengerClass,
+                sex: sex,
+                embarkationPort: embarkationPort,
+                wereAlone: wereAlone,
+                cabinKnown: cabinKnown
+            };
+
+            fetch("/prediction", {
+                method: "POST",
+                headers: {
+                "Content-Type": "Application/JSON",
+                },
+                body: JSON.stringify(data),
+            })
+                .then((respose) => respose.json())
+                .catch((error) => {
+                console.log(error);
+                });
+        } else {
+            setShowWarning(true);
+        }
+}
+
     return (
         <div className="min-h-screen bg-background text-foreground flex flex-col justify-between">
             <header className="p-8 shadow-md">
@@ -81,10 +104,13 @@ function SurvivalCalculatorUI() {
                     {/* Checkboxes */}
                     <CheckBox label="Were they alone?" id="were-alone"/>
                     <CheckBox label="Was their cabin known?" id="cabin-known"/>
+                    
+                    {/* Show warning if needed */}
+                    {showWarning && <ErrorMessage />}
 
                     {/* Submit Button */}
                     <div className="flex justify-center">
-                        <PredictionButton onClick={inputValidation}/>
+                        <PredictionButton onClick={handlePrediction}/>
                     </div>
                 </form>
             </main>
