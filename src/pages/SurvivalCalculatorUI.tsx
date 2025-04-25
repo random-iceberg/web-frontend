@@ -43,17 +43,26 @@ function SurvivalCalculatorUI() {
                 cabinKnown: cabinKnown
             };
 
-            fetch("/prediction", {
+            fetch("/predict/", {
                 method: "POST",
                 headers: {
-                "Content-Type": "Application/JSON",
+                  "Content-Type": "application/json",
                 },
                 body: JSON.stringify(data),
-            })
-                .then((respose) => respose.json())
-                .catch((error) => {
-                console.log(error);
-                });
+              })
+              .then((response) => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+              })
+              .then((result) => {
+                console.log(result);
+              })
+              .catch((error) => {
+                console.error("Fetch error:", error);
+              });
+              
         } else {
             setShowWarning(true);
         }
