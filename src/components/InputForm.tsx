@@ -32,7 +32,6 @@ export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children,
   return (
     <div className="relative w-full max-w-sm">
       <span className="text-red-500 mr-1">*</span>
-      <label htmlFor={id} className="text-sm font-medium text-foreground">{label}</label>
       <button
         type="button"
         id={id}

@@ -115,9 +115,6 @@ function SurvivalCalculatorUI() {
                 </form>
             </main>
             
-            <footer className="p-4 bg-background text-center">
-                <p className="text-sm text-foreground opacity-60">© 2024 Titanic App. All rights reserved.</p>
-            </footer>
         </div>
     );
 }
