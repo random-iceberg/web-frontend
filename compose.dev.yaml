@@ -24,3 +24,5 @@ services:
             - package*.json
           action: sync
           target: /app
+    environment:
+      PORT: 8080
