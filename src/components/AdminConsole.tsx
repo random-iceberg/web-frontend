@@ -1,4 +1,3 @@
-// app/frontend/src/components/AdminConsole.tsx
 import React from 'react';
 import { ModelProvider } from './context/ModelContext';
 import ModelList from './ModelList';

@@ -17,6 +17,7 @@ const ConnectionStatus: React.FC = () => {
     
     checkConnection();
     // Checking connection every 30 seconds, dunno how costly would it be in terms of performance, Need Review by Lead
+    // Lead: I think this is a good approach for now. We can always adjust the interval later if needed.
     const interval = setInterval(checkConnection, 30000);
     
     return () => clearInterval(interval);

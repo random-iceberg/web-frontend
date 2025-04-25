@@ -1,4 +1,3 @@
-// src/App.tsx
 /**
  * Main application component for the Titanic App frontend.
  * 
@@ -9,7 +8,6 @@
 import React from 'react';
 import './global.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import ExampleComponent from './components/ExampleComponent';
 import AdminConsole from './components/AdminConsole';
 import ConnectionStatus from './components/connectionStatus';
 import ProxyIndicator from './components/ProxyIndicator';
@@ -28,7 +26,10 @@ const App: React.FC = () => {
         <header className="bg-blue-600 text-white">
           <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center">
+              <div className="flex items-center space-x-2">
+              <img src="/logo.png" alt="Titanic App Logo" className="h-10 w-auto" />
               <h1 className="text-2xl font-bold">Titanic Survivor Prediction</h1>
+              </div>
               <nav className="mt-4 md:mt-0">
                 <ul className="flex space-x-6">
                   <li><Link to="/" className="hover:underline font-medium">Home</Link></li>
