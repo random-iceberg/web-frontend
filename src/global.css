@@ -9,7 +9,7 @@
     --primary: 210 40% 30%;
     --secondary: 210 40% 90%;
     --accent: 210 40% 50%;
-    --font-base: 'Inter', sans-serif;
+    --font-base: "Inter", sans-serif;
   }
 
   body {
