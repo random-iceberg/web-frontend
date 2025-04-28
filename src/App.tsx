@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import AdminConsole from './components/AdminConsole';
 import ConnectionStatus from './components/connectionStatus';
 import ProxyIndicator from './components/ProxyIndicator';
-
+import SurvivalCalculatorUI from './pages/SurvivalCalculatorUI';
 
 // Placeholder components for other pages
 const Home = () => <div className="p-8 text-center">Home Page</div>;
@@ -48,7 +48,7 @@ const App: React.FC = () => {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/calculator" element={<Calculator />} />
+            <Route path="/calculator" element={<SurvivalCalculatorUI />} />
             <Route path="/admin" element={<AdminConsole />} />
           </Routes>
         </main>
