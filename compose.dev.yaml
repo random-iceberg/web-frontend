@@ -1,0 +1,28 @@
+# (Part of) configuration for local development
+services:
+  frontend:
+    build:
+      target: dev-nginx
+    depends_on:
+      - frontend-dev
+    develop:
+      watch:
+        - path: ./nginx.dev.conf
+          action: sync+restart
+          target: /etc/nginx/conf.d/default.conf
+
+  frontend-dev:
+    build:
+      target: dev-react
+    develop:
+      watch:
+        - path: .
+          include: package*.json
+          action: rebuild
+        - path: .
+          ignore: # TODO: refine
+            - package*.json
+          action: sync
+          target: /app
+    environment:
+      PORT: 8080
