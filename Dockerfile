@@ -30,6 +30,7 @@ EXPOSE 80
 ##
 
 FROM base AS builder
+RUN npm run tailwind:build
 RUN npm run build
 
 ##
