@@ -1,5 +1,5 @@
 import axios from "axios";
-import { handleApiError } from "./errorService";
+import { handleApiError } from "@/services/errorService";
 
 const API_URL = "/api/models";
 

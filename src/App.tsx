@@ -8,9 +8,8 @@
 import React, { Suspense, lazy } from "react"; // Import Suspense and lazy
 import "./global.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-// Remove direct import: import AdminConsole from "./components/admin/AdminConsole";
-import ConnectionStatus from "./components/connectionStatus";
-import ProxyIndicator from "./components/ProxyIndicator";
+import ConnectionStatus from "@/components/connectionStatus";
+import ProxyIndicator from "@/components/ProxyIndicator"; // Placeholder for proxy indicator
 
 // Lazy load page components
 const AdminConsole = lazy(() => import("./components/admin/AdminConsole"));

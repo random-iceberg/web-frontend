@@ -5,7 +5,7 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { Model, fetchModels } from "../../services/modelService";
+import { Model, fetchModels } from "@/services/modelService";
 import axios from "axios";
 
 interface ModelContextType {

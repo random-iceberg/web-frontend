@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { trainModel, ModelCreateData } from "../../services/modelService"; // Updated path
-import { useModelContext } from "../context/ModelContext"; // Updated path
+import { trainModel, ModelCreateData } from "@/services/modelService";
+import { useModelContext } from "@/components/context/ModelContext";
 import axios from "axios";
 
 // Available algorithms for model training
