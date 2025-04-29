@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Model } from "services/modelService";
 import DeleteModelButton from "components/models/DeleteModelButton";
+import Card from "components/common/Card";
 
 interface ModelItemProps {
   model: Model;
@@ -16,7 +17,7 @@ const ModelItem: React.FC<ModelItemProps> = ({ model, onDelete }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow">
+    <Card>
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-medium">{model.name}</h3>
         <div className="flex space-x-2">
@@ -70,7 +71,7 @@ const ModelItem: React.FC<ModelItemProps> = ({ model, onDelete }) => {
           </div>
         </div>
       )}
-    </div>
+    </Card>
   );
 };
 
