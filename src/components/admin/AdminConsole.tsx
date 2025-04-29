@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ModelProvider } from "components/context/ModelContext";
 import ModelList from "components/models/ModelList";
 import TrainModelForm from "components/models/TrainModelForm";
+import Card from "components/common/Card";
 
 const AdminConsole: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -28,20 +29,18 @@ const AdminConsole: React.FC = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-
-          <div className="w-full lg:w-1/3 bg-white p-6 rounded-lg shadow-md border border-gray-200">
+          <Card className="w-full lg:w-1/3 p-6 border border-gray-200">
             <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
               Train New Model
             </h2>
             <TrainModelForm />
-          </div>
-
-          <div className="w-full lg:w-2/3 bg-white p-6 rounded-lg shadow-md border border-gray-200">
+          </Card>
+          <Card className="w-full lg:w-2/3 p-6 border border-gray-200">
             <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
               Available Models
             </h2>
             <ModelList />
-          </div>
+          </Card>
         </div>
       </div>
     </ModelProvider>
