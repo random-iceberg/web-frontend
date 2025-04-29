@@ -1,6 +1,12 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Model, fetchModels } from '../../services/modelService';
-import axios from 'axios';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { Model, fetchModels } from "@/services/modelService";
+import axios from "axios";
 
 interface ModelContextType {
   models: Model[];
@@ -11,7 +17,9 @@ interface ModelContextType {
 
 const ModelContext = createContext<ModelContextType | undefined>(undefined);
 
-export const ModelProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const ModelProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [models, setModels] = useState<Model[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,19 +31,25 @@ export const ModelProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       const data = await fetchModels();
       setModels(data);
     } catch (err) {
-      console.error('Error refreshing models:', err);
-      
-      // Provide more detailed error messages based on the error type
+      console.error("Error refreshing models:", err);
+
       if (axios.isAxiosError(err)) {
-        if (err.code === 'ECONNREFUSED' || err.message.includes('Network Error')) {
-          setError('Cannot connect to the backend server. Please make sure it is running.');
+        if (
+          err.code === "ECONNREFUSED" ||
+          err.message.includes("Network Error")
+        ) {
+          setError(
+            "Cannot connect to the backend server. Please make sure it is running.",
+          );
         } else if (err.response) {
-          setError(`Server error: ${err.response.status} ${err.response.statusText}`);
+          setError(
+            `Server error: ${err.response.status} ${err.response.statusText}`,
+          );
         } else {
-          setError('Failed to fetch models. Please try again later.');
+          setError("Failed to fetch models. Please try again later.");
         }
       } else {
-        setError('An unexpected error occurred. Please try again later.');
+        setError("An unexpected error occurred. Please try again later.");
       }
     } finally {
       setLoading(false);
@@ -56,7 +70,7 @@ export const ModelProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 export const useModelContext = (): ModelContextType => {
   const context = useContext(ModelContext);
   if (context === undefined) {
-    throw new Error('useModelContext must be used within a ModelProvider');
+    throw new Error("useModelContext must be used within a ModelProvider");
   }
   return context;
 };

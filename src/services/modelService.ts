@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
+import { handleApiError } from "@/services/errorService";
 
-const API_URL = '/api/models';  // Proxied to the backend by Nginx
+const API_URL = "/api/models";
 
 export interface Model {
   id: string;
@@ -28,41 +29,43 @@ export interface DeleteResponse {
   message: string;
 }
 
-/**
- * Fetches all available models
- */
+
 export const fetchModels = async (): Promise<Model[]> => {
   try {
     const response = await axios.get<Model[]>(API_URL);
     return response.data;
   } catch (error) {
-    console.error('Error fetching models:', error);
-    throw error;
+    // Changed error handler, previous one wasn't polite enough
+    const message = handleApiError(error, "fetching models");
+    throw new Error(message);
   }
 };
 
-/**
- * Submits a request to train a new model
- */
-export const trainModel = async (data: ModelCreateData): Promise<TrainingResponse> => {
+
+export const trainModel = async (
+  data: ModelCreateData,
+): Promise<TrainingResponse> => {
   try {
-    const response = await axios.post<TrainingResponse>(`${API_URL}/train`, data);
+    const response = await axios.post<TrainingResponse>(
+      `${API_URL}/train`,
+      data,
+    );
     return response.data;
   } catch (error) {
-    console.error('Error training model:', error);
-    throw error;
+    // Changed error handler, previous one wasn't polite enough
+    const message = handleApiError(error, "training model");
+    throw new Error(message);
   }
 };
 
-/**
- * Deletes a specific model by ID
- */
+
 export const deleteModel = async (id: string): Promise<DeleteResponse> => {
   try {
     const response = await axios.delete<DeleteResponse>(`${API_URL}/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Error deleting model ${id}:`, error);
-    throw error;
+    // Changed error handler, previous one wasn't polite enough
+    const message = handleApiError(error, `deleting model ${id}`);
+    throw new Error(message);
   }
 };
