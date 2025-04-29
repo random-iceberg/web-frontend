@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Model } from "@/services/modelService";
-import DeleteModelButton from "@/components/models/DeleteModelButton";
+import { Model } from "services/modelService";
+import DeleteModelButton from "components/models/DeleteModelButton";
 
 interface ModelItemProps {
   model: Model;
