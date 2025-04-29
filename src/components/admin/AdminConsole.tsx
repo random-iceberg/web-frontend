@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { ModelProvider } from "@/components/context/ModelContext";
-import ModelList from "@/components/models/ModelList";
-import TrainModelForm from "@/components/models/TrainModelForm";
+import { ModelProvider } from "components/context/ModelContext";
+import ModelList from "components/models/ModelList";
+import TrainModelForm from "components/models/TrainModelForm";
 
 const AdminConsole: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);

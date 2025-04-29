@@ -8,12 +8,13 @@
 import React, { Suspense, lazy } from "react"; // Import Suspense and lazy
 import "./global.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import ConnectionStatus from "@/components/connectionStatus";
-import ProxyIndicator from "@/components/ProxyIndicator"; // Placeholder for proxy indicator
+import ConnectionStatus from "components/connectionStatus";
+import ProxyIndicator from "components/ProxyIndicator"; // Placeholder for proxy indicator
 
 // Lazy load page components
-const AdminConsole = lazy(() => import("@/components/admin/AdminConsole"));
-const Calculator = lazy(() => import("@/pages/SurvivalCalculatorUI"));
+const AdminConsole = lazy(() => import("components/admin/AdminConsole"));
+const Calculator = lazy(() => import("pages/SurvivalCalculatorUI"));
+
 // Placeholders can also be lazy-loaded if they become complex
 const Home = lazy(() => Promise.resolve({ default: () => <div className="p-8 text-center">Home Page</div> }));
 

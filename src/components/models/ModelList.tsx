@@ -1,6 +1,6 @@
 import React from "react";
-import { useModelContext } from "@/components/context/ModelContext";
-import ModelItem from "@/components/models/ModelItem";
+import { useModelContext } from "components/context/ModelContext";
+import ModelItem from "components/models/ModelItem";
 
 const ModelList: React.FC = () => {
   const { models, loading, error, refreshModels } = useModelContext();
