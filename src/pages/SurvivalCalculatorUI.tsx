@@ -3,7 +3,10 @@ import { DropDownButton } from "../components/InputForm";
 import { InputButton } from "../components/InputForm";
 import { CheckBox } from "../components/InputForm";
 import ErrorMessage from "../components/ErrorMessage";
-import React, { useState } from "react";
+import  { useState } from "react";
+
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 function SurvivalCalculatorUI() {
     const [showWarning, setShowWarning] = useState(false);
@@ -70,10 +73,11 @@ function SurvivalCalculatorUI() {
 
     return (
         <div className="min-h-screen bg-background text-foreground flex flex-col justify-between">
-            <header className="p-8 shadow-md">
-                <div className="max-w-4xl mx-auto px-4">
-                    <h1 className="text-4xl font-bold text-center text-foreground">Survivor Prediction Calculator</h1>
-                    <p className="mt-4 text-lg text-center text-foreground opacity-80">
+            <Navbar />
+            <header className="p-8 bg-accent">
+                <div className="max-w-4xl mx-auto px-4 text-white">
+                    <h1 className="text-4xl font-bold text-center">Survivor Prediction Calculator</h1>
+                    <p className="mt-4 text-lg text-center text-foreground">
                         Predicts the likelihood of survival during the Titanic disaster based on key factors from your input.
                     </p>
                 </div>
@@ -124,6 +128,7 @@ function SurvivalCalculatorUI() {
                 </form>
             </main>
             
+            <Footer />
         </div>
     );
 }
