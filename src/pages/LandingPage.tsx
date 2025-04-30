@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import Navbar from "components/Navbar";
-// import Footer from "components/Footer";
+// import Navbar from 'components/Navbar';
+// import Footer from 'components/Footer';
 
 /* Simple, reusable section wrapper */
 const Section: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
@@ -46,7 +46,7 @@ const LandingPage: React.FC = () => (
       </div>
     </header>
 
-    {/* ── Feature Cards ── */}
+    {/* ── Feature Cards ────────────── */}
     <Section id="features">
       <h2 className="text-4xl font-bold text-center mb-12">Key Features</h2>
       <div className="grid md:grid-cols-3 gap-8">
@@ -81,7 +81,7 @@ const LandingPage: React.FC = () => (
       </div>
     </Section>
 
-    {/* ── How it works ── */}
+    {/* ── How it works ─────────────── */}
     <Section id="how-it-works" className="bg-gray-50">
       <h2 className="text-4xl font-bold text-center mb-12">How it Works</h2>
       <div className="grid md:grid-cols-3 gap-8 text-center">
@@ -99,7 +99,7 @@ const LandingPage: React.FC = () => (
       </div>
     </Section>
 
-    {/* ── Call to action ── */}
+    {/* ── Call to Action ────────────── */}
     <div className="bg-blue-600 text-white py-20 text-center">
       <h2 className="text-4xl font-bold mb-4">
         Ready to see how <span className="italic">you</span> would do?
@@ -111,6 +111,49 @@ const LandingPage: React.FC = () => (
         Start Predicting
       </Link>
     </div>
+
+    {/* ── Portfolio / Advertisement ─── */}
+    <Section id="portfolio">
+      <h2 className="text-4xl font-bold text-center mb-12">
+        Explore More From Us
+      </h2>
+      <p className="text-center text-lg mb-16 text-gray-600 max-w-2xl mx-auto">
+        We don’t just predict Titanic survivals — our team builds fast, secure,
+        and scalable web applications. Check out some of our recent projects
+        below.
+      </p>
+
+      <div className="grid md:grid-cols-3 gap-8 text-center">
+        {[
+          {
+            title: "🎓 Build AI Web Apps – Online Course",
+            body: "Our bestselling course on building full-stack AI applications with React, FastAPI & more.",
+            href: "#",
+          },
+          {
+            title: "🚀 Startup Launcher Kit",
+            body: "A boilerplate with auth, payments, dashboards — launch your SaaS faster than ever.",
+            href: "#",
+          },
+          {
+            title: "📊 Real-Time Analytics Dashboard",
+            body: "Visualize live data streams with beautiful, high-performance charts in React.",
+            href: "#",
+          },
+        ].map(({ title, body, href }) => (
+          <a
+            key={title}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-8 bg-white shadow rounded-lg hover:bg-blue-50 transition flex flex-col"
+          >
+            <span className="text-xl font-bold mb-2">{title}</span>
+            <span className="text-gray-600 flex-grow">{body}</span>
+          </a>
+        ))}
+      </div>
+    </Section>
 
     {/* <Footer /> */}
   </div>
