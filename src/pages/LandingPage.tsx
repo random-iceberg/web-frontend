@@ -75,8 +75,8 @@ const LandingPage: React.FC = () => {
           </Link>
         </section>
 
-                {/* Portfolio / Advertisement Section */}
-                <section className="container mx-auto py-16 px-4">
+        {/* Portfolio / Advertisement Section */}
+        <section className="container mx-auto py-16 px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Explore More From Us</h2>
           <p className="text-center text-lg mb-16 text-muted-foreground max-w-2xl mx-auto">
             We don't just predict Titanic survivals — our team builds fast, secure, and scalable web applications. Check out some of our recent projects below.
