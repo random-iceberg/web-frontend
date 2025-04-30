@@ -12,7 +12,7 @@ import ConnectionStatus from './components/connectionStatus';
 import ProxyIndicator from './components/ProxyIndicator';
 
 import LandingPage from './pages/LandingPage';
-import SurvivalCalculatorUI from './pages/SurvivalCalculatorUI';
+// import SurvivalCalculatorUI from './pages/SurvivalCalculatorUI';
 import AdminConsole from './pages/AdminConsole'; // @TODO: make this a page.
 
 const SignIn: React.FC = () => <>Sign in</>;
@@ -23,7 +23,7 @@ const App: React.FC = () => {
   <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/calculator" element={<SurvivalCalculatorUI />} />
+        {/* <Route path="/calculator" element={<SurvivalCalculatorUI />} /> */}
         <Route path="/admin" element={<AdminConsole />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
