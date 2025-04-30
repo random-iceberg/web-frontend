@@ -1,15 +1,15 @@
 import React from "react";
-import { ModelProvider } from "../components/context/ModelContext";
-import ModelList from "../components/models/ModelList";
-import TrainModelForm from "../components/models/TrainModelForm";
+import { ModelProvider } from "components/context/ModelContext";
+import ModelList from "components/models/ModelList";
+import TrainModelForm from "components/models/TrainModelForm";
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+// import Navbar from "components/Navbar";
+// import Footer from "components/Footer";
 
 const AdminConsole: React.FC = () => {
   return (
     <ModelProvider>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">Admin Console</h1>
         <p className="text-gray-600 mb-8">
@@ -33,7 +33,7 @@ const AdminConsole: React.FC = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </ModelProvider>
   );
 };
