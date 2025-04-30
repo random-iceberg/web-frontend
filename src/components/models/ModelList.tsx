@@ -1,19 +1,23 @@
-import React from 'react';
-import { useModelContext } from './context/ModelContext';
-import ModelItem from './ModelItem';
+import React from "react";
+import { useModelContext } from "components/context/ModelContext";
+import ModelItem from "components/models/ModelItem";
 
 const ModelList: React.FC = () => {
   const { models, loading, error, refreshModels } = useModelContext();
 
   if (loading) {
-    return <div className="p-8 text-center bg-gray-50 rounded-lg">Loading models...</div>;
+    return (
+      <div className="p-8 text-center bg-gray-50 rounded-lg">
+        Loading models...
+      </div>
+    );
   }
 
   if (error) {
     return (
       <div className="p-8 text-center bg-red-50 rounded-lg">
         <p className="text-red-700 mb-4">{error}</p>
-        <button 
+        <button
           onClick={refreshModels}
           className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
         >
