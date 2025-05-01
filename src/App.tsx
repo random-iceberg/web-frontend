@@ -13,7 +13,7 @@ import ProxyIndicator from "components/ProxyIndicator"; // Placeholder for proxy
 
 // Lazy load page components
 const AdminConsole = lazy(() => import("components/admin/AdminConsole"));
-const Calculator = lazy(() => import("pages/SurvivalCalculatorUI"));
+const Calculator = lazy(() => import("components/calculator/SurvivalCalculator"));
 
 // Placeholders can also be lazy-loaded if they become complex
 const Home = lazy(() => Promise.resolve({ default: () => <div className="p-8 text-center">Home Page</div> }));

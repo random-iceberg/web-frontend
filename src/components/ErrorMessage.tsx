@@ -1,13 +1,17 @@
-// components/InputWarning.jsx (or .js)
-import React from "react";
+import React from 'react'
 
-const ErrorMessage = () => (
+type ErrorMessageProps = {
+  /** The error text to display */
+  message: string
+}
+
+const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => (
   <div
     id="input-warning"
     className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded text-sm mb-4"
   >
-    ⚠️ Please make sure all fields are filled correctly.
+    {message}
   </div>
-);
+)
 
-export default ErrorMessage;
+export default ErrorMessage

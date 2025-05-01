@@ -4,19 +4,31 @@ type DropDownButtonProps = {
   label: string;
   children: React.ReactNode;
   id: string;
+  /** Called when the user picks an option */
+  onSelect: (value: string) => void;
 };
 
 type InputButtonProps = {
   label: string;
   id: string;
+  /** Input `type`, e.g. "text" or "number" */
+  type?: React.HTMLInputTypeAttribute;
+  /** Current value */
+  value: string;
+  /** Called when the input changes */
+  onChange: (value: string) => void;
 };
 
 type CheckboxProps = {
   label: string;
   id: string;
+  /** Checked state */
+  checked: boolean;
+  /** Called when checkbox toggles */
+  onChange: (value: boolean) => void;
 };
 
-export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children, id }) => {
+export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children, id, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(label);
 
@@ -45,7 +57,10 @@ export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children,
         <div className="absolute left-0 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md z-10">
           {React.Children.map(children, (child: any) => (
             <div
-              onClick={() => handleSelect(child.props.children)}
+            onClick={() => {
+              handleSelect(child.props.children);
+              onSelect(child.props.children);
+            }}
               className="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer text-sm font-medium"
             >
               {child}
@@ -57,7 +72,7 @@ export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children,
   );
 };
 
-export const InputButton: React.FC<InputButtonProps> = ({ label, id }) => {
+export const InputButton: React.FC<InputButtonProps> = ({ label, id, type = 'text', value,  onChange}) => {
   return (
     <div className="mb-4">
       <label className="flex items-center mb-1 text-sm font-medium text-foreground" htmlFor={id}>
@@ -65,16 +80,18 @@ export const InputButton: React.FC<InputButtonProps> = ({ label, id }) => {
         <span>{label}</span>
       </label>
       <input
-        type="text"
+        type={type}
         id={id}
-        className="h-10 w-64 px-3 py-2 bg-background text-foreground border-2 rounded-md border-gray-300 border-opacity-50 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 text-sm"
+        value={value}
+        onChange={e => onChange(e.target.value)}
         aria-required="true"
+        className="h-10 w-64 px-3 py-2 bg-background text-foreground border-2 rounded-md border-gray-300 border-opacity-50 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 text-sm"
       />
     </div>
   );
 };
 
-export const CheckBox: React.FC<CheckboxProps> = ({ label, id }) => {
+export const CheckBox: React.FC<CheckboxProps> = ({ label, id, checked, onChange}) => {
   return (
     <div className="mb-4">
       <label className="flex items-center space-x-2">
@@ -84,6 +101,8 @@ export const CheckBox: React.FC<CheckboxProps> = ({ label, id }) => {
         <input
           type="checkbox"
           id={id}
+          checked={checked}
+          onChange={e => onChange(e.target.checked)}
           className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
         />
       </label>
