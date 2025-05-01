@@ -37,7 +37,8 @@ export const handleApiError = (error: unknown, context?: string): string => {
       }
     } else {
       // Error without a response (e.g., timeout)
-      userMessage = "Failed to get a response from the server. Please try again.";
+      userMessage =
+        "Failed to get a response from the server. Please try again.";
     }
   } else if (error instanceof Error) {
     // This is for General JavaScript errors, dunno what else to use

@@ -1,92 +1,85 @@
-/**
- * Main application component for the Titanic App frontend.
- *
- * TODO:
- *   - Integrate routing (e.g., with React Router) for multiple pages.
- *   - Add global state management if needed (e.g., Context API or Redux).
- */
-import React, { Suspense, lazy } from "react"; // Import Suspense and lazy
-import "./global.css";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import ConnectionStatus from "components/connectionStatus";
-import ProxyIndicator from "components/ProxyIndicator"; // Placeholder for proxy indicator
+import "./global.css";
 
-// Lazy load page components
+/* ────── lazy-loaded pages ────── */
+const LandingPage = lazy(() => import("pages/LandingPage"));
 const AdminConsole = lazy(() => import("components/admin/AdminConsole"));
 const Calculator = lazy(() => import("components/calculator/SurvivalCalculator"));
 
-// Placeholders can also be lazy-loaded if they become complex
-const Home = lazy(() => Promise.resolve({ default: () => <div className="p-8 text-center">Home Page</div> }));
-
-// Basic loading fallback component
-const LoadingFallback = () => (
-  <div className="p-8 text-center text-gray-500">Loading page...</div>
+/* still a stub – swap out when real components exist */
+const SignIn = lazy(() =>
+  Promise.resolve({
+    default: () => <div className="p-8 text-center">Sign In</div>,
+  }),
+);
+const SignUp = lazy(() =>
+  Promise.resolve({
+    default: () => <div className="p-8 text-center">Sign Up</div>,
+  }),
 );
 
-const App: React.FC = () => {
-  return (
-    <Router>
-      <div className="min-h-screen flex flex-col">
-        {/* Header */}
-        <header className="bg-blue-600 text-white">
-          <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-center">
-              <div className="flex items-center space-x-2">
-                <img
-                  src="/logo.png"
-                  alt="Titanic App Logo"
-                  className="h-10 w-auto"
-                />
-                <h1 className="text-2xl font-bold">
-                  Titanic Survivor Prediction
-                </h1>
-              </div>
-              <nav className="mt-4 md:mt-0">
-                <ul className="flex space-x-6">
-                  <li>
-                    <Link to="/" className="hover:underline font-medium">
-                      Home
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/calculator"
-                      className="hover:underline font-medium"
-                    >
-                      Survival Calculator
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/admin" className="hover:underline font-medium">
-                      Admin Console
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </header>
+/* generic suspense fallback */
+const Loading = () => (
+  <div className="p-8 text-center text-gray-500">Loading…</div>
+);
 
-        {/* Main Content with Suspense */}
-        <main className="flex-grow">
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/calculator" element={<Calculator />} />
-              <Route path="/admin" element={<AdminConsole />} />
-            </Routes>
-          </Suspense>
-        </main>
+const App: React.FC = () => (
+  <Router>
+    <div className="min-h-screen flex flex-col">
+      {/* ─── Header / Nav ─── */}
+      <header className="bg-blue-600 text-white">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between px-4 py-4">
+          <Link to="/" className="flex items-center space-x-2">
+            <img src="/logo.png" alt="Titanic logo" className="h-10 w-auto" />
+            <h1 className="text-2xl font-bold">Titanic Survivor Prediction</h1>
+          </Link>
 
-        {/* Footer */}
-        <footer className="bg-gray-100 py-4 text-center text-gray-600">
-          © 2024 Titanic App. All rights reserved.
-        </footer>
-        {/*{process.env.NODE_ENV === 'development' && <ProxyIndicator />*/}
-        <ConnectionStatus />
-      </div>
-    </Router>
-  );
-};
+          <nav className="mt-4 md:mt-0">
+            <ul className="flex space-x-6 font-medium">
+              <li>
+                <Link to="/" className="hover:underline">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/calculator" className="hover:underline">
+                  Survival Calculator
+                </Link>
+              </li>
+              <li>
+                <Link to="/admin" className="hover:underline">
+                  Admin Console
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      {/* ─── Main ─── */}
+      <main className="flex-grow">
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/calculator" element={<Calculator />} />
+            <Route path="/admin" element={<AdminConsole />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+          </Routes>
+        </Suspense>
+      </main>
+
+      {/* ─── Footer ─── */}
+      <footer className="bg-gray-100 py-4 text-center text-gray-600">
+        © {new Date().getFullYear()} Titanic App. All rights reserved.
+      </footer>
+
+      {/* connection health badge */}
+      <ConnectionStatus />
+    </div>
+  </Router>
+);
 
 export default App;
