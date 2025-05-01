@@ -29,7 +29,6 @@ export interface DeleteResponse {
   message: string;
 }
 
-
 export const fetchModels = async (): Promise<Model[]> => {
   try {
     const response = await axios.get<Model[]>(API_URL);
@@ -40,7 +39,6 @@ export const fetchModels = async (): Promise<Model[]> => {
     throw new Error(message);
   }
 };
-
 
 export const trainModel = async (
   data: ModelCreateData,
@@ -57,7 +55,6 @@ export const trainModel = async (
     throw new Error(message);
   }
 };
-
 
 export const deleteModel = async (id: string): Promise<DeleteResponse> => {
   try {
