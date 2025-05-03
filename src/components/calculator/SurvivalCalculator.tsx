@@ -137,6 +137,7 @@ export default function SurvivalCalculator() {
       <DropDownButton
         id="passenger-class"
         label="Passenger Class"
+        value={form.passengerClass?.toString() || ''}
         onSelect={v => setForm(f => ({ ...f, passengerClass: Number(v) as 1|2|3 }))}
       >
         <a>1</a><a>2</a><a>3</a>
@@ -146,6 +147,7 @@ export default function SurvivalCalculator() {
       <DropDownButton
         id="sex"
         label="Sex"
+        value={form.sex?.toString() || ''}
         onSelect={v => setForm(f => ({ ...f, sex: v as 'male'|'female' }))}
       >
         <a>male</a><a>female</a>
@@ -155,6 +157,7 @@ export default function SurvivalCalculator() {
       <DropDownButton
         id="embarkation-port"
         label="Embarkation Port"
+        value={form.embarkationPort?.toString() || ''}
         onSelect={v => setForm(f => ({ ...f, embarkationPort: v as 'C'|'Q'|'S' }))}
       >
         <a>C</a><a>Q</a><a>S</a>

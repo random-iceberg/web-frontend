@@ -4,33 +4,39 @@ type DropDownButtonProps = {
   label: string;
   children: React.ReactNode;
   id: string;
-  /** Called when the user picks an option */
+  value: string;
   onSelect: (value: string) => void;
+  disabled?: boolean;
 };
 
 type InputButtonProps = {
   label: string;
   id: string;
-  /** Input `type`, e.g. "text" or "number" */
-  type?: React.HTMLInputTypeAttribute;
-  /** Current value */
+  type?: 'text' | 'number';
   value: string;
-  /** Called when the input changes */
   onChange: (value: string) => void;
+  disabled?: boolean;
+  min?: number;
+  max?: number;
 };
 
 type CheckboxProps = {
   label: string;
   id: string;
-  /** Checked state */
   checked: boolean;
-  /** Called when checkbox toggles */
-  onChange: (value: boolean) => void;
+  onChange: (checked: boolean) => void;
+  disabled?: boolean;
 };
 
-export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children, id, onSelect }) => {
+export const DropDownButton: React.FC<DropDownButtonProps> = ({ 
+  label, 
+  children, 
+  id, 
+  value,
+  onSelect,
+  disabled = false
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(label);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,32 +47,38 @@ export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children,
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   return (
     <div className="relative w-full" ref={dropdownRef}>
-      {/* ...existing label and button... */}
-      <label className="block text-sm font-medium text-gray-700 mb-2">
+      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">
         {label}
       </label>
       <button
         type="button"
         id={id}
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full text-left bg-white text-gray-900 text-sm px-4 py-2.5 rounded border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        disabled={disabled}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        className="w-full text-left bg-white text-gray-900 text-sm px-4 py-2.5 rounded border border-gray-300 
+          focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+          disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed"
       >
-        {selectedOption}
+        {value || label}
       </button>
 
       {isOpen && (
-        <div className="absolute mt-1 max-w-full w-[200px] bg-white border border-gray-300 rounded-md shadow-lg z-10">
+        <div 
+          role="listbox"
+          className="absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10"
+        >
           {React.Children.map(children, (child: any) => (
             <div
+              role="option"
+              aria-selected={value === child.props.children}
               onClick={() => {
-                setSelectedOption(child.props.children);
                 onSelect(child.props.children);
                 setIsOpen(false);
               }}
@@ -81,35 +93,61 @@ export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children,
   );
 };
 
-export const InputButton: React.FC<InputButtonProps> = ({ label, id, type = 'text', value, onChange }) => {
+export const InputButton: React.FC<InputButtonProps> = ({
+  label,
+  id,
+  type = 'text',
+  value,
+  onChange,
+  disabled = false,
+  min,
+  max
+}) => {
   return (
     <div className="w-full">
-      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor={id}>
+      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">
         {label}
       </label>
       <input
         type={type}
         id={id}
         value={value}
-        onChange={e => onChange(e.target.value)}
-        className="block w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5 
-          focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+        onChange={(e) => onChange(e.target.value)}
+        disabled={disabled}
+        min={min}
+        max={max}
+        className="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5 
+          focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+          disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed"
+        aria-label={label}
       />
     </div>
   );
 };
 
-export const CheckBox: React.FC<CheckboxProps> = ({ label, id, checked, onChange }) => {
+export const CheckBox: React.FC<CheckboxProps> = ({
+  label,
+  id,
+  checked,
+  onChange,
+  disabled = false
+}) => {
   return (
     <div className="flex items-center space-x-3">
       <input
         type="checkbox"
         id={id}
         checked={checked}
-        onChange={e => onChange(e.target.checked)}
-        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+        onChange={(e) => onChange(e.target.checked)}
+        disabled={disabled}
+        className="h-4 w-4 rounded border-gray-300 text-blue-600 
+          focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        aria-label={label}
       />
-      <label htmlFor={id} className="text-sm font-medium text-gray-700">
+      <label 
+        htmlFor={id}
+        className={`text-sm font-medium ${disabled ? 'text-gray-500' : 'text-gray-700'}`}
+      >
         {label}
       </label>
     </div>
