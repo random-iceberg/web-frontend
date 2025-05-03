@@ -1,4 +1,7 @@
 import axios from 'axios'
+import { handleApiError } from './errorService'
+
+const API_URL = '/api/predict'
 
 export interface PassengerData {
   age: number
@@ -17,6 +20,11 @@ export interface PredictionResult {
 }
 
 export async function predictPassenger(data: PassengerData): Promise<PredictionResult> {
-  const { data: result } = await axios.post<PredictionResult>('/api/predict', data)
-  return result
+  try {
+    const { data: result } = await axios.post<PredictionResult>(API_URL, data)
+    return result
+  } catch (error) {
+    const message = handleApiError(error, 'making prediction')
+    throw new Error(message)
+  }
 }
