@@ -6,6 +6,12 @@ import PredictionButton from 'components/PredictionButton';
 import { DropDownButton, InputButton, CheckBox } from 'components/InputForm';
 import Card from 'components/common/Card';
 
+// Constants for input validation
+const AGE_MIN = 0;
+const AGE_MAX = 120;
+const SIBSP_MAX = 8;
+const PARCH_MAX = 6;
+
 type FormState = {
   age: number;
   sibsp: number;
@@ -17,22 +23,67 @@ type FormState = {
   cabinKnown: boolean;
 };
 
+// Field information with descriptions
+const FIELD_INFO: Record<keyof FormState, { label: string; description: string }> = {
+  passengerClass: {
+    label: "Passenger Class",
+    description: "The class of travel (1st, 2nd, or 3rd class)"
+  },
+  sex: {
+    label: "Sex",
+    description: "Passenger's gender"
+  },
+  embarkationPort: {
+    label: "Embarkation Port",
+    description: "C - Cherbourg, Q - Queenstown, S - Southampton"
+  },
+  age: {
+    label: "Age",
+    description: "Passenger's age (0-120 years)"
+  },
+  sibsp: {
+    label: "Siblings/Spouses",
+    description: "Number of siblings or spouses aboard (0-8)"
+  },
+  parch: {
+    label: "Parents/Children",
+    description: "Number of parents or children aboard (0-6)"
+  },
+  wereAlone: {
+    label: "Were they alone?",
+    description: "Check if the passenger had no family aboard"
+  },
+  cabinKnown: {
+    label: "Cabin known?",
+    description: "Check if the passenger's cabin number is known"
+  }
+};
+
+const FieldDescription: React.FC<{ text: string }> = ({ text }) => (
+  <p className="mt-1 text-sm text-gray-500">{text}</p>
+);
+
+const initialForm: FormState = {
+  age: 0,
+  sibsp: 0,
+  parch: 0,
+  passengerClass: null,
+  sex: null,
+  embarkationPort: null,
+  wereAlone: false,
+  cabinKnown: false,
+};
+
 export default function SurvivalCalculator() {
-  const [form, setForm] = useState<FormState>({
-    age: 0,
-    sibsp: 0,
-    parch: 0,
-    passengerClass: null,
-    sex: null,
-    embarkationPort: null,
-    wereAlone: false,
-    cabinKnown: false,
-  });
+  const [form, setForm] = useState<FormState>(initialForm);
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
   // Validate form inputs
   const validateInputs = (): string | null => {
     // Friendly validation messages
@@ -63,7 +114,12 @@ export default function SurvivalCalculator() {
   
     return null;
   };
-  
+  const handleReset = () => {
+    setForm(initialForm);
+    setResult(null);
+    setError(null);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -112,11 +168,9 @@ export default function SurvivalCalculator() {
   }, []);
 
   return (
-    <div
-      className={`max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-500 ease-in ${
+    <div className={`max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-500 ease-in ${
       isVisible ? "opacity-100" : "opacity-0"
-    }`}
-    >
+    }`}>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           Survivor Prediction Calculator
@@ -132,85 +186,110 @@ export default function SurvivalCalculator() {
             Passenger Details
           </h2>
           <form onSubmit={handleSubmit} className="space-y-8">
-  <div className="grid grid-cols-3 gap-6">
-    <div>
-      <DropDownButton
-        id="passenger-class"
-        label="Passenger Class"
-        value={form.passengerClass?.toString() || ''}
-        onSelect={v => setForm(f => ({ ...f, passengerClass: Number(v) as 1|2|3 }))}
-      >
-        <a>1</a><a>2</a><a>3</a>
-      </DropDownButton>
-    </div>
-    <div>
-      <DropDownButton
-        id="sex"
-        label="Sex"
-        value={form.sex?.toString() || ''}
-        onSelect={v => setForm(f => ({ ...f, sex: v as 'male'|'female' }))}
-      >
-        <a>male</a><a>female</a>
-      </DropDownButton>
-    </div>
-    <div>
-      <DropDownButton
-        id="embarkation-port"
-        label="Embarkation Port"
-        value={form.embarkationPort?.toString() || ''}
-        onSelect={v => setForm(f => ({ ...f, embarkationPort: v as 'C'|'Q'|'S' }))}
-      >
-        <a>C</a><a>Q</a><a>S</a>
-      </DropDownButton>
-    </div>
-  </div>
+            <div className="grid grid-cols-3 gap-6">
+              <div>
+                <DropDownButton
+                  id="passenger-class"
+                  label={FIELD_INFO.passengerClass.label}
+                  value={form.passengerClass?.toString() || ''}
+                  onSelect={v => setForm(f => ({ ...f, passengerClass: Number(v) as 1|2|3 }))}
+                  disabled={loading}
+                >
+                  <a>1</a><a>2</a><a>3</a>
+                </DropDownButton>
+                <FieldDescription text={FIELD_INFO.passengerClass.description} />
+              </div>
+              <div>
+                <DropDownButton
+                  id="sex"
+                  label={FIELD_INFO.sex.label}
+                  value={form.sex?.toString() || ''}
+                  onSelect={v => setForm(f => ({ ...f, sex: v as 'male'|'female' }))}
+                  disabled={loading}
+                >
+                  <a>male</a><a>female</a>
+                </DropDownButton>
+                <FieldDescription text={FIELD_INFO.sex.description} />
+              </div>
+              <div>
+                <DropDownButton
+                  id="embarkation-port"
+                  label={FIELD_INFO.embarkationPort.label}
+                  value={form.embarkationPort?.toString() || ''}
+                  onSelect={v => setForm(f => ({ ...f, embarkationPort: v as 'C'|'Q'|'S' }))}
+                  disabled={loading}
+                >
+                  <a>C</a><a>Q</a><a>S</a>
+                </DropDownButton>
+                <FieldDescription text={FIELD_INFO.embarkationPort.description} />
+              </div>
+            </div>
 
-  <div className="grid grid-cols-3 gap-6">
-    <div>
-      <InputButton
-        id="age"
-        label="Age"
-        type="number"
-        value={form.age.toString()}
-        onChange={v => setForm(f => ({ ...f, age: Number(v) }))}
-      />
-    </div>
-    <div>
-      <InputButton
-        id="sibsp"
-        label="Siblings/Spouses"
-        type="number"
-        value={form.sibsp.toString()}
-        onChange={v => setForm(f => ({ ...f, sibsp: Number(v) }))}
-      />
-    </div>
-    <div>
-      <InputButton
-        id="parch"
-        label="Parents/Children"
-        type="number"
-        value={form.parch.toString()}
-        onChange={v => setForm(f => ({ ...f, parch: Number(v) }))}
-      />
-    </div>
-  </div>
+            <div className="grid grid-cols-3 gap-6">
+              <div>
+                <InputButton
+                  id="age"
+                  label={FIELD_INFO.age.label}
+                  type="number"
+                  value={form.age.toString()}
+                  onChange={v => setForm(f => ({ ...f, age: Number(v) }))}
+                  min={AGE_MIN}
+                  max={AGE_MAX}
+                  disabled={loading}
+                />
+                <FieldDescription text={FIELD_INFO.age.description} />
+              </div>
+              <div>
+                <InputButton
+                  id="sibsp"
+                  label={FIELD_INFO.sibsp.label}
+                  type="number"
+                  value={form.sibsp.toString()}
+                  onChange={v => setForm(f => ({ ...f, sibsp: Number(v) }))}
+                  min={0}
+                  max={SIBSP_MAX}
+                  disabled={loading}
+                />
+                <FieldDescription text={FIELD_INFO.sibsp.description} />
+              </div>
+              <div>
+                <InputButton
+                  id="parch"
+                  label={FIELD_INFO.parch.label}
+                  type="number"
+                  value={form.parch.toString()}
+                  onChange={v => setForm(f => ({ ...f, parch: Number(v) }))}
+                  min={0}
+                  max={PARCH_MAX}
+                  disabled={loading}
+                />
+                <FieldDescription text={FIELD_INFO.parch.description} />
+              </div>
+            </div>
 
-  <div className="flex space-x-6">
-    <CheckBox
-      id="were-alone"
-      label="Were they alone?"
-      checked={form.wereAlone}
-      onChange={v => setForm(f => ({ ...f, wereAlone: v }))}
-    />
-    <CheckBox
-      id="cabin-known"
-      label="Cabin known?"
-      checked={form.cabinKnown}
-      onChange={v => setForm(f => ({ ...f, cabinKnown: v }))}
-    />
-  </div>
+            <div className="flex space-x-6">
+              <div>
+                <CheckBox
+                  id="were-alone"
+                  label={FIELD_INFO.wereAlone.label}
+                  checked={form.wereAlone}
+                  onChange={v => setForm(f => ({ ...f, wereAlone: v }))}
+                  disabled={loading}
+                />
+                <FieldDescription text={FIELD_INFO.wereAlone.description} />
+              </div>
+              <div>
+                <CheckBox
+                  id="cabin-known"
+                  label={FIELD_INFO.cabinKnown.label}
+                  checked={form.cabinKnown}
+                  onChange={v => setForm(f => ({ ...f, cabinKnown: v }))}
+                  disabled={loading}
+                />
+                <FieldDescription text={FIELD_INFO.cabinKnown.description} />
+              </div>
+            </div>
 
-            {/* Error message */}
             {error && (
               <div className="p-4 bg-red-50 rounded-lg border border-red-200">
                 <p className="text-red-700 text-sm flex items-center">
@@ -220,15 +299,26 @@ export default function SurvivalCalculator() {
               </div>
             )}
 
-            {/* Submit button */}
-            <div className="pt-4 border-t border-gray-200">
+            <div className="pt-4 border-t border-gray-200 flex gap-4">
               <PredictionButton
                 onClick={() => {}}
                 disabled={loading}
                 type="submit"
+
               >
                 {loading ? 'Predicting…' : 'Predict'}
               </PredictionButton>
+              
+              <button
+                type="button"
+                onClick={handleReset}
+                disabled={loading}
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 
+                  border border-gray-300 rounded-md hover:bg-gray-200 
+                  disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Reset
+              </button>
             </div>
           </form>
         </Card>
