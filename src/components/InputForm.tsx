@@ -32,36 +32,30 @@ export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children,
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(label);
 
-  function changeState() {
-    setIsOpen(!isOpen);
-  }
-
-  const handleSelect = (value: string) => {
-    setSelectedOption(value);
-    setIsOpen(false);
-  };
-
   return (
-    <div className="relative w-full max-w-sm">
-      <span className="text-red-500 mr-1">*</span>
+    <div className="relative w-full">
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        {label}
+      </label>
       <button
         type="button"
         id={id}
-        onClick={changeState}
-        className="w-full text-left bg-background text-foreground text-sm font-medium px-4 py-2 rounded-md shadow-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full text-left bg-white text-gray-900 text-sm px-4 py-2.5 rounded border border-gray-300 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
       >
         {selectedOption}
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md z-10">
+        <div className="absolute mt-1 max-w-full w-[200px] bg-white border border-gray-300 rounded-md shadow-lg z-10">
           {React.Children.map(children, (child: any) => (
             <div
-            onClick={() => {
-              handleSelect(child.props.children);
-              onSelect(child.props.children);
-            }}
-              className="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer text-sm font-medium"
+              onClick={() => {
+                setSelectedOption(child.props.children);
+                onSelect(child.props.children);
+                setIsOpen(false);
+              }}
+              className="px-4 py-2.5 hover:bg-gray-50 cursor-pointer text-sm text-gray-700"
             >
               {child}
             </div>
@@ -75,7 +69,7 @@ export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children,
 export const InputButton: React.FC<InputButtonProps> = ({ label, id, type = 'text', value, onChange }) => {
   return (
     <div className="w-full">
-      <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor={id}>
+      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor={id}>
         {label}
       </label>
       <input
@@ -83,26 +77,25 @@ export const InputButton: React.FC<InputButtonProps> = ({ label, id, type = 'tex
         id={id}
         value={value}
         onChange={e => onChange(e.target.value)}
-        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+        className="block w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5 
+          focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
       />
     </div>
   );
 };
 
-export const CheckBox: React.FC<CheckboxProps> = ({ label, id, checked, onChange}) => {
+export const CheckBox: React.FC<CheckboxProps> = ({ label, id, checked, onChange }) => {
   return (
-    <div className="mb-4">
-      <label className="flex items-center space-x-2">
-        <span className="text-foreground text-sm font-medium flex items-center">
-          {label}
-        </span>
-        <input
-          type="checkbox"
-          id={id}
-          checked={checked}
-          onChange={e => onChange(e.target.checked)}
-          className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-        />
+    <div className="flex items-center space-x-3">
+      <input
+        type="checkbox"
+        id={id}
+        checked={checked}
+        onChange={e => onChange(e.target.checked)}
+        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+      />
+      <label htmlFor={id} className="text-sm font-medium text-gray-700">
+        {label}
       </label>
     </div>
   );

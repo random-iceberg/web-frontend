@@ -131,95 +131,81 @@ export default function SurvivalCalculator() {
           <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
             Passenger Details
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Required fields section */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="col-span-1">
-                <span className="text-red-500 mr-1">*</span>
-                <DropDownButton
-                  id="passenger-class"
-                  label="Passenger Class"
-                  onSelect={(v) => setForm((f) => ({ ...f, passengerClass: Number(v) as 1 | 2 | 3 }))}
-                >
-                  <a>1</a>
-                  <a>2</a>
-                  <a>3</a>
-                </DropDownButton>
-              </div>
-              <div className="col-span-1">
-                <span className="text-red-500 mr-1">*</span>
-                <DropDownButton
-                  id="sex"
-                  label="Sex"
-                  onSelect={(v) => setForm((f) => ({ ...f, sex: v as 'male' | 'female' }))}
-                >
-                  <a>male</a>
-                  <a>female</a>
-                </DropDownButton>
-              </div>
-              <div className="col-span-1">
-                <span className="text-red-500 mr-1">*</span>
-                <DropDownButton
-                  id="embarkation-port"
-                  label="Embarkation Port"
-                  onSelect={(v) => setForm((f) => ({ ...f, embarkationPort: v as 'C' | 'Q' | 'S' }))}
-                >
-                  <a>C</a>
-                  <a>Q</a>
-                  <a>S</a>
-                </DropDownButton>
-              </div>
-            </div>
+          <form onSubmit={handleSubmit} className="space-y-8">
+  <div className="grid grid-cols-3 gap-6">
+    <div>
+      <DropDownButton
+        id="passenger-class"
+        label="Passenger Class"
+        onSelect={v => setForm(f => ({ ...f, passengerClass: Number(v) as 1|2|3 }))}
+      >
+        <a>1</a><a>2</a><a>3</a>
+      </DropDownButton>
+    </div>
+    <div>
+      <DropDownButton
+        id="sex"
+        label="Sex"
+        onSelect={v => setForm(f => ({ ...f, sex: v as 'male'|'female' }))}
+      >
+        <a>male</a><a>female</a>
+      </DropDownButton>
+    </div>
+    <div>
+      <DropDownButton
+        id="embarkation-port"
+        label="Embarkation Port"
+        onSelect={v => setForm(f => ({ ...f, embarkationPort: v as 'C'|'Q'|'S' }))}
+      >
+        <a>C</a><a>Q</a><a>S</a>
+      </DropDownButton>
+    </div>
+  </div>
 
-            {/* Numeric inputs section */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="col-span-1">
-                <span className="text-red-500 mr-1">*</span>
-                <InputButton
-                  id="age"
-                  label="Age"
-                  type="number"
-                  value={form.age.toString()}
-                  onChange={(v) => setForm((f) => ({ ...f, age: Number(v) }))}
-                />
-              </div>
-              <div className="col-span-1">
-                <span className="text-red-500 mr-1">*</span>
-                <InputButton
-                  id="sibsp"
-                  label="Siblings/Spouses"
-                  type="number"
-                  value={form.sibsp.toString()}
-                  onChange={(v) => setForm((f) => ({ ...f, sibsp: Number(v) }))}
-                />
-              </div>
-              <div className="col-span-1">
-                <span className="text-red-500 mr-1">*</span>
-                <InputButton
-                  id="parch"
-                  label="Parents/Children"
-                  type="number"
-                  value={form.parch.toString()}
-                  onChange={(v) => setForm((f) => ({ ...f, parch: Number(v) }))}
-                />
-              </div>
-            </div>
+  <div className="grid grid-cols-3 gap-6">
+    <div>
+      <InputButton
+        id="age"
+        label="Age"
+        type="number"
+        value={form.age.toString()}
+        onChange={v => setForm(f => ({ ...f, age: Number(v) }))}
+      />
+    </div>
+    <div>
+      <InputButton
+        id="sibsp"
+        label="Siblings/Spouses"
+        type="number"
+        value={form.sibsp.toString()}
+        onChange={v => setForm(f => ({ ...f, sibsp: Number(v) }))}
+      />
+    </div>
+    <div>
+      <InputButton
+        id="parch"
+        label="Parents/Children"
+        type="number"
+        value={form.parch.toString()}
+        onChange={v => setForm(f => ({ ...f, parch: Number(v) }))}
+      />
+    </div>
+  </div>
 
-            {/* Checkboxes section */}
-            <div className="flex gap-6">
-              <CheckBox
-                id="were-alone"
-                label="Were they alone?"
-                checked={form.wereAlone}
-                onChange={(v) => setForm((f) => ({ ...f, wereAlone: v }))}
-              />
-              <CheckBox
-                id="cabin-known"
-                label="Cabin known?"
-                checked={form.cabinKnown}
-                onChange={(v) => setForm((f) => ({ ...f, cabinKnown: v }))}
-              />
-            </div>
+  <div className="flex space-x-6">
+    <CheckBox
+      id="were-alone"
+      label="Were they alone?"
+      checked={form.wereAlone}
+      onChange={v => setForm(f => ({ ...f, wereAlone: v }))}
+    />
+    <CheckBox
+      id="cabin-known"
+      label="Cabin known?"
+      checked={form.cabinKnown}
+      onChange={v => setForm(f => ({ ...f, cabinKnown: v }))}
+    />
+  </div>
 
             {/* Error message */}
             {error && (
