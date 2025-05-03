@@ -34,34 +34,35 @@ export default function SurvivalCalculator() {
 
   // Validate form inputs
   const validateInputs = (): string | null => {
-    const errors: string[] = [];
+    // Friendly validation messages
+    if (!form.sex) {
+      return "Please select the passenger's gender";
+    }
+    
+    if (!form.embarkationPort) {
+      return 'Please select the port where the passenger embarked (C - Cherbourg, Q - Queenstown, S - Southampton)';
+    }
+    
+    if (!form.passengerClass) {
+      return 'Please select the class of travel (1st, 2nd, or 3rd class)';
+    }
   
-    // Required field validation
-    if (form.sex === null) {
-      errors.push('Please select a gender');
-    }
-    if (form.embarkationPort === null) {
-      errors.push('Please select an embarkation port');
-    }
-    if (form.passengerClass === null) {
-      errors.push('Please select a passenger class');
+    // Numeric validations with helpful context
+    if (!form.age || form.age <= 0 || form.age > 120) {
+      return 'Please enter a valid age between 1 and 120 years';
     }
   
-    // Value range validation
-    if (form.age <= 0 || form.age > 120) {
-      errors.push('Age must be between 1 and 120');
-    }
     if (form.sibsp < 0) {
-      errors.push('Siblings/Spouses cannot be negative');
-    }
-    if (form.parch < 0) {
-      errors.push('Parents/Children cannot be negative');
+      return 'The number of siblings/spouses aboard must be 0 or greater';
     }
   
-    // Return all errors joined together
-    return errors.length > 0 ? errors.join(', ') : null;
+    if (form.parch < 0) {
+      return 'The number of parents/children aboard must be 0 or greater';
+    }
+  
+    return null;
   };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -74,26 +75,30 @@ export default function SurvivalCalculator() {
       return;
     }
   
-    // Ensure all required fields are present before sending
-    if (form.sex === null || form.embarkationPort === null || form.passengerClass === null) {
+    // Ensure all required fields are present before making the API call
+    if (!form.sex || !form.embarkationPort || !form.passengerClass) {
       setError('Please fill in all required fields');
       setLoading(false);
       return;
     }
   
     try {
-      // Type assertion is safe here because we validated the required fields
-      const validForm: PassengerData = {
-        ...form,
+      // Transform FormState to PassengerData
+      const passengerData: PassengerData = {
+        age: form.age,
+        sibsp: form.sibsp,
+        parch: form.parch,
+        passengerClass: form.passengerClass,
         sex: form.sex,
         embarkationPort: form.embarkationPort,
-        passengerClass: form.passengerClass
+        wereAlone: form.wereAlone,
+        cabinKnown: form.cabinKnown
       };
-      
-      const res = await predictPassenger(validForm);
+  
+      const res = await predictPassenger(passengerData);
       setResult(res);
     } catch (err: any) {
-      const userFriendlyMessage = handleApiError(err, 'predicting survival');
+      const userFriendlyMessage = handleApiError(err, 'making the prediction');
       setError(userFriendlyMessage);
       setResult(null);
     } finally {
