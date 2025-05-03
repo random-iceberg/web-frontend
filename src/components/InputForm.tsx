@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 type DropDownButtonProps = {
   label: string;
@@ -31,9 +31,24 @@ type CheckboxProps = {
 export const DropDownButton: React.FC<DropDownButtonProps> = ({ label, children, id, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(label);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full" ref={dropdownRef}>
+      {/* ...existing label and button... */}
       <label className="block text-sm font-medium text-gray-700 mb-2">
         {label}
       </label>
