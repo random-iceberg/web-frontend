@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { predictPassenger, PassengerData, PredictionResult } from 'services/predictionService';
 import { handleApiError } from 'services/errorService';
-import ErrorMessage from 'components/ErrorMessage';
 import PredictionButton from 'components/PredictionButton';
 import { DropDownButton, InputButton, CheckBox } from 'components/InputForm';
 import Card from 'components/common/Card';
