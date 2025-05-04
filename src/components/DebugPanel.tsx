@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+import api from "services/api";
+
 const DebugPanel: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [apiResponse, setApiResponse] = useState<string>("");
@@ -10,7 +12,7 @@ const DebugPanel: React.FC = () => {
     setIsLoading(true);
     try {
       // Use the proxied URL
-      const response = await axios.get("/api/models");
+      const response = await axios.get(api.url("models"));
       setApiResponse(JSON.stringify(response.data, null, 2));
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -41,7 +43,7 @@ const DebugPanel: React.FC = () => {
         onClick={async () => {
           setIsLoading(true);
           try {
-            const response = await axios.get("/api/models/proxy-test");
+            const response = await axios.get(api.url("models/proxy-test"));
             setApiResponse(JSON.stringify(response.data, null, 2));
           } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -84,7 +86,7 @@ const DebugPanel: React.FC = () => {
               <p className="text-sm font-medium">Environment:</p>
               <pre className="text-xs bg-gray-100 p-2 rounded">
                 {`NODE_ENV: ${process.env.NODE_ENV}
-API Path: /api/models (proxied to backend)`}
+API Path: ${api.url("models")} (proxied to backend)`}
               </pre>
             </div>
           </div>

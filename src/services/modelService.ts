@@ -1,7 +1,6 @@
 import axios from "axios";
 import { handleApiError } from "services/errorService";
-
-const API_URL = "/api/models";
+import api from "services/api";
 
 export interface Model {
   id: string;
@@ -31,7 +30,7 @@ export interface DeleteResponse {
 
 export const fetchModels = async (): Promise<Model[]> => {
   try {
-    const response = await axios.get<Model[]>(API_URL);
+    const response = await axios.get<Model[]>(api.url("models"));
     return response.data;
   } catch (error) {
     // Changed error handler, previous one wasn't polite enough
@@ -45,7 +44,7 @@ export const trainModel = async (
 ): Promise<TrainingResponse> => {
   try {
     const response = await axios.post<TrainingResponse>(
-      `${API_URL}/train`,
+      api.url("models/train"),
       data,
     );
     return response.data;
@@ -58,7 +57,7 @@ export const trainModel = async (
 
 export const deleteModel = async (id: string): Promise<DeleteResponse> => {
   try {
-    const response = await axios.delete<DeleteResponse>(`${API_URL}/${id}`);
+    const response = await axios.delete<DeleteResponse>(api.url(`models/${id}`));
     return response.data;
   } catch (error) {
     // Changed error handler, previous one wasn't polite enough
