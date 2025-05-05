@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+import api from "services/api"
+
 const ConnectionStatus: React.FC = () => {
   const [status, setStatus] = useState<
     "checking" | "connected" | "disconnected"
@@ -9,7 +11,7 @@ const ConnectionStatus: React.FC = () => {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        await axios.get("/api/models");
+        await axios.get(api.url("models"));
         setStatus("connected");
       } catch (error) {
         setStatus("disconnected");

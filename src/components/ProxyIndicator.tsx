@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+import api from "services/api";
+
 const ProxyIndicator: React.FC = () => {
   const [proxyWorking, setProxyWorking] = useState<boolean | null>(null);
   const [directWorking, setDirectWorking] = useState<boolean | null>(null);
@@ -9,7 +11,7 @@ const ProxyIndicator: React.FC = () => {
     // Test proxy request
     const checkProxy = async () => {
       try {
-        await axios.get("/api/models");
+        await axios.get(api.url("models"));
         setProxyWorking(true);
       } catch (error) {
         setProxyWorking(false);
@@ -36,7 +38,7 @@ const ProxyIndicator: React.FC = () => {
       <h3 className="font-bold mb-2 text-sm">Connection Status:</h3>
       <div className="space-y-1 text-sm">
         <div className="flex items-center">
-          <span className="mr-2">Proxy (/api/models):</span>
+          <span className="mr-2">Proxy ({api.url("models")}):</span>
           {proxyWorking === null ? (
             <span className="text-gray-500">Checking...</span>
           ) : proxyWorking ? (
