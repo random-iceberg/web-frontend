@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { handleApiError } from './errorService'
 
-const API_URL = '/api/predict'
+const API_URL = 'http://localhost:8000/predict'
 
 export interface PassengerData {
   age: number
