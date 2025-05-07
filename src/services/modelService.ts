@@ -57,7 +57,9 @@ export const trainModel = async (
 
 export const deleteModel = async (id: string): Promise<DeleteResponse> => {
   try {
-    const response = await axios.delete<DeleteResponse>(api.url(`models/${id}`));
+    const response = await axios.delete<DeleteResponse>(
+      api.url(`models/${id}`),
+    );
     return response.data;
   } catch (error) {
     // Changed error handler, previous one wasn't polite enough

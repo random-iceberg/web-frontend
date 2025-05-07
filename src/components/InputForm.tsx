@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 
 type DropDownButtonProps = {
   label: string;
@@ -12,7 +12,7 @@ type DropDownButtonProps = {
 type InputButtonProps = {
   label: string;
   id: string;
-  type?: 'text' | 'number';
+  type?: "text" | "number";
   value: string;
   onChange: (value: string) => void;
   disabled?: boolean;
@@ -28,31 +28,37 @@ type CheckboxProps = {
   disabled?: boolean;
 };
 
-export const DropDownButton: React.FC<DropDownButtonProps> = ({ 
-  label, 
-  children, 
-  id, 
+export const DropDownButton: React.FC<DropDownButtonProps> = ({
+  label,
+  children,
+  id,
   value,
   onSelect,
-  disabled = false
+  disabled = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
     <div className="relative w-full" ref={dropdownRef}>
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">
+      <label
+        htmlFor={id}
+        className="block text-sm font-medium text-gray-700 mb-2"
+      >
         {label}
       </label>
       <button
@@ -70,7 +76,7 @@ export const DropDownButton: React.FC<DropDownButtonProps> = ({
       </button>
 
       {isOpen && (
-        <div 
+        <div
           role="listbox"
           className="absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10"
         >
@@ -96,16 +102,19 @@ export const DropDownButton: React.FC<DropDownButtonProps> = ({
 export const InputButton: React.FC<InputButtonProps> = ({
   label,
   id,
-  type = 'text',
+  type = "text",
   value,
   onChange,
   disabled = false,
   min,
-  max
+  max,
 }) => {
   return (
     <div className="w-full">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">
+      <label
+        htmlFor={id}
+        className="block text-sm font-medium text-gray-700 mb-2"
+      >
         {label}
       </label>
       <input
@@ -130,7 +139,7 @@ export const CheckBox: React.FC<CheckboxProps> = ({
   id,
   checked,
   onChange,
-  disabled = false
+  disabled = false,
 }) => {
   return (
     <div className="flex items-center space-x-3">
@@ -144,9 +153,9 @@ export const CheckBox: React.FC<CheckboxProps> = ({
           focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
         aria-label={label}
       />
-      <label 
+      <label
         htmlFor={id}
-        className={`text-sm font-medium ${disabled ? 'text-gray-500' : 'text-gray-700'}`}
+        className={`text-sm font-medium ${disabled ? "text-gray-500" : "text-gray-700"}`}
       >
         {label}
       </label>

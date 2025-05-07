@@ -1,17 +1,17 @@
-import React from 'react'
+import React from "react";
 
 type PredictionButtonProps = {
-  onClick: () => void
-  disabled?: boolean
+  onClick: () => void;
+  disabled?: boolean;
   /** HTML button type: default to “button” but allow “submit” */
-  type?: 'button' | 'submit' | 'reset'
-  children: React.ReactNode
-}
+  type?: "button" | "submit" | "reset";
+  children: React.ReactNode;
+};
 
 const PredictionButton: React.FC<PredictionButtonProps> = ({
   onClick,
   disabled = false,
-  type = 'button',
+  type = "button",
   children,
 }) => (
   <button
@@ -22,6 +22,6 @@ const PredictionButton: React.FC<PredictionButtonProps> = ({
   >
     {children}
   </button>
-)
+);
 
-export default PredictionButton
+export default PredictionButton;

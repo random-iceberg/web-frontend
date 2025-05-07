@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { predictPassenger, PassengerData, PredictionResult } from 'services/predictionService';
-import { handleApiError } from 'services/errorService';
-import PredictionButton from 'components/PredictionButton';
-import { DropDownButton, InputButton, CheckBox } from 'components/InputForm';
-import Card from 'components/common/Card';
+import React, { useState, useEffect } from "react";
+import {
+  predictPassenger,
+  PassengerData,
+  PredictionResult,
+} from "services/predictionService";
+import { handleApiError } from "services/errorService";
+import PredictionButton from "components/PredictionButton";
+import { DropDownButton, InputButton, CheckBox } from "components/InputForm";
+import Card from "components/common/Card";
 
 // Constants for input validation
 const AGE_MIN = 0;
@@ -16,46 +20,49 @@ type FormState = {
   sibsp: number;
   parch: number;
   passengerClass: 1 | 2 | 3 | null;
-  sex: 'male' | 'female' | null;
-  embarkationPort: 'C' | 'Q' | 'S' | null;
+  sex: "male" | "female" | null;
+  embarkationPort: "C" | "Q" | "S" | null;
   wereAlone: boolean;
   cabinKnown: boolean;
 };
 
 // Field information with descriptions
-const FIELD_INFO: Record<keyof FormState, { label: string; description: string }> = {
+const FIELD_INFO: Record<
+  keyof FormState,
+  { label: string; description: string }
+> = {
   passengerClass: {
     label: "Passenger Class",
-    description: "The class of travel (1st, 2nd, or 3rd class)"
+    description: "The class of travel (1st, 2nd, or 3rd class)",
   },
   sex: {
     label: "Sex",
-    description: "Passenger's gender"
+    description: "Passenger's gender",
   },
   embarkationPort: {
     label: "Embarkation Port",
-    description: "C - Cherbourg, Q - Queenstown, S - Southampton"
+    description: "C - Cherbourg, Q - Queenstown, S - Southampton",
   },
   age: {
     label: "Age",
-    description: "Passenger's age (0-120 years)"
+    description: "Passenger's age (0-120 years)",
   },
   sibsp: {
     label: "Siblings/Spouses",
-    description: "Number of siblings or spouses aboard (0-8)"
+    description: "Number of siblings or spouses aboard (0-8)",
   },
   parch: {
     label: "Parents/Children",
-    description: "Number of parents or children aboard (0-6)"
+    description: "Number of parents or children aboard (0-6)",
   },
   wereAlone: {
     label: "Were they alone?",
-    description: "Check if the passenger had no family aboard"
+    description: "Check if the passenger had no family aboard",
   },
   cabinKnown: {
     label: "Cabin known?",
-    description: "Check if the passenger's cabin number is known"
-  }
+    description: "Check if the passenger's cabin number is known",
+  },
 };
 
 const FieldDescription: React.FC<{ text: string }> = ({ text }) => (
@@ -89,28 +96,28 @@ export default function SurvivalCalculator() {
     if (!form.sex) {
       return "Please select the passenger's gender";
     }
-    
+
     if (!form.embarkationPort) {
-      return 'Please select the port where the passenger embarked (C - Cherbourg, Q - Queenstown, S - Southampton)';
+      return "Please select the port where the passenger embarked (C - Cherbourg, Q - Queenstown, S - Southampton)";
     }
-    
+
     if (!form.passengerClass) {
-      return 'Please select the class of travel (1st, 2nd, or 3rd class)';
+      return "Please select the class of travel (1st, 2nd, or 3rd class)";
     }
-  
+
     // Numeric validations with helpful context
     if (!form.age || form.age <= 0 || form.age > 120) {
-      return 'Please enter a valid age between 1 and 120 years';
+      return "Please enter a valid age between 1 and 120 years";
     }
-  
+
     if (form.sibsp < 0) {
-      return 'The number of siblings/spouses aboard must be 0 or greater';
+      return "The number of siblings/spouses aboard must be 0 or greater";
     }
-  
+
     if (form.parch < 0) {
-      return 'The number of parents/children aboard must be 0 or greater';
+      return "The number of parents/children aboard must be 0 or greater";
     }
-  
+
     return null;
   };
   const handleReset = () => {
@@ -123,21 +130,21 @@ export default function SurvivalCalculator() {
     e.preventDefault();
     setError(null);
     setLoading(true);
-  
+
     const validationError = validateInputs();
     if (validationError) {
       setError(validationError);
       setLoading(false);
       return;
     }
-  
+
     // Ensure all required fields are present before making the API call
     if (!form.sex || !form.embarkationPort || !form.passengerClass) {
-      setError('Please fill in all required fields');
+      setError("Please fill in all required fields");
       setLoading(false);
       return;
     }
-  
+
     try {
       // Transform FormState to PassengerData
       const passengerData: PassengerData = {
@@ -148,13 +155,13 @@ export default function SurvivalCalculator() {
         sex: form.sex,
         embarkationPort: form.embarkationPort,
         wereAlone: form.wereAlone,
-        cabinKnown: form.cabinKnown
+        cabinKnown: form.cabinKnown,
       };
-  
+
       const res = await predictPassenger(passengerData);
       setResult(res);
     } catch (err: any) {
-      const userFriendlyMessage = handleApiError(err, 'making the prediction');
+      const userFriendlyMessage = handleApiError(err, "making the prediction");
       setError(userFriendlyMessage);
       setResult(null);
     } finally {
@@ -162,14 +169,16 @@ export default function SurvivalCalculator() {
     }
   };
 
-   useEffect(() => {
+  useEffect(() => {
     setIsVisible(true);
   }, []);
 
   return (
-    <div className={`max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-500 ease-in ${
-      isVisible ? "opacity-100" : "opacity-0"
-    }`}>
+    <div
+      className={`max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-500 ease-in ${
+        isVisible ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
           Survivor Prediction Calculator
@@ -190,23 +199,35 @@ export default function SurvivalCalculator() {
                 <DropDownButton
                   id="passenger-class"
                   label={FIELD_INFO.passengerClass.label}
-                  value={form.passengerClass?.toString() || ''}
-                  onSelect={v => setForm(f => ({ ...f, passengerClass: Number(v) as 1|2|3 }))}
+                  value={form.passengerClass?.toString() || ""}
+                  onSelect={(v) =>
+                    setForm((f) => ({
+                      ...f,
+                      passengerClass: Number(v) as 1 | 2 | 3,
+                    }))
+                  }
                   disabled={loading}
                 >
-                  <a>1</a><a>2</a><a>3</a>
+                  <a>1</a>
+                  <a>2</a>
+                  <a>3</a>
                 </DropDownButton>
-                <FieldDescription text={FIELD_INFO.passengerClass.description} />
+                <FieldDescription
+                  text={FIELD_INFO.passengerClass.description}
+                />
               </div>
               <div>
                 <DropDownButton
                   id="sex"
                   label={FIELD_INFO.sex.label}
-                  value={form.sex?.toString() || ''}
-                  onSelect={v => setForm(f => ({ ...f, sex: v as 'male'|'female' }))}
+                  value={form.sex?.toString() || ""}
+                  onSelect={(v) =>
+                    setForm((f) => ({ ...f, sex: v as "male" | "female" }))
+                  }
                   disabled={loading}
                 >
-                  <a>male</a><a>female</a>
+                  <a>male</a>
+                  <a>female</a>
                 </DropDownButton>
                 <FieldDescription text={FIELD_INFO.sex.description} />
               </div>
@@ -214,13 +235,22 @@ export default function SurvivalCalculator() {
                 <DropDownButton
                   id="embarkation-port"
                   label={FIELD_INFO.embarkationPort.label}
-                  value={form.embarkationPort?.toString() || ''}
-                  onSelect={v => setForm(f => ({ ...f, embarkationPort: v as 'C'|'Q'|'S' }))}
+                  value={form.embarkationPort?.toString() || ""}
+                  onSelect={(v) =>
+                    setForm((f) => ({
+                      ...f,
+                      embarkationPort: v as "C" | "Q" | "S",
+                    }))
+                  }
                   disabled={loading}
                 >
-                  <a>C</a><a>Q</a><a>S</a>
+                  <a>C</a>
+                  <a>Q</a>
+                  <a>S</a>
                 </DropDownButton>
-                <FieldDescription text={FIELD_INFO.embarkationPort.description} />
+                <FieldDescription
+                  text={FIELD_INFO.embarkationPort.description}
+                />
               </div>
             </div>
 
@@ -231,7 +261,7 @@ export default function SurvivalCalculator() {
                   label={FIELD_INFO.age.label}
                   type="number"
                   value={form.age.toString()}
-                  onChange={v => setForm(f => ({ ...f, age: Number(v) }))}
+                  onChange={(v) => setForm((f) => ({ ...f, age: Number(v) }))}
                   min={AGE_MIN}
                   max={AGE_MAX}
                   disabled={loading}
@@ -244,7 +274,7 @@ export default function SurvivalCalculator() {
                   label={FIELD_INFO.sibsp.label}
                   type="number"
                   value={form.sibsp.toString()}
-                  onChange={v => setForm(f => ({ ...f, sibsp: Number(v) }))}
+                  onChange={(v) => setForm((f) => ({ ...f, sibsp: Number(v) }))}
                   min={0}
                   max={SIBSP_MAX}
                   disabled={loading}
@@ -257,7 +287,7 @@ export default function SurvivalCalculator() {
                   label={FIELD_INFO.parch.label}
                   type="number"
                   value={form.parch.toString()}
-                  onChange={v => setForm(f => ({ ...f, parch: Number(v) }))}
+                  onChange={(v) => setForm((f) => ({ ...f, parch: Number(v) }))}
                   min={0}
                   max={PARCH_MAX}
                   disabled={loading}
@@ -272,7 +302,7 @@ export default function SurvivalCalculator() {
                   id="were-alone"
                   label={FIELD_INFO.wereAlone.label}
                   checked={form.wereAlone}
-                  onChange={v => setForm(f => ({ ...f, wereAlone: v }))}
+                  onChange={(v) => setForm((f) => ({ ...f, wereAlone: v }))}
                   disabled={loading}
                 />
                 <FieldDescription text={FIELD_INFO.wereAlone.description} />
@@ -282,7 +312,7 @@ export default function SurvivalCalculator() {
                   id="cabin-known"
                   label={FIELD_INFO.cabinKnown.label}
                   checked={form.cabinKnown}
-                  onChange={v => setForm(f => ({ ...f, cabinKnown: v }))}
+                  onChange={(v) => setForm((f) => ({ ...f, cabinKnown: v }))}
                   disabled={loading}
                 />
                 <FieldDescription text={FIELD_INFO.cabinKnown.description} />
@@ -303,11 +333,10 @@ export default function SurvivalCalculator() {
                 onClick={() => {}}
                 disabled={loading}
                 type="submit"
-
               >
-                {loading ? 'Predicting…' : 'Predict'}
+                {loading ? "Predicting…" : "Predict"}
               </PredictionButton>
-              
+
               <button
                 type="button"
                 onClick={handleReset}
@@ -329,15 +358,19 @@ export default function SurvivalCalculator() {
           </h2>
           {result ? (
             <div className="space-y-4">
-              <div className={`p-4 rounded-lg ${
-                result.survived 
-                  ? 'bg-green-50 border border-green-200' 
-                  : 'bg-red-50 border border-red-200'
-              }`}>
-                <p className={`text-lg font-medium ${
-                  result.survived ? 'text-green-700' : 'text-red-700'
-                }`}>
-                  {result.survived ? 'Survived' : 'Did Not Survive'}
+              <div
+                className={`p-4 rounded-lg ${
+                  result.survived
+                    ? "bg-green-50 border border-green-200"
+                    : "bg-red-50 border border-red-200"
+                }`}
+              >
+                <p
+                  className={`text-lg font-medium ${
+                    result.survived ? "text-green-700" : "text-red-700"
+                  }`}
+                >
+                  {result.survived ? "Survived" : "Did Not Survive"}
                 </p>
                 <p className="text-sm mt-1 text-gray-600">
                   Probability: {(result.probability * 100).toFixed(1)}%
@@ -347,7 +380,8 @@ export default function SurvivalCalculator() {
           ) : (
             <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
               <p className="text-gray-600">
-                Enter passenger details and click "Predict Survival" to see the result.
+                Enter passenger details and click "Predict Survival" to see the
+                result.
               </p>
             </div>
           )}
