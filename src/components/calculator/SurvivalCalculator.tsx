@@ -90,36 +90,30 @@ export default function SurvivalCalculator() {
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
   // Validate form inputs
   const validateInputs = (): string | null => {
-    // Friendly validation messages
     if (!form.sex) {
       return "Please select the passenger's gender";
     }
-
     if (!form.embarkationPort) {
       return "Please select the port where the passenger embarked (C - Cherbourg, Q - Queenstown, S - Southampton)";
     }
-
     if (!form.passengerClass) {
       return "Please select the class of travel (1st, 2nd, or 3rd class)";
     }
-
-    // Numeric validations with helpful context
-    if (!form.age || form.age <= 0 || form.age > 120) {
+    if (!form.age || form.age <= 0 || form.age >= 120) {
       return "Please enter a valid age between 1 and 120 years";
     }
-
     if (form.sibsp < 0) {
       return "The number of siblings/spouses aboard must be 0 or greater";
     }
-
     if (form.parch < 0) {
       return "The number of parents/children aboard must be 0 or greater";
     }
-
     return null;
   };
+
   const handleReset = () => {
     setForm(initialForm);
     setResult(null);
@@ -138,40 +132,28 @@ export default function SurvivalCalculator() {
       return;
     }
 
-    // Ensure all required fields are present before making the API call
-    if (!form.sex || !form.embarkationPort || !form.passengerClass) {
-      setError("Please fill in all required fields");
-      setLoading(false);
-      return;
-    }
+    // Transform FormState to PassengerData
+    const passengerData: PassengerData = {
+      age: form.age,
+      sibsp: form.sibsp,
+      parch: form.parch,
+      passengerClass: form.passengerClass!,
+      sex: form.sex!,
+      embarkationPort: form.embarkationPort!,
+      wereAlone: form.wereAlone,
+      cabinKnown: form.cabinKnown,
+    };
 
     try {
-      // Transform FormState to PassengerData
-      const passengerData: PassengerData = {
-        age: form.age,
-        sibsp: form.sibsp,
-        parch: form.parch,
-        passengerClass: form.passengerClass,
-        sex: form.sex,
-        embarkationPort: form.embarkationPort,
-        wereAlone: form.wereAlone,
-        cabinKnown: form.cabinKnown,
-      };
-
       const res = await predictPassenger(passengerData);
       setResult(res);
     } catch (err: any) {
-      const userFriendlyMessage = handleApiError(err, "making the prediction");
-      setError(userFriendlyMessage);
+      setError(handleApiError(err, "making the prediction"));
       setResult(null);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
 
   return (
     <div
@@ -208,9 +190,9 @@ export default function SurvivalCalculator() {
                   }
                   disabled={loading}
                 >
-                  <a>1</a>
-                  <a>2</a>
-                  <a>3</a>
+                  <button type="button">1</button>
+                  <button type="button">2</button>
+                  <button type="button">3</button>
                 </DropDownButton>
                 <FieldDescription
                   text={FIELD_INFO.passengerClass.description}
@@ -226,8 +208,8 @@ export default function SurvivalCalculator() {
                   }
                   disabled={loading}
                 >
-                  <a>male</a>
-                  <a>female</a>
+                  <button type="button">male</button>
+                  <button type="button">female</button>
                 </DropDownButton>
                 <FieldDescription text={FIELD_INFO.sex.description} />
               </div>
@@ -244,9 +226,9 @@ export default function SurvivalCalculator() {
                   }
                   disabled={loading}
                 >
-                  <a>C</a>
-                  <a>Q</a>
-                  <a>S</a>
+                  <button type="button">C</button>
+                  <button type="button">Q</button>
+                  <button type="button">S</button>
                 </DropDownButton>
                 <FieldDescription
                   text={FIELD_INFO.embarkationPort.description}
@@ -342,8 +324,8 @@ export default function SurvivalCalculator() {
                 onClick={handleReset}
                 disabled={loading}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 
-                  border border-gray-300 rounded-md hover:bg-gray-200 
-                  disabled:opacity-50 disabled:cursor-not-allowed"
+              border border-gray-300 rounded-md hover:bg-gray-200 
+              disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Reset
               </button>

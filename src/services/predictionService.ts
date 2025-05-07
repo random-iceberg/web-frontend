@@ -1,5 +1,5 @@
 import axios from "axios";
-import { handleApiError } from "./errorService";
+import { handleApiError } from "services/errorService";
 import api from "services/api";
 
 export interface PassengerData {
@@ -22,7 +22,10 @@ export async function predictPassenger(
   data: PassengerData,
 ): Promise<PredictionResult> {
   try {
-    const { data: result } = await axios.post<PredictionResult>(api.url("predict"), data);
+    const { data: result } = await axios.post<PredictionResult>(
+      api.url("predict"),
+      data,
+    );
     return result;
   } catch (error) {
     const message = handleApiError(error, "making prediction");
