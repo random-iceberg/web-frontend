@@ -6,7 +6,9 @@ import "./global.css";
 /* ────── lazy-loaded pages ────── */
 const LandingPage = lazy(() => import("pages/LandingPage"));
 const AdminConsole = lazy(() => import("components/admin/AdminConsole"));
-const Calculator = lazy(() => import("components/calculator/SurvivalCalculator"));
+const Calculator = lazy(
+  () => import("components/calculator/SurvivalCalculator"),
+);
 
 /* still a stub – swap out when real components exist */
 const SignIn = lazy(() =>
