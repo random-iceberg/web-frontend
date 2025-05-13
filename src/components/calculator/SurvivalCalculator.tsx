@@ -177,7 +177,9 @@ export default function SurvivalCalculator() {
           <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
             Passenger Details
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-6"> {/* Reduced spacing */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {" "}
+            {/* Reduced spacing */}
             {/* Row 1: Class, Sex, Embarked */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
@@ -234,7 +236,6 @@ export default function SurvivalCalculator() {
                 {/* Removed FieldDescription */}
               </div>
             </div>
-
             {/* Row 2: Age, SibSp, Parch */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
@@ -283,7 +284,6 @@ export default function SurvivalCalculator() {
                 {/* Removed FieldDescription */}
               </div>
             </div>
-
             {/* Row 3: Checkboxes */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
               <Checkbox
@@ -303,14 +303,12 @@ export default function SurvivalCalculator() {
                 disabled={loading}
               />
             </div>
-
             {/* Error Message */}
             {error && (
               <Alert variant="error" title="Validation Error" className="my-4">
                 {error}
               </Alert>
             )}
-
             {/* Action Buttons */}
             <div className="pt-4 border-t border-gray-200 flex items-center gap-4">
               <Button

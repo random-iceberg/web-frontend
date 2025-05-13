@@ -21,7 +21,9 @@ const ModelItem: React.FC<ModelItemProps> = ({ model, onDelete }) => {
     <Card>
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-medium">{model.name}</h3>
-        <div className="flex items-center space-x-2"> {/* Added items-center for better alignment */}
+        <div className="flex items-center space-x-2">
+          {" "}
+          {/* Added items-center for better alignment */}
           <Button
             variant="secondary"
             size="sm"

@@ -42,15 +42,18 @@ const TrainModelForm: React.FC = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleAlgorithmChange = (value: string) => { // Changed to match Select component's onChange
+  const handleAlgorithmChange = (value: string) => {
+    // Changed to match Select component's onChange
     setFormData({ ...formData, algorithm: value });
   };
 
-  const handleNameChange = (value: string) => { // Changed to match Input component's onChange
+  const handleNameChange = (value: string) => {
+    // Changed to match Input component's onChange
     setFormData({ ...formData, name: value });
   };
 
-  const handleFeatureToggle = (featureId: string) => { // Checkbox onChange provides boolean, but here we need id
+  const handleFeatureToggle = (featureId: string) => {
+    // Checkbox onChange provides boolean, but here we need id
     const updatedFeatures = formData.features.includes(featureId)
       ? formData.features.filter((id) => id !== featureId)
       : [...formData.features, featureId];
@@ -124,13 +127,16 @@ const TrainModelForm: React.FC = () => {
     }
   };
 
-  const algorithmOptions = ALGORITHMS.map(algo => ({ value: algo, label: algo }));
+  const algorithmOptions = ALGORITHMS.map((algo) => ({
+    value: algo,
+    label: algo,
+  }));
 
   return (
     // Card component already provides p-4, shadow, rounded-lg.
     // The form was p-6 and bg-gray-50. We can add p-2 to Card if needed or adjust.
     // For now, let's use Card's default padding.
-    <Card className="bg-gray-50"> 
+    <Card className="bg-gray-50">
       <form onSubmit={handleSubmit} className="space-y-6">
         <Input
           id="model-name"
@@ -154,10 +160,14 @@ const TrainModelForm: React.FC = () => {
         />
 
         <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700"> {/* Adjusted label styling */}
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            {" "}
+            {/* Adjusted label styling */}
             Features:
           </label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 border border-gray-200 rounded-md bg-white"> {/* Added border and bg for feature box */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 border border-gray-200 rounded-md bg-white">
+            {" "}
+            {/* Added border and bg for feature box */}
             {AVAILABLE_FEATURES.map((feature) => (
               <Checkbox
                 key={feature.id}

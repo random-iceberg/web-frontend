@@ -82,7 +82,8 @@ const Button: React.FC<ButtonProps> = ({
 
   const width = fullWidth ? "w-full" : "";
 
-  const combinedClassName = `${base} ${sizes[size]} ${variants[variant]} ${width} ${className}`.trim();
+  const combinedClassName =
+    `${base} ${sizes[size]} ${variants[variant]} ${width} ${className}`.trim();
 
   return (
     <button className={combinedClassName} {...props}>

@@ -1,20 +1,20 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import Select from '../Select';
+import React from "react";
+import { render, fireEvent, screen } from "@testing-library/react";
+import Select from "../Select";
 
-describe('Select Component', () => {
+describe("Select Component", () => {
   const mockOnChange = jest.fn();
   const sampleOptions = [
-    { value: 'opt1', label: 'Option 1' },
-    { value: 'opt2', label: 'Option 2' },
-    { value: 'opt3', label: 'Option 3' },
+    { value: "opt1", label: "Option 1" },
+    { value: "opt2", label: "Option 2" },
+    { value: "opt3", label: "Option 3" },
   ];
 
   beforeEach(() => {
     mockOnChange.mockClear();
   });
 
-  it('renders correctly with basic props', () => {
+  it("renders correctly with basic props", () => {
     const { asFragment } = render(
       <Select
         id="test-select"
@@ -22,12 +22,12 @@ describe('Select Component', () => {
         options={sampleOptions}
         value="opt1"
         onChange={mockOnChange}
-      />
+      />,
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('renders correctly with a different selected value', () => {
+  it("renders correctly with a different selected value", () => {
     const { asFragment } = render(
       <Select
         id="test-select"
@@ -35,12 +35,12 @@ describe('Select Component', () => {
         options={sampleOptions}
         value="opt3"
         onChange={mockOnChange}
-      />
+      />,
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('renders correctly when disabled', () => {
+  it("renders correctly when disabled", () => {
     const { asFragment } = render(
       <Select
         id="test-select"
@@ -49,12 +49,12 @@ describe('Select Component', () => {
         value="opt1"
         onChange={mockOnChange}
         disabled
-      />
+      />,
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('renders correctly when required', () => {
+  it("renders correctly when required", () => {
     const { asFragment } = render(
       <Select
         id="test-select"
@@ -63,12 +63,12 @@ describe('Select Component', () => {
         value="opt1"
         onChange={mockOnChange}
         required
-      />
+      />,
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('renders with a placeholder', () => {
+  it("renders with a placeholder", () => {
     const { asFragment } = render(
       <Select
         id="test-select"
@@ -77,29 +77,29 @@ describe('Select Component', () => {
         value="" // No value selected to show placeholder
         onChange={mockOnChange}
         placeholder="-- Select an Option --"
-      />
+      />,
     );
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('calls onChange handler when selection changes', () => {
-    const { getByLabelText } = render(
+  it("calls onChange handler when selection changes", () => {
+    render(
       <Select
         id="test-select"
         label="Test Select"
         options={sampleOptions}
         value="opt1"
         onChange={mockOnChange}
-      />
+      />,
     );
-    const selectElement = getByLabelText('Test Select') as HTMLSelectElement;
-    fireEvent.change(selectElement, { target: { value: 'opt2' } });
+    const selectElement = screen.getByLabelText("Test Select") as HTMLSelectElement;
+    fireEvent.change(selectElement, { target: { value: "opt2" } });
     expect(mockOnChange).toHaveBeenCalledTimes(1);
-    expect(mockOnChange).toHaveBeenCalledWith('opt2');
+    expect(mockOnChange).toHaveBeenCalledWith("opt2");
   });
 
-  it('does not call onChange handler when disabled and selection changes', () => {
-    const { getByLabelText } = render(
+  it("does not call onChange handler when disabled and selection changes", () => {
+    render(
       <Select
         id="test-select"
         label="Test Select"
@@ -107,14 +107,14 @@ describe('Select Component', () => {
         value="opt1"
         onChange={mockOnChange}
         disabled
-      />
+      />,
     );
-    const selectElement = getByLabelText('Test Select') as HTMLSelectElement;
+    const selectElement = screen.getByLabelText("Test Select") as HTMLSelectElement;
     // Attempt to change, though it shouldn't work for disabled inputs
     try {
-        fireEvent.change(selectElement, { target: { value: 'opt2' } });
+      fireEvent.change(selectElement, { target: { value: "opt2" } });
     } catch (e) {
-        // Some testing environments might throw
+      // Some testing environments might throw
     }
     expect(mockOnChange).not.toHaveBeenCalled();
   });

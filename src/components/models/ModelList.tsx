@@ -17,7 +17,11 @@ const ModelList: React.FC = () => {
 
   if (error) {
     return (
-      <Alert variant="error" title="Error Loading Models" className="text-center">
+      <Alert
+        variant="error"
+        title="Error Loading Models"
+        className="text-center"
+      >
         <p className="mb-4">{error}</p>
         <Button
           onClick={refreshModels}

@@ -26,7 +26,10 @@ type SelectOption = {
  * @property {boolean} [disabled=false] - Whether the select input is disabled.
  * @property {string} [className] - Additional CSS classes to apply.
  */
-type SelectProps = Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'onChange'> & {
+type SelectProps = Omit<
+  React.SelectHTMLAttributes<HTMLSelectElement>,
+  "onChange"
+> & {
   label: string;
   id: string;
   options: SelectOption[];

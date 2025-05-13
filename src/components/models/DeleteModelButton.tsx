@@ -43,7 +43,9 @@ const DeleteModelButton: React.FC<DeleteModelButtonProps> = ({
   };
 
   return (
-    <div className="relative"> {/* Added relative for potential absolute positioning of confirm dialog if needed later */}
+    <div className="relative">
+      {" "}
+      {/* Added relative for potential absolute positioning of confirm dialog if needed later */}
       {!showConfirm ? (
         <Button
           variant="danger" // Using danger variant, could be an outline variant if required? Maybe Later
@@ -56,9 +58,12 @@ const DeleteModelButton: React.FC<DeleteModelButtonProps> = ({
         </Button>
       ) : (
         // Consider a modal or popover for better UX, but for now, inline confirmation. In later iterations if required by Lead
-        <div className="p-3 border border-red-300 rounded-md shadow-lg bg-white absolute right-0 mt-1 z-10 w-64"> {/* Basic popover style */}
+        <div className="p-3 border border-red-300 rounded-md shadow-lg bg-white absolute right-0 mt-1 z-10 w-64">
+          {" "}
+          {/* Basic popover style */}
           <p className="text-sm text-gray-700 mb-3">
-            Are you sure you want to delete "{modelName}"? This action cannot be undone.
+            Are you sure you want to delete "{modelName}"? This action cannot be
+            undone.
           </p>
           <div className="flex justify-end space-x-2">
             <Button
@@ -79,7 +84,9 @@ const DeleteModelButton: React.FC<DeleteModelButtonProps> = ({
             </Button>
           </div>
           {error && (
-            <Alert variant="error" className="mt-3 text-xs p-2"> {/* Smaller alert */}
+            <Alert variant="error" className="mt-3 text-xs p-2">
+              {" "}
+              {/* Smaller alert */}
               {error}
             </Alert>
           )}
