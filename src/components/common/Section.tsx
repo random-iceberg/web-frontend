@@ -7,7 +7,7 @@ import React from "react";
  * @property {string} [className] - Additional CSS classes to apply to the section container.
  */
 type SectionProps = React.HTMLAttributes<HTMLDivElement> & {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 };
 
