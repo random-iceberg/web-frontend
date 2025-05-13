@@ -1,27 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import Navbar from 'components/Navbar';
-// import Footer from 'components/Footer';
-
-/* Simple, reusable section wrapper */
-const Section: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
-  children,
-  className = "",
-  ...rest
-}) => (
-  <section
-    className={`container mx-auto px-4 py-16 ${className}`.trim()}
-    {...rest}
-  >
-    {children}
-  </section>
-);
+import Section from "components/common/Section"; // Import common Section
+import Card from "components/common/Card"; // Import common Card
 
 const LandingPage: React.FC = () => (
-  <div className="min-h-screen flex flex-col bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
-    {/* <Navbar /> */}
+  // Removed min-h-screen flex flex-col as App.tsx handles layout
+  <div className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
+    {/* Navbar is handled globally in App.tsx */}
 
     {/* ── Hero ── */}
+    {/* Note: This header is specific to the landing page, distinct from the global Navbar */}
     <header className="flex flex-col items-center justify-center text-center py-24 bg-gradient-to-r from-blue-700 to-blue-500 text-white">
       <h1 className="text-5xl font-bold mb-4 leading-tight">
         Predict Titanic Survivals&nbsp;with AI
@@ -67,16 +55,16 @@ const LandingPage: React.FC = () => (
             icon: "🛠️",
           },
         ].map(({ title, body, icon }) => (
-          <div
-            key={title}
-            className="bg-white shadow rounded-lg p-8 text-center hover:shadow-md transition"
-          >
+          // Use Card component
+          <Card key={title} className="p-8 text-center">
+            {" "}
+            {/* Added p-8 and text-center */}
             <div className="text-5xl mb-4" aria-hidden>
               {icon}
             </div>
             <h3 className="text-2xl font-bold mb-2">{title}</h3>
             <p className="text-gray-600">{body}</p>
-          </div>
+          </Card>
         ))}
       </div>
     </Section>
@@ -146,16 +134,25 @@ const LandingPage: React.FC = () => (
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-8 bg-white shadow rounded-lg hover:bg-blue-50 transition flex flex-col"
+            // Use Card component - adjusted padding and hover effect
+            className="p-8 bg-white shadow rounded-lg hover:shadow-md hover:bg-blue-50 transition flex flex-col"
           >
             <span className="text-xl font-bold mb-2">{title}</span>
             <span className="text-gray-600 flex-grow">{body}</span>
           </a>
+          // Potential Card usage here, but keeping as <a> for simplicity unless more complex styling is needed.
+          // If Card were used:
+          // <Card key={title} className="p-8 hover:bg-blue-50 flex flex-col text-center">
+          //   <a href={href} target="_blank" rel="noopener noreferrer" className="flex flex-col flex-grow">
+          //     <span className="text-xl font-bold mb-2">{title}</span>
+          //     <span className="text-gray-600 flex-grow">{body}</span>
+          //   </a>
+          // </Card>
         ))}
       </div>
     </Section>
 
-    {/* <Footer /> */}
+    {/* Footer is handled globally in App.tsx */}
   </div>
 );
 

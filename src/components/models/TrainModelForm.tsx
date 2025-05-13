@@ -3,6 +3,14 @@ import { trainModel, ModelCreateData } from "services/modelService";
 import { useModelContext } from "components/context/ModelContext";
 import axios from "axios";
 
+// Common Components
+import Card from "components/common/Card";
+import Input from "components/common/forms/Input";
+import Select from "components/common/forms/Select";
+import Checkbox from "components/common/forms/Checkbox";
+import Button from "components/common/Button";
+import Alert from "components/common/Alert";
+
 // Available algorithms for model training
 const ALGORITHMS = [
   "Random Forest",
@@ -34,15 +42,15 @@ const TrainModelForm: React.FC = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleAlgorithmChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData({ ...formData, algorithm: e.target.value });
+  const handleAlgorithmChange = (value: string) => { // Changed to match Select component's onChange
+    setFormData({ ...formData, algorithm: value });
   };
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, name: e.target.value });
+  const handleNameChange = (value: string) => { // Changed to match Input component's onChange
+    setFormData({ ...formData, name: value });
   };
 
-  const handleFeatureToggle = (featureId: string) => {
+  const handleFeatureToggle = (featureId: string) => { // Checkbox onChange provides boolean, but here we need id
     const updatedFeatures = formData.features.includes(featureId)
       ? formData.features.filter((id) => id !== featureId)
       : [...formData.features, featureId];
@@ -116,93 +124,75 @@ const TrainModelForm: React.FC = () => {
     }
   };
 
+  const algorithmOptions = ALGORITHMS.map(algo => ({ value: algo, label: algo }));
+
   return (
-    <form className="bg-gray-50 p-6 rounded-lg shadow" onSubmit={handleSubmit}>
-      <div className="mb-6">
-        <label
-          htmlFor="model-name"
-          className="block mb-2 font-medium text-gray-700"
-        >
-          Model Name:
-        </label>
-        <input
+    // Card component already provides p-4, shadow, rounded-lg.
+    // The form was p-6 and bg-gray-50. We can add p-2 to Card if needed or adjust.
+    // For now, let's use Card's default padding.
+    <Card className="bg-gray-50"> 
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <Input
           id="model-name"
+          label="Model Name:"
           type="text"
           value={formData.name}
           onChange={handleNameChange}
           placeholder="Enter a name for this model"
           disabled={isTraining}
           required
-          className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:opacity-70"
         />
-      </div>
 
-      <div className="mb-6">
-        <label
-          htmlFor="algorithm"
-          className="block mb-2 font-medium text-gray-700"
-        >
-          Algorithm:
-        </label>
-        <select
+        <Select
           id="algorithm"
+          label="Algorithm:"
           value={formData.algorithm}
           onChange={handleAlgorithmChange}
+          options={algorithmOptions}
           disabled={isTraining}
-          className="w-full p-3 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:opacity-70"
-        >
-          {ALGORITHMS.map((algo) => (
-            <option key={algo} value={algo}>
-              {algo}
-            </option>
-          ))}
-        </select>
-      </div>
+          required
+        />
 
-      <div className="mb-6">
-        <label className="block mb-2 font-medium text-gray-700">
-          Features:
-        </label>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {AVAILABLE_FEATURES.map((feature) => (
-            <div key={feature.id} className="flex items-center">
-              <input
-                type="checkbox"
+        <div>
+          <label className="block mb-2 text-sm font-medium text-gray-700"> {/* Adjusted label styling */}
+            Features:
+          </label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 border border-gray-200 rounded-md bg-white"> {/* Added border and bg for feature box */}
+            {AVAILABLE_FEATURES.map((feature) => (
+              <Checkbox
+                key={feature.id}
                 id={`feature-${feature.id}`}
+                label={feature.label}
                 checked={formData.features.includes(feature.id)}
-                onChange={() => handleFeatureToggle(feature.id)}
+                onChange={() => handleFeatureToggle(feature.id)} // Checkbox onChange gives boolean, direct toggle is fine
                 disabled={isTraining}
-                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 disabled:opacity-70"
               />
-              <label
-                htmlFor={`feature-${feature.id}`}
-                className="ml-2 text-gray-700"
-              >
-                {feature.label}
-              </label>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
 
-      {error && (
-        <div className="mb-6 p-3 bg-red-100 text-red-700 rounded">{error}</div>
-      )}
+        {error && (
+          <Alert variant="error" title="Training Error">
+            {error}
+          </Alert>
+        )}
 
-      {success && (
-        <div className="mb-6 p-3 bg-green-100 text-green-700 rounded">
-          {success}
-        </div>
-      )}
+        {success && (
+          <Alert variant="success" title="Training Status">
+            {success}
+          </Alert>
+        )}
 
-      <button
-        type="submit"
-        className="w-full p-3 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors disabled:bg-blue-300 disabled:cursor-not-allowed"
-        disabled={isTraining}
-      >
-        {isTraining ? "Training..." : "Train Model"}
-      </button>
-    </form>
+        <Button
+          type="submit"
+          variant="primary"
+          fullWidth // Match original button style
+          disabled={isTraining}
+        >
+          {isTraining ? "Training..." : "Train Model"}
+        </Button>
+      </form>
+    </Card>
   );
 };
 

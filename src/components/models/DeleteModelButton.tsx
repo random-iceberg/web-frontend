@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { deleteModel } from "services/modelService";
+import Button from "components/common/Button"; // Import common Button
+import Alert from "components/common/Alert"; // Import common Alert
 
 interface DeleteModelButtonProps {
   modelId: string;
@@ -42,35 +44,46 @@ const DeleteModelButton: React.FC<DeleteModelButtonProps> = ({
   };
 
   return (
-    <div>
+    <div className="relative"> {/* Added relative for potential absolute positioning of confirm dialog if needed later */}
       {!showConfirm ? (
-        <button
-          className="px-2 py-1 text-sm bg-red-100 text-red-700 border border-red-200 rounded hover:bg-red-200 transition-colors"
+        <Button
+          variant="danger" // Using danger variant, could be an outline variant if one existed
+          size="sm"
           onClick={handleDeleteClick}
           aria-label={`Delete model ${modelName}`}
+          className="border border-red-300 bg-red-50 text-red-700 hover:bg-red-100 focus:ring-red-500" // Customizing danger to be less prominent initially
         >
           Delete
-        </button>
+        </Button>
       ) : (
-        <div className="bg-red-50 border border-red-200 rounded p-2">
-          <p className="text-red-700 text-sm mb-2">Delete "{modelName}"?</p>
-          <div className="flex space-x-2">
-            <button
-              className="px-2 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
-              onClick={handleConfirmDelete}
-              disabled={isDeleting}
-            >
-              {isDeleting ? "Deleting..." : "Yes, Delete"}
-            </button>
-            <button
-              className="px-2 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+        // Consider a modal or popover for better UX, but for now, inline confirmation
+        <div className="p-3 border border-red-300 rounded-md shadow-lg bg-white absolute right-0 mt-1 z-10 w-64"> {/* Basic popover style */}
+          <p className="text-sm text-gray-700 mb-3">
+            Are you sure you want to delete "{modelName}"? This action cannot be undone.
+          </p>
+          <div className="flex justify-end space-x-2">
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={handleCancelDelete}
               disabled={isDeleting}
             >
               Cancel
-            </button>
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={handleConfirmDelete}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Yes, Delete"}
+            </Button>
           </div>
-          {error && <p className="text-red-700 text-xs mt-2">{error}</p>}
+          {error && (
+            <Alert variant="error" className="mt-3 text-xs p-2"> {/* Smaller alert */}
+              {error}
+            </Alert>
+          )}
         </div>
       )}
     </div>
