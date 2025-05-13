@@ -1,8 +1,8 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ConnectionStatus from "components/connectionStatus";
-import Navbar from "components/Navbar"; // Import Navbar
-import Footer from "components/Footer"; // Import Footer
+import Navbar from "components/Navbar";
+import Footer from "components/Footer";
 import "./global.css";
 
 /* ────── lazy-loaded pages ────── */

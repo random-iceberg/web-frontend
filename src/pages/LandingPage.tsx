@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Section from "components/common/Section"; // Import common Section
-import Card from "components/common/Card"; // Import common Card
+import Section from "components/common/Section";
+import Card from "components/common/Card";
 
 const LandingPage: React.FC = () => (
   // Removed min-h-screen flex flex-col as App.tsx handles layout
@@ -140,7 +140,7 @@ const LandingPage: React.FC = () => (
             <span className="text-xl font-bold mb-2">{title}</span>
             <span className="text-gray-600 flex-grow">{body}</span>
           </a>
-          // Potential Card usage here, but keeping as <a> for simplicity unless more complex styling is needed.
+          // Potential Card usage here, but keeping as <a> for simplicity unless more complex styling is needed. Move forward as instructed by Team Lead
           // If Card were used:
           // <Card key={title} className="p-8 hover:bg-blue-50 flex flex-col text-center">
           //   <a href={href} target="_blank" rel="noopener noreferrer" className="flex flex-col flex-grow">

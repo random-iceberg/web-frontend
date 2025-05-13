@@ -1,8 +1,8 @@
 import React from "react";
 import { useModelContext } from "components/context/ModelContext";
 import ModelItem from "components/models/ModelItem";
-import Alert from "components/common/Alert"; // Import common Alert
-import Button from "components/common/Button"; // Import common Button
+import Alert from "components/common/Alert";
+import Button from "components/common/Button";
 
 const ModelList: React.FC = () => {
   const { models, loading, error, refreshModels } = useModelContext();

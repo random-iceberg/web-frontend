@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { deleteModel } from "services/modelService";
-import Button from "components/common/Button"; // Import common Button
-import Alert from "components/common/Alert"; // Import common Alert
-
+import Button from "components/common/Button";
+import Alert from "components/common/Alert";
 interface DeleteModelButtonProps {
   modelId: string;
   modelName: string;
@@ -47,7 +46,7 @@ const DeleteModelButton: React.FC<DeleteModelButtonProps> = ({
     <div className="relative"> {/* Added relative for potential absolute positioning of confirm dialog if needed later */}
       {!showConfirm ? (
         <Button
-          variant="danger" // Using danger variant, could be an outline variant if one existed
+          variant="danger" // Using danger variant, could be an outline variant if required? Maybe Later
           size="sm"
           onClick={handleDeleteClick}
           aria-label={`Delete model ${modelName}`}
@@ -56,7 +55,7 @@ const DeleteModelButton: React.FC<DeleteModelButtonProps> = ({
           Delete
         </Button>
       ) : (
-        // Consider a modal or popover for better UX, but for now, inline confirmation
+        // Consider a modal or popover for better UX, but for now, inline confirmation. In later iterations if required by Lead
         <div className="p-3 border border-red-300 rounded-md shadow-lg bg-white absolute right-0 mt-1 z-10 w-64"> {/* Basic popover style */}
           <p className="text-sm text-gray-700 mb-3">
             Are you sure you want to delete "{modelName}"? This action cannot be undone.

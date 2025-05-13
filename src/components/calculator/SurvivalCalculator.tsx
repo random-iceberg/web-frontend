@@ -5,13 +5,13 @@ import {
   PredictionResult,
 } from "services/predictionService";
 import { handleApiError } from "services/errorService";
-// Import form components from their new locations
+// Import form components from their new locations, Please go to specific reusable component files for their documentation and usage
 import DropDown from "components/common/forms/DropDown";
 import Input from "components/common/forms/Input";
 import Checkbox from "components/common/forms/Checkbox";
 import Card from "components/common/Card";
-import Button from "components/common/Button"; // Import common Button
-import Alert from "components/common/Alert"; // Import common Alert
+import Button from "components/common/Button";
+import Alert from "components/common/Alert";
 
 // Constants for input validation
 const AGE_MIN = 0;
@@ -72,7 +72,7 @@ const FIELD_INFO: Record<
 // FieldDescription component is no longer needed as Input, DropDown, and Checkbox handle descriptions.
 
 const initialForm: FormState = {
-  age: 30, // Default age example
+  age: 0,
   sibsp: 0,
   parch: 0,
   passengerClass: null,

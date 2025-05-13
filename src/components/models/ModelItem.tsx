@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Model } from "services/modelService";
 import DeleteModelButton from "components/models/DeleteModelButton";
 import Card from "components/common/Card";
-import Button from "components/common/Button"; // Import common Button
+import Button from "components/common/Button";
 
 interface ModelItemProps {
   model: Model;
