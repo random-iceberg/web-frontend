@@ -27,6 +27,12 @@ const Navbar: React.FC = () => {
                   Admin Console
                 </Link>
               </li>
+
+              <li>
+                <Link to="/dashboard" className="hover:text-secondary">
+                  Dashboard
+                </Link>
+              </li>
             </ul>
           </div>
 

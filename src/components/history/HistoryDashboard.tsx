@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import api from "services/api";
 import HistoryTable from "./HistoryTable";
 
-// TODO: Update CATCH ERROR for fetchHistory. //
+const history_url = "http://localhost:8000/predict/history"
+
 const HistoryDashboard: React.FC = () => {
     const [history, setHistory] = useState([]);
 
     useEffect(() => {
         const fetchHistory = async () => {
-            // try {
-            //     const response = await axios.get(api.url("history"));
-            //     setHistory(response.data);
-            // } catch (error) {
-            //     console.error("Error fetching prediction history", error);
-            // }
+            try {
+                const response = await axios.get(history_url);
+                setHistory(response.data);
+            } catch (error) {
+                console.error("Error fetching prediction history", error);
+              }
             };
 
         fetchHistory();
-        })
+        }, [])
 
     return (
         <div className="p-4">
