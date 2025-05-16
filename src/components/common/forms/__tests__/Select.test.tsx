@@ -92,7 +92,9 @@ describe("Select Component", () => {
         onChange={mockOnChange}
       />,
     );
-    const selectElement = screen.getByLabelText("Test Select") as HTMLSelectElement;
+    const selectElement = screen.getByLabelText(
+      "Test Select",
+    ) as HTMLSelectElement;
     fireEvent.change(selectElement, { target: { value: "opt2" } });
     expect(mockOnChange).toHaveBeenCalledTimes(1);
     expect(mockOnChange).toHaveBeenCalledWith("opt2");
@@ -109,7 +111,9 @@ describe("Select Component", () => {
         disabled
       />,
     );
-    const selectElement = screen.getByLabelText("Test Select") as HTMLSelectElement;
+    const selectElement = screen.getByLabelText(
+      "Test Select",
+    ) as HTMLSelectElement;
     // Attempt to change, though it shouldn't work for disabled inputs
     try {
       fireEvent.change(selectElement, { target: { value: "opt2" } });

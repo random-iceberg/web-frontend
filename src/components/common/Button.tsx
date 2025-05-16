@@ -72,12 +72,12 @@ const Button: React.FC<ButtonProps> = ({
   // Variant styles
   const variants: Record<ButtonVariant, string> = {
     primary:
-      "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 border border-transparent",
+      "bg-primary text-white hover:bg-accent focus:ring-primary border border-transparent",
     secondary:
-      "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 focus:ring-indigo-500", // Adjusted focus ring for visibility
+      "bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 focus:ring-secondary",
     danger:
       "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 border border-transparent",
-    link: "text-blue-600 hover:text-blue-800 underline focus:ring-blue-500 shadow-none border-none bg-transparent p-0", // Link style
+    link: "text-primary hover:text-accent underline focus:ring-primary shadow-none border-none bg-transparent p-0", // Link style
   };
 
   const width = fullWidth ? "w-full" : "";

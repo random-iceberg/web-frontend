@@ -97,7 +97,9 @@ describe("Input Component", () => {
         onChange={mockOnChange}
       />,
     );
-    const inputElement = screen.getByLabelText("Test Label") as HTMLInputElement;
+    const inputElement = screen.getByLabelText(
+      "Test Label",
+    ) as HTMLInputElement;
     fireEvent.change(inputElement, { target: { value: "new text" } });
     expect(mockOnChange).toHaveBeenCalledTimes(1);
     expect(mockOnChange).toHaveBeenCalledWith("new text");
@@ -113,7 +115,9 @@ describe("Input Component", () => {
         disabled
       />,
     );
-    const inputElement = screen.getByLabelText("Test Label") as HTMLInputElement;
+    const inputElement = screen.getByLabelText(
+      "Test Label",
+    ) as HTMLInputElement;
     // Attempt to change, though it shouldn't work for disabled inputs via fireEvent in this manner
     // but the component itself prevents onChange if disabled.
     // For a more robust test of disabled behavior, one might check the 'disabled' attribute.

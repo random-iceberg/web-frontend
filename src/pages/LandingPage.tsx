@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Layout from "components/Layout";
 import Section from "components/common/Section";
 import Card from "components/common/Card";
+import PageHeader from "components/common/PageHeader";
 
 const LandingPage: React.FC = () => (
-  // Removed min-h-screen flex flex-col as App.tsx handles layout
-  <div className="bg-[hsl(var(--background))] text-[hsl(var(--foreground))]">
+  <Layout>
     {/* Navbar is handled globally in App.tsx */}
 
     {/* ── Hero ── */}
@@ -153,7 +154,7 @@ const LandingPage: React.FC = () => (
     </Section>
 
     {/* Footer is handled globally in App.tsx */}
-  </div>
+  </Layout>
 );
 
 export default LandingPage;

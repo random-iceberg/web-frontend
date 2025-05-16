@@ -55,12 +55,11 @@ const Checkbox: React.FC<CheckboxProps> = ({
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
           disabled={disabled}
-          className="h-4 w-4 rounded border-gray-300 text-blue-600
-            focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
           aria-describedby={descriptionId}
         />
       </div>
-      <div className="ml-3 text-sm">
+      <div className="ml-3 text-base">
         <label
           htmlFor={id}
           className={`font-medium ${disabled ? "text-gray-500" : "text-gray-700"}`}
@@ -68,7 +67,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
           {label}
         </label>
         {description && (
-          <p id={descriptionId} className="text-gray-500">
+          <p id={descriptionId} className="mt-1 text-sm text-gray-600">
             {description}
           </p>
         )}

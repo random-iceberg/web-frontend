@@ -3,16 +3,14 @@ import { useModelContext } from "components/context/ModelContext";
 import ModelItem from "components/models/ModelItem";
 import Alert from "components/common/Alert";
 import Button from "components/common/Button";
+import LoadingState from "components/common/LoadingState";
+import EmptyState from "components/common/EmptyState";
 
 const ModelList: React.FC = () => {
   const { models, loading, error, refreshModels } = useModelContext();
 
   if (loading) {
-    return (
-      <div className="p-8 text-center bg-gray-50 rounded-lg">
-        Loading models...
-      </div>
-    );
+    return <LoadingState message="Loading models..." />;
   }
 
   if (error) {
@@ -36,9 +34,7 @@ const ModelList: React.FC = () => {
 
   if (models.length === 0) {
     return (
-      <div className="p-8 text-center bg-gray-50 rounded-lg">
-        No models available. Train a new model to get started.
-      </div>
+      <EmptyState message="No models available. Train a new model to get started." />
     );
   }
 

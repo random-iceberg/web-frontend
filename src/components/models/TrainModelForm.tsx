@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { trainModel, ModelCreateData } from "services/modelService";
 import { useModelContext } from "components/context/ModelContext";
-import axios from "axios";
+import { handleApiError } from "services/errorService";
 
 // Common Components
 import Card from "components/common/Card";
@@ -53,12 +53,12 @@ const TrainModelForm: React.FC = () => {
   };
 
   const handleFeatureToggle = (featureId: string) => {
-    // Checkbox onChange provides boolean, but here we need id
-    const updatedFeatures = formData.features.includes(featureId)
-      ? formData.features.filter((id) => id !== featureId)
-      : [...formData.features, featureId];
-
-    setFormData({ ...formData, features: updatedFeatures });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      features: prevFormData.features.includes(featureId)
+        ? prevFormData.features.filter((id) => id !== featureId)
+        : [...prevFormData.features, featureId],
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -93,35 +93,8 @@ const TrainModelForm: React.FC = () => {
       setTimeout(() => {
         refreshModels();
       }, 1000);
-    } catch (err) {
-      // TODO: Use errorService later
-      console.error("Error training model:", err);
-
-      // Provide more detailed error messages
-      if (axios.isAxiosError(err)) {
-        if (
-          err.code === "ECONNREFUSED" ||
-          err.message.includes("Network Error")
-        ) {
-          setError(
-            "Cannot connect to the backend server. Please make sure it is running.",
-          );
-        } else if (err.response) {
-          if (err.response.status === 404) {
-            setError(
-              "API endpoint not found. Please check the server configuration.",
-            );
-          } else {
-            setError(
-              `Server error: ${err.response.status} ${err.response.statusText}`,
-            );
-          }
-        } else {
-          setError("Failed to start model training. Please try again later.");
-        }
-      } else {
-        setError("An unexpected error occurred. Please try again later.");
-      }
+    } catch (err: any) {
+      setError(handleApiError(err, "training the model"));
     } finally {
       setIsTraining(false);
     }
@@ -133,10 +106,7 @@ const TrainModelForm: React.FC = () => {
   }));
 
   return (
-    // Card component already provides p-4, shadow, rounded-lg.
-    // The form was p-6 and bg-gray-50. We can add p-2 to Card if needed or adjust.
-    // For now, let's use Card's default padding.
-    <Card className="bg-gray-50">
+    <Card className="p-6 frosted-glass">
       <form onSubmit={handleSubmit} className="space-y-6">
         <Input
           id="model-name"
@@ -160,21 +130,17 @@ const TrainModelForm: React.FC = () => {
         />
 
         <div>
-          <label className="block mb-2 text-sm font-medium text-gray-700">
-            {" "}
-            {/* Adjusted label styling */}
+          <label className="block mb-2 text-base font-medium text-gray-700">
             Features:
           </label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 border border-gray-200 rounded-md bg-white">
-            {" "}
-            {/* Added border and bg for feature box */}
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-4 p-4 border border-gray-300 rounded-md bg-white">
             {AVAILABLE_FEATURES.map((feature) => (
               <Checkbox
                 key={feature.id}
                 id={`feature-${feature.id}`}
                 label={feature.label}
                 checked={formData.features.includes(feature.id)}
-                onChange={() => handleFeatureToggle(feature.id)} // Checkbox onChange gives boolean, direct toggle is fine
+                onChange={() => handleFeatureToggle(feature.id)}
                 disabled={isTraining}
               />
             ))}
@@ -193,12 +159,7 @@ const TrainModelForm: React.FC = () => {
           </Alert>
         )}
 
-        <Button
-          type="submit"
-          variant="primary"
-          fullWidth // Match original button style
-          disabled={isTraining}
-        >
+        <Button type="submit" variant="primary" fullWidth disabled={isTraining}>
           {isTraining ? "Training..." : "Train Model"}
         </Button>
       </form>

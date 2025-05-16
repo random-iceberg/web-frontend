@@ -83,22 +83,22 @@ const DropDown: React.FC<DropDownProps> = ({
         disabled={disabled}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        className="w-full text-left bg-white text-gray-900 text-sm px-4 py-2.5 rounded border border-gray-300
-          focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
-          disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed"
+        className="w-full text-left bg-white text-gray-700 text-base px-3 py-2 rounded-md border border-gray-300 shadow-sm
+          focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
+          disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
         aria-describedby={descriptionId}
       >
         {value || label} {/* Display selected value or label as placeholder */}
       </button>
       {description && (
-        <p id={descriptionId} className="mt-1 text-sm text-gray-500">
+        <p id={descriptionId} className="mt-2 text-sm text-gray-600">
           {description}
         </p>
       )}
       {isOpen && (
         <div
           role="listbox"
-          className="absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10"
+          className="absolute mt-1 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 max-h-60 overflow-auto"
         >
           {React.Children.map(children, (child: any) => {
             // Assuming children are simple elements like <button> or <div> containing the value
@@ -111,9 +111,8 @@ const DropDown: React.FC<DropDownProps> = ({
                   onSelect(childValue);
                   setIsOpen(false);
                 }}
-                className={`px-4 py-2.5 hover:bg-gray-50 cursor-pointer text-sm text-gray-700 ${
-                  value === childValue ? "bg-gray-100 font-medium" : ""
-                }`}
+                className={`px-4 py-2 cursor-pointer text-base text-gray-700 hover:bg-gray-100
+                  ${value === childValue ? "bg-gray-200 font-semibold" : ""}`}
               >
                 {/* Render the child directly (e.g., the button text) */}
                 {child.props.children}

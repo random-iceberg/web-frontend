@@ -101,16 +101,15 @@ const Input: React.FC<InputProps> = ({
         max={max}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
-          focus:ring-1 focus:ring-blue-500 focus:border-blue-500
-          disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
-          border" // Ensure border is always applied
+        className="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400
+          focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
+          disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
         aria-label={label}
         aria-required={required}
         aria-describedby={descriptionId}
       />
       {description && (
-        <p id={descriptionId} className="mt-1 text-sm text-gray-500">
+        <p id={descriptionId} className="mt-2 text-sm text-gray-600">
           {description}
         </p>
       )}
