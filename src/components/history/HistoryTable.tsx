@@ -11,34 +11,29 @@ type Props = {
 };
 
 const HistoryTable: React.FC<Props> = ({ history }) => {
+
   const formatInput = (input: any) => {
     if (!input) return "No data";
 
-    const isAlone =
-      (input.sibsp ?? 0) + (input.parch ?? 0) === 0 ? "Yes" : "No";
-    const cabinKnown =
-      input.cabin && input.cabin.toString().trim() !== "" ? "Yes" : "No";
+    const details = [];
+    if (input.age) details.push(`Age: ${input.age}`);
+    if (input.sex) details.push(`Sex: ${input.sex}`);
+    if (input.passengerClass) details.push(`Class: ${input.passengerClass}`);
+    if (input.sibsp !== undefined) details.push(`Siblings/Spouse: ${input.sibsp}`);
+    if (input.parch !== undefined) details.push(`Parents/Children: ${input.parch}`);
+    if (input.embarked) details.push(`Embarked: ${input.embarked}`);
 
-    const fields = [
-      { label: "Age", value: input.age },
-      { label: "Sex", value: input.sex },
-      { label: "Class", value: input.passengerClass },
-      { label: "Embarked at", value: input.embarked },
-      { label: "Siblings/Spouse", value: input.sibsp },
-      { label: "Parents/Children", value: input.parch },
-      { label: "Alone", value: isAlone },
-      { label: "Cabin Known", value: cabinKnown },
-    ];
+    // Alone logic
+    const alone = (input.sibsp === 0 && input.parch === 0) ? "Yes" : "No";
+    details.push(`Alone: ${alone}`);
+
+    // Cabin known
+    const cabinKnown = input.cabin && input.cabin.trim() !== "" ? "Yes" : "No";
+    details.push(`Cabin Known: ${cabinKnown}`);
 
     return (
-      <ul className="text-left space-y-1">
-        {fields
-          .filter((field) => field.value !== undefined && field.value !== "")
-          .map((field, idx) => (
-            <li key={idx}>
-              <span className="font-medium">{field.label}:</span> {field.value}
-            </li>
-          ))}
+      <ul className="text-left list-disc list-inside">
+        {details.map((d, i) => <li key={i}>{d}</li>)}
       </ul>
     );
   };
@@ -51,7 +46,7 @@ const HistoryTable: React.FC<Props> = ({ history }) => {
       const probability = Math.round(output.probability * 100);
 
       return (
-        <div className="flex flex-col items-center">
+        <div className="flex justify-center items-center flex-col">
           <span className={`font-bold ${survived ? "text-green-600" : "text-red-600"}`}>
             {survived ? "Survived" : "Did not survive"}
           </span>
@@ -78,15 +73,9 @@ const HistoryTable: React.FC<Props> = ({ history }) => {
         <tbody>
           {history.map((record, index) => (
             <tr key={index} className="hover:bg-gray-50">
-              <td className="p-2 border-b text-center">
-                {new Date(record.timestamp).toLocaleString()}
-              </td>
+              <td className="p-2 border-b text-center">{new Date(record.timestamp).toLocaleString()}</td>
               <td className="p-2 border-b">{formatInput(record.input)}</td>
-              <td className="p-2 border-b">
-                <div className="flex justify-center items-center">
-                  {formatOutput(record.output)}
-                </div>
-              </td>
+              <td className="p-2 border-b">{formatOutput(record.output)}</td>
             </tr>
           ))}
         </tbody>
