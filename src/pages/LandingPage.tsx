@@ -11,7 +11,7 @@ const LandingPage: React.FC = () => (
 
     {/* ── Hero ── */}
     {/* Note: This header is specific to the landing page, distinct from the global Navbar */}
-    <header className="flex flex-col items-center justify-center text-center py-24 bg-gradient-to-r from-blue-700 to-blue-500 text-white">
+    <header className="flex flex-col items-center justify-center text-center py-24">
       <h1 className="text-5xl font-bold mb-4 leading-tight">
         Predict Titanic Survivals&nbsp;with AI
       </h1>
@@ -22,13 +22,13 @@ const LandingPage: React.FC = () => (
       <div className="flex flex-col sm:flex-row gap-4">
         <Link
           to="/calculator"
-          className="bg-white text-blue-700 font-semibold px-8 py-3 rounded shadow hover:bg-gray-100 transition"
+          className="bg-primary text-[hsl(var(--background))] font-semibold px-8 py-3 rounded shadow hover:bg-accent transition"
         >
           Try the Demo
         </Link>
         <a
           href="#features"
-          className="border border-white font-semibold px-8 py-3 rounded hover:bg-white hover:text-blue-700 transition"
+          className="border border-primary text-primary font-semibold px-8 py-3 rounded hover:bg-primary hover:text-[hsl(var(--background))] transition"
         >
           Learn More
         </a>
@@ -60,7 +60,7 @@ const LandingPage: React.FC = () => (
           <Card key={title} className="p-8 text-center">
             {" "}
             {/* Added p-8 and text-center */}
-            <div className="text-5xl mb-4" aria-hidden>
+            <div className="text-5xl mb-4" aria-hidden="true">
               {icon}
             </div>
             <h3 className="text-2xl font-bold mb-2">{title}</h3>
@@ -71,7 +71,7 @@ const LandingPage: React.FC = () => (
     </Section>
 
     {/* ── How it works ─────────────── */}
-    <Section id="how-it-works" className="bg-gray-50">
+    <Section id="how-it-works" className="bg-secondary">
       <h2 className="text-4xl font-bold text-center mb-12">How it Works</h2>
       <div className="grid md:grid-cols-3 gap-8 text-center">
         {[
@@ -80,7 +80,9 @@ const LandingPage: React.FC = () => (
           ["Explore & Train", "Use admin tools to manage your models."],
         ].map(([step, body], i) => (
           <div key={step}>
-            <div className="text-6xl font-bold text-blue-600 mb-2">{i + 1}</div>
+            <div className="text-6xl font-bold text-primary mb-2">
+              {i + 1}
+            </div>
             <h3 className="text-2xl font-semibold mb-2">{step}</h3>
             <p className="text-gray-600">{body}</p>
           </div>
@@ -89,13 +91,13 @@ const LandingPage: React.FC = () => (
     </Section>
 
     {/* ── Call to Action ────────────── */}
-    <div className="bg-blue-600 text-white py-20 text-center">
+    <div className="bg-primary text-[hsl(var(--background))] py-20 text-center">
       <h2 className="text-4xl font-bold mb-4">
         Ready to see how <span className="italic">you</span> would do?
       </h2>
       <Link
         to="/calculator"
-        className="bg-white text-blue-700 font-semibold px-10 py-3 rounded shadow hover:bg-gray-100 transition"
+        className="bg-secondary text-primary font-semibold px-10 py-3 rounded shadow hover:bg-accent transition"
       >
         Start Predicting
       </Link>
@@ -136,7 +138,7 @@ const LandingPage: React.FC = () => (
             target="_blank"
             rel="noopener noreferrer"
             // Use Card component - adjusted padding and hover effect
-            className="p-8 bg-white shadow rounded-lg hover:shadow-md hover:bg-blue-50 transition flex flex-col"
+            className="p-8 bg-white shadow rounded-lg hover:shadow-md hover:bg-secondary transition flex flex-col"
           >
             <span className="text-xl font-bold mb-2">{title}</span>
             <span className="text-gray-600 flex-grow">{body}</span>
