@@ -1,7 +1,7 @@
 import React from "react";
 
 const ContainerName: React.FC = () => {
-  return <div>{/* Empty Container */}</div>;
+  return <div></div>;
 };
 
 export default ContainerName;

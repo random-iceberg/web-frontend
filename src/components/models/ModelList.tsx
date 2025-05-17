@@ -1,37 +1,40 @@
 import React from "react";
 import { useModelContext } from "components/context/ModelContext";
 import ModelItem from "components/models/ModelItem";
+import Alert from "components/common/Alert";
+import Button from "components/common/Button";
+import LoadingState from "components/common/LoadingState";
+import EmptyState from "components/common/EmptyState";
 
 const ModelList: React.FC = () => {
   const { models, loading, error, refreshModels } = useModelContext();
 
   if (loading) {
-    return (
-      <div className="p-8 text-center bg-gray-50 rounded-lg">
-        Loading models...
-      </div>
-    );
+    return <LoadingState message="Loading models..." />;
   }
 
   if (error) {
     return (
-      <div className="p-8 text-center bg-red-50 rounded-lg">
-        <p className="text-red-700 mb-4">{error}</p>
-        <button
+      <Alert
+        variant="error"
+        title="Error Loading Models"
+        className="text-center"
+      >
+        <p className="mb-4">{error}</p>
+        <Button
           onClick={refreshModels}
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+          variant="secondary" // Or "danger" if preferred for error contexts
+          size="md"
         >
           Try Again
-        </button>
-      </div>
+        </Button>
+      </Alert>
     );
   }
 
   if (models.length === 0) {
     return (
-      <div className="p-8 text-center bg-gray-50 rounded-lg">
-        No models available. Train a new model to get started.
-      </div>
+      <EmptyState message="No models available. Train a new model to get started." />
     );
   }
 

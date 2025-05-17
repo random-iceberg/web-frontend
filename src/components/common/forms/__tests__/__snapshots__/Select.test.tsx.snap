@@ -1,0 +1,204 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Select Component renders correctly when disabled 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700 mb-2"
+      for="test-select"
+    >
+      Test Select
+    </label>
+    <select
+      class="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
+          focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+          disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
+          border"
+      disabled=""
+      id="test-select"
+    >
+      <option
+        value="opt1"
+      >
+        Option 1
+      </option>
+      <option
+        value="opt2"
+      >
+        Option 2
+      </option>
+      <option
+        value="opt3"
+      >
+        Option 3
+      </option>
+    </select>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Select Component renders correctly when required 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700 mb-2"
+      for="test-select"
+    >
+      Test Select
+      <span
+        class="text-red-500 ml-1"
+      >
+        *
+      </span>
+    </label>
+    <select
+      class="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
+          focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+          disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
+          border"
+      id="test-select"
+      required=""
+    >
+      <option
+        value="opt1"
+      >
+        Option 1
+      </option>
+      <option
+        value="opt2"
+      >
+        Option 2
+      </option>
+      <option
+        value="opt3"
+      >
+        Option 3
+      </option>
+    </select>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Select Component renders correctly with a different selected value 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700 mb-2"
+      for="test-select"
+    >
+      Test Select
+    </label>
+    <select
+      class="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
+          focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+          disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
+          border"
+      id="test-select"
+    >
+      <option
+        value="opt1"
+      >
+        Option 1
+      </option>
+      <option
+        value="opt2"
+      >
+        Option 2
+      </option>
+      <option
+        value="opt3"
+      >
+        Option 3
+      </option>
+    </select>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Select Component renders correctly with basic props 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700 mb-2"
+      for="test-select"
+    >
+      Test Select
+    </label>
+    <select
+      class="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
+          focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+          disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
+          border"
+      id="test-select"
+    >
+      <option
+        value="opt1"
+      >
+        Option 1
+      </option>
+      <option
+        value="opt2"
+      >
+        Option 2
+      </option>
+      <option
+        value="opt3"
+      >
+        Option 3
+      </option>
+    </select>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Select Component renders with a placeholder 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700 mb-2"
+      for="test-select"
+    >
+      Test Select
+    </label>
+    <select
+      class="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
+          focus:ring-1 focus:ring-blue-500 focus:border-blue-500
+          disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
+          border"
+      id="test-select"
+    >
+      <option
+        disabled=""
+        value=""
+      >
+        -- Select an Option --
+      </option>
+      <option
+        value="opt1"
+      >
+        Option 1
+      </option>
+      <option
+        value="opt2"
+      >
+        Option 2
+      </option>
+      <option
+        value="opt3"
+      >
+        Option 3
+      </option>
+    </select>
+  </div>
+</DocumentFragment>
+`;

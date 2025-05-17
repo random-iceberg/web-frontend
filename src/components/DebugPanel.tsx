@@ -11,7 +11,6 @@ const DebugPanel: React.FC = () => {
   const testBackendConnection = async () => {
     setIsLoading(true);
     try {
-      // Use the proxied URL
       const response = await axios.get(api.url("models"));
       setApiResponse(JSON.stringify(response.data, null, 2));
     } catch (error) {
@@ -25,7 +24,6 @@ const DebugPanel: React.FC = () => {
     }
   };
 
-  // Only show in development mode
   if (process.env.NODE_ENV !== "development") {
     return null;
   }

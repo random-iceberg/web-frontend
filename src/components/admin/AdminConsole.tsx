@@ -3,6 +3,8 @@ import { ModelProvider } from "components/context/ModelContext";
 import ModelList from "components/models/ModelList";
 import TrainModelForm from "components/models/TrainModelForm";
 import Card from "components/common/Card";
+import Layout from "components/Layout";
+import PageHeader from "components/common/PageHeader";
 
 const AdminConsole: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -13,35 +15,27 @@ const AdminConsole: React.FC = () => {
 
   return (
     <ModelProvider>
-      <div
-        className={`max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-500 ease-in ${
-          isVisible ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Admin Console
-          </h1>
-          <p className="text-lg text-gray-600">
-            Manage prediction models: train new models or remove existing ones.
-          </p>
-        </div>
+      <Layout>
+        <PageHeader
+          title="Admin Console"
+          description="Manage prediction models: train new models or remove existing ones."
+        />
 
-        <div className="flex flex-col lg:flex-row gap-8">
-          <Card className="w-full lg:w-1/3 p-6 border border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <Card className="p-8 col-span-1">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">
               Train New Model
             </h2>
             <TrainModelForm />
           </Card>
-          <Card className="w-full lg:w-2/3 p-6 border border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">
+          <Card className="p-8 col-span-1 lg:col-span-2">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">
               Available Models
             </h2>
             <ModelList />
           </Card>
         </div>
-      </div>
+      </Layout>
     </ModelProvider>
   );
 };
