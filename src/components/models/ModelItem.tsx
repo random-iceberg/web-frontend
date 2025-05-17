@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Model } from "services/modelService";
 import DeleteModelButton from "components/models/DeleteModelButton";
 import Card from "components/common/Card";
+import Button from "components/common/Button";
 
 interface ModelItemProps {
   model: Model;
@@ -20,13 +21,16 @@ const ModelItem: React.FC<ModelItemProps> = ({ model, onDelete }) => {
     <Card>
       <div className="flex justify-between items-center mb-2">
         <h3 className="text-lg font-medium">{model.name}</h3>
-        <div className="flex space-x-2">
-          <button
-            className="px-2 py-1 text-sm bg-gray-200 rounded hover:bg-gray-300 transition-colors"
+        <div className="flex items-center space-x-2">
+          {" "}
+          {/* Added items-center for better alignment */}
+          <Button
+            variant="secondary"
+            size="sm"
             onClick={() => setExpanded(!expanded)}
           >
             {expanded ? "Hide Details" : "Show Details"}
-          </button>
+          </Button>
           <DeleteModelButton
             modelId={model.id}
             modelName={model.name}
