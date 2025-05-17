@@ -14,9 +14,7 @@ exports[`DropDown Component renders correctly when disabled 1`] = `
     <button
       aria-expanded="false"
       aria-haspopup="listbox"
-      class="w-full text-left bg-white text-gray-900 text-sm px-4 py-2.5 rounded border border-gray-300
- focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
- disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed"
+      class="w-full text-left bg-white text-gray-700 text-base px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
       disabled=""
       id="test-dropdown"
       type="button"
@@ -41,9 +39,7 @@ exports[`DropDown Component renders correctly with a label and placeholder value
     <button
       aria-expanded="false"
       aria-haspopup="listbox"
-      class="w-full text-left bg-white text-gray-900 text-sm px-4 py-2.5 rounded border border-gray-300
- focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
- disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed"
+      class="w-full text-left bg-white text-gray-700 text-base px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
       id="test-dropdown"
       type="button"
     >
@@ -67,9 +63,7 @@ exports[`DropDown Component renders correctly with a selected value 1`] = `
     <button
       aria-expanded="false"
       aria-haspopup="listbox"
-      class="w-full text-left bg-white text-gray-900 text-sm px-4 py-2.5 rounded border border-gray-300
- focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
- disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed"
+      class="w-full text-left bg-white text-gray-700 text-base px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
       id="test-dropdown"
       type="button"
     >
@@ -94,16 +88,14 @@ exports[`DropDown Component renders with a description 1`] = `
       aria-describedby="test-dropdown-description"
       aria-expanded="false"
       aria-haspopup="listbox"
-      class="w-full text-left bg-white text-gray-900 text-sm px-4 py-2.5 rounded border border-gray-300
- focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500
- disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed"
+      class="w-full text-left bg-white text-gray-700 text-base px-3 py-2 rounded-md border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
       id="test-dropdown"
       type="button"
     >
       Select an Option 
     </button>
     <p
-      class="mt-1 text-sm text-gray-500"
+      class="mt-2 text-sm text-gray-600"
       id="test-dropdown-description"
     >
       This is a helpful description.

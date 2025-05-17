@@ -80,9 +80,7 @@ const LandingPage: React.FC = () => (
           ["Explore & Train", "Use admin tools to manage your models."],
         ].map(([step, body], i) => (
           <div key={step}>
-            <div className="text-6xl font-bold text-primary mb-2">
-              {i + 1}
-            </div>
+            <div className="text-6xl font-bold text-primary mb-2">{i + 1}</div>
             <h3 className="text-2xl font-semibold mb-2">{step}</h3>
             <p className="text-gray-600">{body}</p>
           </div>

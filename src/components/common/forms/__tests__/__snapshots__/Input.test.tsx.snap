@@ -14,10 +14,7 @@ exports[`Input Component renders correctly when disabled 1`] = `
     <input
       aria-label="Test Label"
       aria-required="false"
-      class="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
- focus:ring-1 focus:ring-blue-500 focus:border-blue-500
- disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
- border"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
       disabled=""
       id="test-input"
       type="text"
@@ -47,10 +44,7 @@ exports[`Input Component renders correctly when required 1`] = `
     <input
       aria-label="Test Label"
       aria-required="true"
-      class="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
- focus:ring-1 focus:ring-blue-500 focus:border-blue-500
- disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
- border"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
       id="test-input"
       required=""
       type="text"
@@ -74,10 +68,7 @@ exports[`Input Component renders correctly with basic props (text type) 1`] = `
     <input
       aria-label="Test Label"
       aria-required="false"
-      class="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
- focus:ring-1 focus:ring-blue-500 focus:border-blue-500
- disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
- border"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
       id="test-input"
       type="text"
       value="Test Value"
@@ -100,10 +91,7 @@ exports[`Input Component renders correctly with number type and min/max 1`] = `
     <input
       aria-label="Number Label"
       aria-required="false"
-      class="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
- focus:ring-1 focus:ring-blue-500 focus:border-blue-500
- disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
- border"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
       id="test-number-input"
       max="100"
       min="0"
@@ -129,16 +117,13 @@ exports[`Input Component renders with a description 1`] = `
       aria-describedby="test-input-description"
       aria-label="Test Label"
       aria-required="false"
-      class="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
- focus:ring-1 focus:ring-blue-500 focus:border-blue-500
- disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
- border"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
       id="test-input"
       type="text"
       value="Test Value"
     />
     <p
-      class="mt-1 text-sm text-gray-500"
+      class="mt-2 text-sm text-gray-600"
       id="test-input-description"
     >
       This is a helpful description.
@@ -161,10 +146,7 @@ exports[`Input Component renders with a placeholder 1`] = `
     <input
       aria-label="Test Label"
       aria-required="false"
-      class="w-full rounded border-gray-300 shadow-sm text-sm px-4 py-2.5
- focus:ring-1 focus:ring-blue-500 focus:border-blue-500
- disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed
- border"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
       id="test-input"
       placeholder="Enter text here"
       type="text"
