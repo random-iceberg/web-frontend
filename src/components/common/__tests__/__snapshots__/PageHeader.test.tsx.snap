@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageHeader Component renders correctly with different title and description 1`] = `
+<DocumentFragment>
+  <div
+    class="mb-8"
+  >
+    <h1
+      class="text-3xl font-bold text-gray-900 mb-2"
+    >
+      Another Page
+    </h1>
+    <p
+      class="text-lg text-gray-600"
+    >
+      Another description here.
+    </p>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PageHeader Component renders correctly with title and description 1`] = `
+<DocumentFragment>
+  <div
+    class="mb-8"
+  >
+    <h1
+      class="text-3xl font-bold text-gray-900 mb-2"
+    >
+      Page Title
+    </h1>
+    <p
+      class="text-lg text-gray-600"
+    >
+      This is a description of the page.
+    </p>
+  </div>
+</DocumentFragment>
+`;

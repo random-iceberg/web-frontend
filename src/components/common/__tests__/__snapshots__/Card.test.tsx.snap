@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card Component renders correctly with children 1`] = `
+<DocumentFragment>
+  <div
+    class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow"
+  >
+    <p>
+      This is card content.
+    </p>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Card Component renders correctly with children and className 1`] = `
+<DocumentFragment>
+  <div
+    class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow my-custom-card extra-padding"
+  >
+    <h2>
+      Card Title
+    </h2>
+    <p>
+      More card content.
+    </p>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Card Component renders correctly with no children 1`] = `
+<DocumentFragment>
+  <div
+    class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow"
+  />
+</DocumentFragment>
+`;

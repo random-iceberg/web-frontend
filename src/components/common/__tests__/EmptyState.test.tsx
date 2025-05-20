@@ -9,7 +9,9 @@ describe("EmptyState Component", () => {
   });
 
   it("renders correctly with a different message", () => {
-    const { asFragment } = render(<EmptyState message="Search results not found" />);
+    const { asFragment } = render(
+      <EmptyState message="Search results not found" />,
+    );
     expect(asFragment()).toMatchSnapshot();
   });
 });

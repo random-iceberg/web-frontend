@@ -11,14 +11,13 @@ exports[`Checkbox Component renders correctly when checked 1`] = `
     >
       <input
         checked=""
-        class="h-4 w-4 rounded border-gray-300 text-blue-600
- focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
         id="test-checkbox"
         type="checkbox"
       />
     </div>
     <div
-      class="ml-3 text-sm"
+      class="ml-3 text-base"
     >
       <label
         class="font-medium text-gray-700"
@@ -42,15 +41,14 @@ exports[`Checkbox Component renders correctly when disabled and checked 1`] = `
     >
       <input
         checked=""
-        class="h-4 w-4 rounded border-gray-300 text-blue-600
- focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
         disabled=""
         id="test-checkbox"
         type="checkbox"
       />
     </div>
     <div
-      class="ml-3 text-sm"
+      class="ml-3 text-base"
     >
       <label
         class="font-medium text-gray-500"
@@ -73,15 +71,14 @@ exports[`Checkbox Component renders correctly when disabled and unchecked 1`] = 
       class="flex h-5 items-center"
     >
       <input
-        class="h-4 w-4 rounded border-gray-300 text-blue-600
- focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
         disabled=""
         id="test-checkbox"
         type="checkbox"
       />
     </div>
     <div
-      class="ml-3 text-sm"
+      class="ml-3 text-base"
     >
       <label
         class="font-medium text-gray-500"
@@ -104,14 +101,13 @@ exports[`Checkbox Component renders correctly when unchecked 1`] = `
       class="flex h-5 items-center"
     >
       <input
-        class="h-4 w-4 rounded border-gray-300 text-blue-600
- focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
         id="test-checkbox"
         type="checkbox"
       />
     </div>
     <div
-      class="ml-3 text-sm"
+      class="ml-3 text-base"
     >
       <label
         class="font-medium text-gray-700"
@@ -135,14 +131,13 @@ exports[`Checkbox Component renders with a description 1`] = `
     >
       <input
         aria-describedby="test-checkbox-description"
-        class="h-4 w-4 rounded border-gray-300 text-blue-600
- focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
         id="test-checkbox"
         type="checkbox"
       />
     </div>
     <div
-      class="ml-3 text-sm"
+      class="ml-3 text-base"
     >
       <label
         class="font-medium text-gray-700"
@@ -151,7 +146,7 @@ exports[`Checkbox Component renders with a description 1`] = `
         Test Checkbox
       </label>
       <p
-        class="text-gray-500"
+        class="mt-1 text-sm text-gray-600"
         id="test-checkbox-description"
       >
         This is a test description.
