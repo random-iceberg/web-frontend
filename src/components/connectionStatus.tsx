@@ -13,7 +13,7 @@ const ConnectionStatus: React.FC = () => {
       try {
         await axios.get(api.url("models"));
         setStatus("connected");
-      } catch (error) {
+      } catch (_error) {
         setStatus("disconnected");
       }
     };

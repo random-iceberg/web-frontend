@@ -121,7 +121,7 @@ describe("Select Component", () => {
     // Attempt to change, though it shouldn't work for disabled inputs
     try {
       fireEvent.change(selectElement, { target: { value: "opt2" } });
-    } catch (e) {
+    } catch (_e) {
       // Some testing environments might throw
     }
     expect(mockOnChange).not.toHaveBeenCalled();

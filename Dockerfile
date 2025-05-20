@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy package spec and lock files separately before `npm install`
 # so to allow docker to cache the `npm install` layer
 COPY package*.json .
-RUN npm install
+RUN npm install --omit dev
 COPY . .
 
 ##
@@ -30,7 +30,6 @@ EXPOSE 80
 ##
 
 FROM base AS builder
-RUN npm run tailwind:build
 RUN npm run build
 
 ##
