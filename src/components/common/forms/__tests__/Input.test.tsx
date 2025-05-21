@@ -131,7 +131,7 @@ describe("Input Component", () => {
     // I dunno, Never created snapshot tests before. Maybe Lead can chime in if any issues spotted
     try {
       fireEvent.change(inputElement, { target: { value: "new text" } });
-    } catch (e) {
+    } catch (_e) {
       // Some testing environments might throw an error when trying to interact with a disabled element.
     }
     expect(mockOnChange).not.toHaveBeenCalled();

@@ -26,6 +26,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   size?: ButtonSize;
   fullWidth?: boolean;
   children: React.ReactNode;
+  className?: string;
 };
 
 /**

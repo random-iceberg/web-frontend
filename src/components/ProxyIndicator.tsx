@@ -13,7 +13,7 @@ const ProxyIndicator: React.FC = () => {
       try {
         await axios.get(api.url("models"));
         setProxyWorking(true);
-      } catch (error) {
+      } catch (_error) {
         setProxyWorking(false);
       }
     };
@@ -23,7 +23,7 @@ const ProxyIndicator: React.FC = () => {
       try {
         await axios.get("http://localhost:8000/models");
         setDirectWorking(true);
-      } catch (error) {
+      } catch (_error) {
         // If we get a CORS error or any other error, the direct request failed
         setDirectWorking(false);
       }

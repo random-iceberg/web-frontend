@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Layout from "components/Layout";
 import Section from "components/common/Section";
 import Card from "components/common/Card";
-import PageHeader from "components/common/PageHeader";
 
 const LandingPage: React.FC = () => (
   <Layout>
