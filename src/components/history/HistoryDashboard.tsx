@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import HistoryTable from "./HistoryTable";
-
-const history_url = "http://localhost:8000/predict/history"
+import api from "services/api";
 
 const HistoryDashboard: React.FC = () => {
     const [history, setHistory] = useState([]);
@@ -10,7 +9,7 @@ const HistoryDashboard: React.FC = () => {
     useEffect(() => {
         const fetchHistory = async () => {
             try {
-                const response = await axios.get(history_url);
+                const response = await axios.get(api.url("predict/history"));
                 setHistory(response.data);
             } catch (error) {
                 console.error("Error fetching prediction history", error);
