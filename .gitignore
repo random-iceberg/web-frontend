@@ -25,3 +25,10 @@ package-lock.json
 
 # dir_to_json output
 output.json
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
