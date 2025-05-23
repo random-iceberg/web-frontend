@@ -13,7 +13,7 @@ import Input from "components/common/forms/Input";
 import Checkbox from "components/common/forms/Checkbox";
 import Card from "components/common/Card";
 import Button from "components/common/Button";
-import InlineError from "components/common/Error";
+import Alert from "components/common/Alert";
 
 // Constants for input validation
 const AGE_MIN = 0;
@@ -166,7 +166,9 @@ export default function SurvivalCalculator() {
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             {/* Display API Error */}
             {errors.api && (
-              <InlineError className="mb-4">{errors.api}</InlineError>
+              <Alert variant="error" className="mb-4 text-xs">
+                {errors.api}
+              </Alert>
             )}
             
             {/* Form Fields Grid */}
@@ -189,7 +191,9 @@ export default function SurvivalCalculator() {
                   <button type="button">3</button>
                 </DropDown>
                 {errors.passengerClass && (
-                  <InlineError className="my-4">{errors.passengerClass}</InlineError>
+                  <Alert variant="error" className="mt-2 p-2 text-xs">
+                    {errors.passengerClass}
+                  </Alert>
                 )}
               </div>
 
@@ -207,7 +211,9 @@ export default function SurvivalCalculator() {
                   <button type="button">female</button>
                 </DropDown>
                 {errors.sex && (
-                  <InlineError className="my-4">{errors.sex}</InlineError>
+                  <Alert variant="error" className="mt-2 p-2 text-xs">
+                    {errors.sex}
+                  </Alert>
                 )}
               </div>
 
@@ -229,7 +235,9 @@ export default function SurvivalCalculator() {
                   <button type="button">S</button>
                 </DropDown>
                 {errors.embarkationPort && (
-                  <InlineError className="my-4">{errors.embarkationPort}</InlineError>
+                  <Alert variant="error" className="mt-2 p-2 text-xs">
+                    {errors.embarkationPort}
+                  </Alert>
                 )}
               </div>
 
