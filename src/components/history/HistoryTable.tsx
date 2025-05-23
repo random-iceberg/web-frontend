@@ -11,7 +11,6 @@ type Props = {
 };
 
 const HistoryTable: React.FC<Props> = ({ history }) => {
-
   const formatInput = (input: any) => {
     if (!input) return "No data";
 
@@ -19,12 +18,14 @@ const HistoryTable: React.FC<Props> = ({ history }) => {
     if (input.age) details.push(`Age: ${input.age}`);
     if (input.sex) details.push(`Sex: ${input.sex}`);
     if (input.passengerClass) details.push(`Class: ${input.passengerClass}`);
-    if (input.sibsp !== undefined) details.push(`Siblings/Spouse: ${input.sibsp}`);
-    if (input.parch !== undefined) details.push(`Parents/Children: ${input.parch}`);
+    if (input.sibsp !== undefined)
+      details.push(`Siblings/Spouse: ${input.sibsp}`);
+    if (input.parch !== undefined)
+      details.push(`Parents/Children: ${input.parch}`);
     if (input.embarked) details.push(`Embarked: ${input.embarked}`);
 
     // Alone logic
-    const alone = (input.sibsp === 0 && input.parch === 0) ? "Yes" : "No";
+    const alone = input.sibsp === 0 && input.parch === 0 ? "Yes" : "No";
     details.push(`Alone: ${alone}`);
 
     // Cabin known
@@ -33,7 +34,9 @@ const HistoryTable: React.FC<Props> = ({ history }) => {
 
     return (
       <ul className="text-left list-disc list-inside">
-        {details.map((d, i) => <li key={i}>{d}</li>)}
+        {details.map((d, i) => (
+          <li key={i}>{d}</li>
+        ))}
       </ul>
     );
   };
@@ -47,7 +50,9 @@ const HistoryTable: React.FC<Props> = ({ history }) => {
 
       return (
         <div className="flex justify-center items-center flex-col">
-          <span className={`font-bold ${survived ? "text-green-600" : "text-red-600"}`}>
+          <span
+            className={`font-bold ${survived ? "text-green-600" : "text-red-600"}`}
+          >
             {survived ? "Survived" : "Did not survive"}
           </span>
           <span className="text-gray-600 text-sm">
@@ -73,7 +78,9 @@ const HistoryTable: React.FC<Props> = ({ history }) => {
         <tbody>
           {history.map((record, index) => (
             <tr key={index} className="hover:bg-gray-50">
-              <td className="p-2 border-b text-center">{new Date(record.timestamp).toLocaleString()}</td>
+              <td className="p-2 border-b text-center">
+                {new Date(record.timestamp).toLocaleString()}
+              </td>
               <td className="p-2 border-b">{formatInput(record.input)}</td>
               <td className="p-2 border-b">{formatOutput(record.output)}</td>
             </tr>

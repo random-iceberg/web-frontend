@@ -11,9 +11,7 @@ const AdminConsole = lazy(() => import("components/admin/AdminConsole"));
 const Calculator = lazy(
   () => import("components/calculator/SurvivalCalculator"),
 );
-const UserDashboard = lazy(
-  () => import("pages/UserDashboard"),
-);
+const UserDashboard = lazy(() => import("pages/UserDashboard"));
 
 /* still a stub – swap out when real components exist */
 const SignIn = lazy(() =>
