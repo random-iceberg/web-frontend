@@ -62,7 +62,7 @@ const DeleteModelButton: React.FC<DeleteModelButtonProps> = ({
           {" "}
           {/* Basic popover style */}
           <p className="text-sm text-gray-700 mb-3">
-            Are you sure you want to delete &quot{modelName}&quot? This action
+            Are you sure you want to delete &quot;{modelName}&quot;? This action
             cannot be undone.
           </p>
           <div className="flex justify-end space-x-2">
