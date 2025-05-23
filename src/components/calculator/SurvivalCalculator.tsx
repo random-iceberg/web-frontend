@@ -13,7 +13,7 @@ import Input from "components/common/forms/Input";
 import Checkbox from "components/common/forms/Checkbox";
 import Card from "components/common/Card";
 import Button from "components/common/Button";
-import Alert from "components/common/Alert";
+import InlineError from "components/common/Error";
 
 // Constants for input validation
 const AGE_MIN = 0;
@@ -87,7 +87,7 @@ const initialForm: FormState = {
 export default function SurvivalCalculator() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [result, setResult] = useState<PredictionResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false);
   const [_isVisible, setIsVisible] = useState(false);
 
@@ -96,42 +96,35 @@ export default function SurvivalCalculator() {
   }, []);
 
   // Validate form inputs
-  const validateInputs = (): string | null => {
+  const validateInputs = () => {
+    const newErrors: { [key: string]: string } = {};
+    
     if (!form.sex) {
-      return "Please select the passenger's gender";
+      newErrors.sex = "Please select the passenger's gender";
     }
     if (!form.embarkationPort) {
-      return "Please select the port where the passenger embarked (C - Cherbourg, Q - Queenstown, S - Southampton)";
+      newErrors.embarkationPort = "Please select the port where the passenger embarked (C - Cherbourg, Q - Queenstown, S - Southampton)";
     }
     if (!form.passengerClass) {
-      return "Please select the class of travel (1st, 2nd, or 3rd class)";
+      newErrors.passengerClass = "Please select the class of travel (1st, 2nd, or 3rd class)";
     }
-    if (form.age < AGE_MIN || form.age > AGE_MAX) {
-      return `Please enter a valid age between ${AGE_MIN} and ${AGE_MAX} years`;
-    }
-    if (form.sibsp < 0) {
-      return `The number of siblings/spouses aboard must be 0 or greater`;
-    }
-    if (form.parch < 0) {
-      return "The number of parents/children aboard must be 0 or greater";
-    }
-    return null;
+    return newErrors;
   };
 
   const handleReset = () => {
     setForm(initialForm);
     setResult(null);
-    setError(null);
+    setErrors({});
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setErrors({});
     setLoading(true);
 
-    const validationError = validateInputs();
-    if (validationError) {
-      setError(validationError);
+    const validationErrors = validateInputs();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);  // set the errors object
       setLoading(false);
       return;
     }
@@ -152,7 +145,7 @@ export default function SurvivalCalculator() {
       const res = await predictPassenger(passengerData);
       setResult(res);
     } catch (err: any) {
-      setError(handleApiError(err, "making the prediction"));
+      setErrors({ api: handleApiError(err, "making the prediction") });
       setResult(null);
     } finally {
       setLoading(false);
@@ -165,15 +158,19 @@ export default function SurvivalCalculator() {
         title="Survivor Prediction Calculator"
         description="Enter passenger details to predict their survival probability."
       />
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
+        <Card className="p-4 sm:p-6 lg:p-8">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
             Passenger Details
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+            {/* Display API Error */}
+            {errors.api && (
+              <InlineError className="mb-4">{errors.api}</InlineError>
+            )}
+            
             {/* Form Fields Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
                 <DropDown
                   id="passenger-class"
@@ -191,7 +188,11 @@ export default function SurvivalCalculator() {
                   <button type="button">2</button>
                   <button type="button">3</button>
                 </DropDown>
+                {errors.passengerClass && (
+                  <InlineError className="my-4">{errors.passengerClass}</InlineError>
+                )}
               </div>
+
               <div>
                 <DropDown
                   id="sex"
@@ -205,7 +206,11 @@ export default function SurvivalCalculator() {
                   <button type="button">male</button>
                   <button type="button">female</button>
                 </DropDown>
+                {errors.sex && (
+                  <InlineError className="my-4">{errors.sex}</InlineError>
+                )}
               </div>
+
               <div>
                 <DropDown
                   id="embarkation-port"
@@ -223,7 +228,11 @@ export default function SurvivalCalculator() {
                   <button type="button">Q</button>
                   <button type="button">S</button>
                 </DropDown>
+                {errors.embarkationPort && (
+                  <InlineError className="my-4">{errors.embarkationPort}</InlineError>
+                )}
               </div>
+
               <div>
                 <Input
                   id="age"
@@ -238,6 +247,7 @@ export default function SurvivalCalculator() {
                   description={FIELD_INFO.age.description} // Pass description prop
                 />
               </div>
+
               <div>
                 <Input
                   id="sibsp"
@@ -252,6 +262,7 @@ export default function SurvivalCalculator() {
                   description={FIELD_INFO.sibsp.description} // Pass description prop
                 />
               </div>
+
               <div>
                 <Input
                   id="parch"
@@ -266,6 +277,7 @@ export default function SurvivalCalculator() {
                   description={FIELD_INFO.parch.description} // Pass description prop
                 />
               </div>
+
               <div className="md:col-span-2">
                 {" "}
                 {/* Span two columns on medium screens and above */}
@@ -278,6 +290,7 @@ export default function SurvivalCalculator() {
                   disabled={loading}
                 />
               </div>
+
               <div className="md:col-span-2">
                 {" "}
                 {/* Span two columns on medium screens and above */}
@@ -291,14 +304,9 @@ export default function SurvivalCalculator() {
                 />
               </div>
             </div>
-            {/* Error Message */}
-            {error && (
-              <Alert variant="error" title="Validation Error" className="my-4">
-                {error}
-              </Alert>
-            )}
+
             {/* Action Buttons */}
-            <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
+            <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-4 sm:pt-6 border-t border-gray-200">
               <Button
                 type="button"
                 variant="secondary"
@@ -308,15 +316,15 @@ export default function SurvivalCalculator() {
                 Reset
               </Button>
               <Button type="submit" variant="primary" disabled={loading}>
-                {loading ? "Predicting…" : "Predict"}
+                {loading ? "Predicting..." : "Predict"}
               </Button>
             </div>
           </form>
         </Card>
 
         {/* Result Card */}
-        <Card className="p-8 h-fit">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        <Card className="p-4 sm:p-6 lg:p-8 h-fit">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
             Prediction Result
           </h2>
           {result ? (
@@ -339,8 +347,7 @@ export default function SurvivalCalculator() {
           ) : (
             <div className="p-4 bg-gray-100 rounded-lg border border-gray-300 text-gray-700">
               <p>
-                Enter passenger details and click &quotPredict Survival&quot to
-                see the result.
+                Enter passenger details and click Predict Survival to see the result.
               </p>
             </div>
           )}
