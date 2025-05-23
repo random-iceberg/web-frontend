@@ -9,7 +9,9 @@ describe("LoadingState Component", () => {
   });
 
   it("renders correctly with a different message", () => {
-    const { asFragment } = render(<LoadingState message="Fetching results..." />);
+    const { asFragment } = render(
+      <LoadingState message="Fetching results..." />,
+    );
     expect(asFragment()).toMatchSnapshot();
   });
 });

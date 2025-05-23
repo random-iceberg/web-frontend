@@ -7,7 +7,7 @@ import Layout from "components/Layout";
 import PageHeader from "components/common/PageHeader";
 
 const AdminConsole: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [_isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);

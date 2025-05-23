@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Layout from "components/Layout";
 import Section from "components/common/Section";
 import Card from "components/common/Card";
-import PageHeader from "components/common/PageHeader";
 
 const LandingPage: React.FC = () => (
   <Layout>
@@ -80,9 +79,7 @@ const LandingPage: React.FC = () => (
           ["Explore & Train", "Use admin tools to manage your models."],
         ].map(([step, body], i) => (
           <div key={step}>
-            <div className="text-6xl font-bold text-primary mb-2">
-              {i + 1}
-            </div>
+            <div className="text-6xl font-bold text-primary mb-2">{i + 1}</div>
             <h3 className="text-2xl font-semibold mb-2">{step}</h3>
             <p className="text-gray-600">{body}</p>
           </div>

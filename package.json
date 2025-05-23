@@ -4,12 +4,6 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.126",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.2",
     "axios": "^1.9.0",
@@ -17,6 +11,7 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^6.30.0",
     "react-scripts": "5.0.1",
+    "tailwindcss": "^3.4.17",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -25,14 +20,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "tailwind:build": "npx tailwindcss -i ./src/index.css -o ./src/tailwind.css --minify",
-    "format": "prettier --write src/**/*.{ts,tsx,js,jsx,css,json}"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "format": "prettier --write src",
+    "lint": "eslint"
   },
   "browserslist": {
     "production": [
@@ -47,11 +36,20 @@
     ]
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.4",
-    "autoprefixer": "^10.4.21",
-    "http-proxy-middleware": "^3.0.5",
-    "postcss": "^8.5.3",
+    "@eslint/css": "^0.7.0",
+    "@eslint/js": "^9.26.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^16.18.126",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^16.1.0",
     "prettier": "^3.3.3",
-    "tailwindcss": "^3.4.17"
-  }
+    "typescript-eslint": "^8.32.0"
+  },
+  "prettier": {}
 }
