@@ -11,6 +11,7 @@ const AdminConsole = lazy(() => import("components/admin/AdminConsole"));
 const Calculator = lazy(
   () => import("components/calculator/SurvivalCalculator"),
 );
+const UserDashboard = lazy(() => import("pages/UserDashboard"));
 
 /* still a stub – swap out when real components exist */
 const SignIn = lazy(() =>
@@ -44,6 +45,7 @@ const App: React.FC = () => (
             <Route path="/admin" element={<AdminConsole />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/dashboard" element={<UserDashboard />} />
           </Routes>
         </Suspense>
       </main>

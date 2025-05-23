@@ -22,6 +22,9 @@ const Navbar: React.FC = () => {
             <Link to="/admin" className="hover:text-accent transition">
               Admin Console
             </Link>
+            <Link to="/dashboard" className="hover:text-accent transition">
+              User Dashboard
+            </Link>
           </div>
 
           {/* Auth Buttons */}
