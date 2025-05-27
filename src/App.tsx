@@ -12,18 +12,8 @@ const Calculator = lazy(
   () => import("components/calculator/SurvivalCalculator"),
 );
 const UserDashboard = lazy(() => import("pages/UserDashboard"));
-
-/* still a stub – swap out when real components exist */
-const SignIn = lazy(() =>
-  Promise.resolve({
-    default: () => <div className="p-8 text-center">Sign In</div>,
-  }),
-);
-const SignUp = lazy(() =>
-  Promise.resolve({
-    default: () => <div className="p-8 text-center">Sign Up</div>,
-  }),
-);
+const SignIn = lazy(() => import("pages/SignIn"));
+const SignUp = lazy(() => import("pages/SignUp"));
 
 /* generic suspense fallback */
 const Loading = () => (
