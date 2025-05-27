@@ -98,15 +98,17 @@ export default function SurvivalCalculator() {
   // Validate form inputs
   const validateInputs = () => {
     const newErrors: { [key: string]: string } = {};
-    
+
     if (!form.sex) {
       newErrors.sex = "Please select the passenger's gender";
     }
     if (!form.embarkationPort) {
-      newErrors.embarkationPort = "Please select the port where the passenger embarked (C - Cherbourg, Q - Queenstown, S - Southampton)";
+      newErrors.embarkationPort =
+        "Please select the port where the passenger embarked (C - Cherbourg, Q - Queenstown, S - Southampton)";
     }
     if (!form.passengerClass) {
-      newErrors.passengerClass = "Please select the class of travel (1st, 2nd, or 3rd class)";
+      newErrors.passengerClass =
+        "Please select the class of travel (1st, 2nd, or 3rd class)";
     }
     return newErrors;
   };
@@ -124,7 +126,7 @@ export default function SurvivalCalculator() {
 
     const validationErrors = validateInputs();
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);  // set the errors object
+      setErrors(validationErrors); // set the errors object
       setLoading(false);
       return;
     }
@@ -170,7 +172,7 @@ export default function SurvivalCalculator() {
                 {errors.api}
               </Alert>
             )}
-            
+
             {/* Form Fields Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
