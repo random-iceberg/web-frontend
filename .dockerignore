@@ -1,1 +1,14 @@
+# Generic
+.git
+tmp
+
+# npm
 **/node_modules
+package-lock.json
+
+# react-scripts
+build
+
+
+# Other
+output.json
