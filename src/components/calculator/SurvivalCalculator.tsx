@@ -16,8 +16,8 @@ import Button from "components/common/Button";
 import Alert from "components/common/Alert";
 
 // Constants for input validation
-const AGE_MIN = 0;
-const AGE_MAX = 120;
+const AGE_MIN = 1;
+const AGE_MAX = 119;
 const SIBSP_MAX = 8;
 const PARCH_MAX = 6;
 
@@ -51,7 +51,7 @@ const FIELD_INFO: Record<
   },
   age: {
     label: "Age",
-    description: "Passenger's age (0-120 years)",
+    description: "Passenger's age (1-119 years)",
   },
   sibsp: {
     label: "Siblings/Spouses",
