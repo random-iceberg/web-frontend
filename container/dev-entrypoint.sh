@@ -3,7 +3,11 @@
 function sync() {
     while true; do
         sleep 1
-        rsync -a --delete /to_sync/src/ /app/src/
+        (
+            cd /to_sync
+            rsync -a --delete --exclude-from=.dockerignore . /app
+        )
+        
     done
 }
 

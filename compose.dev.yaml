@@ -15,6 +15,6 @@ services:
     build:
       target: dev-react
     volumes:
-      - ./src:/to_sync/src:ro
+      - .:/to_sync:ro
     environment:
       PORT: 8080
