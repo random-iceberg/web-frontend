@@ -16,6 +16,7 @@ const AdminConsole: React.FC = () => {
   return (
     <ModelProvider>
       <Layout>
+        <div data-testid="admin-console">
         <PageHeader
           title="Admin Console"
           description="Manage prediction models: train new models or remove existing ones."
@@ -34,6 +35,7 @@ const AdminConsole: React.FC = () => {
             </h2>
             <ModelList />
           </Card>
+        </div>
         </div>
       </Layout>
     </ModelProvider>

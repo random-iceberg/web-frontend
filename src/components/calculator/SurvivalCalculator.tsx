@@ -161,6 +161,7 @@ export default function SurvivalCalculator() {
 
   return (
     <Layout>
+      <div data-testid="calculator-form">
       <PageHeader
         title="Survivor Prediction Calculator"
         description="Enter passenger details to predict their survival probability."
@@ -345,6 +346,7 @@ export default function SurvivalCalculator() {
             </div>
           )}
         </Card>
+      </div>
       </div>
     </Layout>
   );
