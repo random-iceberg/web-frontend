@@ -14,15 +14,7 @@ services:
   frontend-dev:
     build:
       target: dev-react
-    develop:
-      watch:
-        - path: .
-          include: package*.json
-          action: rebuild
-        - path: .
-          ignore: # TODO: refine
-            - package*.json
-          action: sync
-          target: /app
+    volumes:
+      - .:/to_sync:ro
     environment:
       PORT: 8080

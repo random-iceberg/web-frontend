@@ -15,6 +15,11 @@ COPY . .
 ##
 
 FROM base AS dev-react
+RUN apk add rsync
+RUN apk add dos2unix
+COPY ./container/dev-entrypoint.sh /entrypoint.sh
+RUN dos2unix /entrypoint.sh
+ENTRYPOINT [ "sh", "/entrypoint.sh" ]
 CMD [ "npm", "start" ]
 
 ##
