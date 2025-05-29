@@ -1,43 +1,25 @@
 import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import App from '../../../../App';
 
 describe('Navigation Integration Tests', () => {
   it('should display navigation links on landing page', () => {
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-
+    render(<App />);
     expect(screen.getByText(/calculator/i)).toBeInTheDocument();
     expect(screen.getByText(/admin console/i)).toBeInTheDocument();
   });
 
   it('should navigate to calculator page', async () => {
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-
+    render(<App />);
     const calculatorLink = screen.getByText(/calculator/i);
-    await userEvent.click(calculatorLink);
-    
-    expect(screen.getByTestId('calculator-form')).toBeInTheDocument();
+    userEvent.click(calculatorLink);
+    expect(await screen.findByTestId('calculator-form')).toBeInTheDocument();
   });
 
   it('should navigate to admin console page', async () => {
-    render(
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-
+    render(<App />);
     const adminLink = screen.getByText(/admin console/i);
-    await userEvent.click(adminLink);
-    
-    expect(screen.getByTestId('admin-console')).toBeInTheDocument();
+    userEvent.click(adminLink);
+    expect(await screen.findByTestId('admin-console')).toBeInTheDocument();
   });
 });
