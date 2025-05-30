@@ -188,9 +188,9 @@ export default function SurvivalCalculator() {
                   }
                   disabled={loading}
                 >
-                  <button type="button">1</button>
-                  <button type="button">2</button>
-                  <button type="button">3</button>
+                  <button type="button" name="1" aria-label="1">1</button>
+                  <button type="button" name="2" aria-label="2">2</button>
+                  <button type="button" name="3" aria-label="3">3</button>
                 </DropDown>
               </div>
               <div>
@@ -203,8 +203,8 @@ export default function SurvivalCalculator() {
                   }
                   disabled={loading}
                 >
-                  <button type="button">male</button>
-                  <button type="button">female</button>
+                  <button type="button" name="male" aria-label="male">male</button>
+                  <button type="button" name="female" aria-label="female">female</button>
                 </DropDown>
               </div>
               <div>
@@ -220,9 +220,9 @@ export default function SurvivalCalculator() {
                   }
                   disabled={loading}
                 >
-                  <button type="button">C</button>
-                  <button type="button">Q</button>
-                  <button type="button">S</button>
+                  <button type="button" name="C" aria-label="C">C</button>
+                  <button type="button" name="Q" aria-label="Q">Q</button>
+                  <button type="button" name="S" aria-label="S">S</button>
                 </DropDown>
               </div>
               <div>

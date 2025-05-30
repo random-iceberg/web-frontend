@@ -11,7 +11,7 @@ describe('Calculator Integration Test', () => {
     render(<App />);
     
     // Navigate to calculator page
-    userEvent.click(screen.getByRole('link', { name: /calculator/i }));
+    await userEvent.click(screen.getByRole('link', { name: /survival calculator/i }));
 
     // Wait for calculator form to be visible
     const calculatorForm = await screen.findByTestId('calculator-form');
@@ -19,33 +19,52 @@ describe('Calculator Integration Test', () => {
 
     // Fill out dropdowns using buttons
     // Passenger Class
-    await userEvent.click(screen.getByText('Passenger Class'));
-    await userEvent.click(screen.getByRole('button', { name: '2' }));
+    const passengerClassDropdown = screen.getByRole('button', { name: /passenger class/i });
+    await userEvent.click(passengerClassDropdown);
+    
+    // Debug what's available in the DOM
+    screen.debug();
+    
+    // Add a small delay to allow dropdown to open
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // Try different ways to find the button
+    const option2 = await screen.findByText('2');
+    await userEvent.click(option2);
 
     // Sex
-    await userEvent.click(screen.getByText('Sex'));
-    await userEvent.click(screen.getByRole('button', { name: 'female' }));
+    const sexDropdown = screen.getByRole('button', { name: /sex/i });
+    await userEvent.click(sexDropdown);
+    await new Promise(resolve => setTimeout(resolve, 100));
+    const optionFemale = await screen.findByText('female');
+    await userEvent.click(optionFemale);
 
     // Embarkation Port
-    await userEvent.click(screen.getByText('Embarkation Port'));
-    await userEvent.click(screen.getByRole('button', { name: 'C' }));
+    const portDropdown = screen.getByRole('button', { name: /embarkation port/i });
+    await userEvent.click(portDropdown);
+    await new Promise(resolve => setTimeout(resolve, 100));
+    const optionC = await screen.findByText('C');
+    await userEvent.click(optionC);
 
     // Fill numeric inputs
-    await userEvent.type(screen.getByLabelText('Age'), '28');
-    await userEvent.type(screen.getByLabelText('Siblings/Spouses'), '1');
-    await userEvent.type(screen.getByLabelText('Parents/Children'), '0');
+    await userEvent.type(screen.getByRole('spinbutton', { name: /age/i }), '28');
+    await userEvent.type(screen.getByRole('spinbutton', { name: /siblings\/spouses/i }), '1');
+    await userEvent.type(screen.getByRole('spinbutton', { name: /parents\/children/i }), '0');
 
     // Check checkboxes
-    await userEvent.click(screen.getByText('Were they alone?'));
-    await userEvent.click(screen.getByText('Cabin known?'));
+    await userEvent.click(screen.getByRole('checkbox', { name: /were they alone/i }));
+    await userEvent.click(screen.getByRole('checkbox', { name: /cabin known/i }));
 
     // Submit form
     await userEvent.click(screen.getByRole('button', { name: /predict/i }));
 
-    // Verify results
-    expect(await screen.findByText(/survived/i)).toBeInTheDocument();
-    expect(screen.getByText(/probability/i)).toBeInTheDocument();
-    expect(screen.getByText(/85.0%/)).toBeInTheDocument();
+    // Verify results - updated to match the actual text in the component
+    const resultText = await screen.findByText(/survived/i, { exact: false });
+    expect(resultText).toBeInTheDocument();
+    
+    // Check for probability text which includes the percentage
+    const probabilityText = await screen.findByText(/probability: 85.0%/i);
+    expect(probabilityText).toBeInTheDocument();
   });
 
   // Add test for form validation
