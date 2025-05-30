@@ -11,7 +11,7 @@ describe('Calculator Integration Test', () => {
     render(<App />);
     
     // Navigate to calculator page
-    await userEvent.click(screen.getByRole('link', { name: /survival calculator/i }));
+     userEvent.click(screen.getByRole('link', { name: /survival calculator/i }));
 
     // Wait for calculator form to be visible
     const calculatorForm = await screen.findByTestId('calculator-form');
@@ -20,7 +20,7 @@ describe('Calculator Integration Test', () => {
     // Fill out dropdowns using buttons
     // Passenger Class
     const passengerClassDropdown = screen.getByRole('button', { name: /passenger class/i });
-    await userEvent.click(passengerClassDropdown);
+     userEvent.click(passengerClassDropdown);
     
     // Debug what's available in the DOM
     screen.debug();
@@ -30,33 +30,33 @@ describe('Calculator Integration Test', () => {
     
     // Try different ways to find the button
     const option2 = await screen.findByText('2');
-    await userEvent.click(option2);
+     userEvent.click(option2);
 
     // Sex
     const sexDropdown = screen.getByRole('button', { name: /sex/i });
-    await userEvent.click(sexDropdown);
-    await new Promise(resolve => setTimeout(resolve, 100));
+     userEvent.click(sexDropdown);
+     new Promise(resolve => setTimeout(resolve, 100));
     const optionFemale = await screen.findByText('female');
-    await userEvent.click(optionFemale);
+     userEvent.click(optionFemale);
 
     // Embarkation Port
     const portDropdown = screen.getByRole('button', { name: /embarkation port/i });
-    await userEvent.click(portDropdown);
+     userEvent.click(portDropdown);
     await new Promise(resolve => setTimeout(resolve, 100));
     const optionC = await screen.findByText('C');
-    await userEvent.click(optionC);
+     userEvent.click(optionC);
 
     // Fill numeric inputs
-    await userEvent.type(screen.getByRole('spinbutton', { name: /age/i }), '28');
-    await userEvent.type(screen.getByRole('spinbutton', { name: /siblings\/spouses/i }), '1');
-    await userEvent.type(screen.getByRole('spinbutton', { name: /parents\/children/i }), '0');
+     userEvent.type(screen.getByRole('spinbutton', { name: /age/i }), '28');
+     userEvent.type(screen.getByRole('spinbutton', { name: /siblings\/spouses/i }), '1');
+     userEvent.type(screen.getByRole('spinbutton', { name: /parents\/children/i }), '0');
 
     // Check checkboxes
-    await userEvent.click(screen.getByRole('checkbox', { name: /were they alone/i }));
-    await userEvent.click(screen.getByRole('checkbox', { name: /cabin known/i }));
+     userEvent.click(screen.getByRole('checkbox', { name: /were they alone/i }));
+     userEvent.click(screen.getByRole('checkbox', { name: /cabin known/i }));
 
     // Submit form
-    await userEvent.click(screen.getByRole('button', { name: /predict/i }));
+     userEvent.click(screen.getByRole('button', { name: /predict/i }));
 
     // Verify results - updated to match the actual text in the component
     const resultText = await screen.findByText(/survived/i, { exact: false });
@@ -73,7 +73,7 @@ describe('Calculator Integration Test', () => {
     userEvent.click(screen.getByRole('link', { name: /calculator/i }));
     
     // Try to submit without filling anything
-    await userEvent.click(screen.getByRole('button', { name: /predict/i }));
+     userEvent.click(screen.getByRole('button', { name: /predict/i }));
     
     // Check for validation error
     expect(screen.getByText(/please select the passenger's gender/i)).toBeInTheDocument();
@@ -85,10 +85,10 @@ describe('Calculator Integration Test', () => {
     userEvent.click(screen.getByRole('link', { name: /calculator/i }));
     
     // Fill some fields
-    await userEvent.type(screen.getByLabelText('Age'), '28');
+     userEvent.type(screen.getByLabelText('Age'), '28');
     
     // Click reset
-    await userEvent.click(screen.getByRole('button', { name: /reset/i }));
+     userEvent.click(screen.getByRole('button', { name: /reset/i }));
     
     // Verify fields are reset
     expect(screen.getByLabelText('Age')).toHaveValue(0);
