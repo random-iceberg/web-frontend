@@ -12,7 +12,7 @@ jest.mock('axios', () => ({
   }
 }));
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../../../../App';
 
@@ -72,6 +72,14 @@ describe('Calculator Integration Test', () => {
     const resultCard = await screen.findByRole('heading', { name: /prediction result/i });
     expect(resultCard).toBeInTheDocument();
 
+    // Add waitFor to handle async state updates
+    await waitFor(async () => {
+      const survivalResult = screen.getByTestId('survival-result');
+      expect(survivalResult).toHaveTextContent('Survived');
+
+      const probability = screen.getByTestId('survival-probability');
+      expect(probability).toHaveTextContent('Probability: 85.0%');
+    });
   });
 
   // Add test for form validation

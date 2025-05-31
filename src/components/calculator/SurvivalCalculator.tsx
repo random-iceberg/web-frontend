@@ -329,10 +329,10 @@ export default function SurvivalCalculator() {
                     : "bg-red-100 border border-red-300 text-red-800"
                 }`}
               >
-                <p className="text-lg font-semibold">
+                <p className="text-lg font-semibold" data-testid="survival-result">
                   {result.survived ? "Survived" : "Did Not Survive"}
                 </p>
-                <p className="text-sm mt-1">
+                <p className="text-sm mt-1" data-testid="survival-probability">
                   Probability: {(result.probability * 100).toFixed(1)}%
                 </p>
               </div>
