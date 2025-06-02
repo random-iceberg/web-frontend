@@ -1,7 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "providers/authProvider";
 
 const Navbar: React.FC = () => {
+  const { token, setToken } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setToken(null);
+    navigate("/");
+  };
+
   return (
     <header className="pb-5">
       <nav className="bg-primary">
@@ -27,21 +36,39 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          {/* Auth Buttons */}
+          {/* Buttons change based on auth status */}
           <div className="flex items-center space-x-3">
-            <Link
-              to="/signin"
-              className="px-4 py-2 text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 bg-secondary text-[hsl(var(--foreground))] border border-secondary hover:bg-secondary/80 focus:ring-accent"
-            >
-              Sign In
-            </Link>
-
-            <Link
-              to="/signup"
-              className="px-4 py-2 text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 bg-primary text-[hsl(var(--background))] border border-transparent hover:bg-accent focus:ring-primary"
-            >
-              Sign Up
-            </Link>
+            {!token ? (
+              <>
+                <Link
+                  to="/signin"
+                  className="px-4 py-2 text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 bg-secondary text-[hsl(var(--foreground))] border border-secondary hover:bg-secondary/80 focus:ring-accent"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="px-4 py-2 text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 bg-primary text-[hsl(var(--background))] border border-transparent hover:bg-accent focus:ring-primary"
+                >
+                  Sign Up
+                </Link>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate("/dashboard")}
+                  className="px-4 py-2 text-sm font-medium rounded-md bg-secondary text-[hsl(var(--foreground))] hover:bg-secondary/80 transition"
+                >
+                  Profile
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-sm font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150 bg-primary text-[hsl(var(--background))] border border-transparent hover:bg-accent focus:ring-primary"
+                >
+                  Logout
+                </button>
+              </>
+            )}
           </div>
         </div>
       </nav>

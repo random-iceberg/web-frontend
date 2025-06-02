@@ -5,7 +5,10 @@ import Card from "components/common/Card";
 import Input from "components/common/forms/Input";
 import Button from "components/common/Button";
 import Alert from "components/common/Alert";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import api from "services/api";
+import { useAuth } from "providers/authProvider";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
@@ -13,18 +16,37 @@ export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const { setToken } = useAuth();
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    setTimeout(() => {
-      {
-        /* TODO: do actual auth checks */
-      }
+    try {
+      const response = await axios.post(api.url("auth/login"), {
+        email,
+        password,
+      });
+      console.log("Success: Signin response:", response.data);
+      const token = response.data?.access_token;
+      if (!token) throw new Error("No token in response.");
+
+      setToken(token);
       setLoading(false);
-      setError("The email and password you entered do not match.");
-    }, 250);
+      navigate("/");
+    } catch (err: any) {
+      setLoading(false);
+      if (err.response?.status === 401) {
+        setError("Invalid credentials.");
+      } else if (err.response?.data?.detail) {
+        setError(err.response.data.detail);
+      } else {
+        setError("An error occurred during sign in.");
+      }
+      console.error("Signin error:", err);
+    }
   };
 
   return (
