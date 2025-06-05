@@ -23,12 +23,12 @@ const App: React.FC = () => (
   <Router>
     <div>
       {/* Navbar visible on md+ */}
-      <div className="hidden md:block w-full">
+      <div className="hidden maxxl:block w-full">
         <Navbar />
       </div>
 
       {/* Hamburger visible on smaller screens */}
-      <div className="block md:hidden w-full">
+      <div className="block maxxl:hidden w-full">
         <Hamburger />
       </div>
 

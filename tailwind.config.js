@@ -11,6 +11,9 @@ module.exports = {
         secondary: 'hsl(var(--secondary))',
         accent: 'hsl(var(--accent))',
       },
+      screens: {
+        'maxxl': '1500px',
+      }
     },
   },
   plugins: [],
