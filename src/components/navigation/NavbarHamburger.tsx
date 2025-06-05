@@ -14,26 +14,31 @@ const NavbarHamburger: React.FC = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="relative z-50">
-      {/* Trigger */}
+    <div className="relative z-50 w-full">
+      {/* Button with logo and title */}
       <button
         type="button"
         aria-label="Toggle site navigation"
         aria-expanded={open}
         aria-controls="mobile-menu"
         onClick={() => setOpen((o) => !o)}
-        className="p-2 rounded focus-visible:ring transition"
+        className="w-full flex items-center gap-3 p-3 rounded focus-visible:ring transition bg-primary"
       >
-        {/* decorative brand mark */}
-        <img src="/logo_transparent.png" alt="" className="w-10" />
+        {/* Logo */}
+        <img src="/logo_transparent.png" alt="Titanic Logo" className="w-10" />
+        {/* Title */}
+        <span className="text-2xl font-bold text-[hsl(var(--background))]">
+          Titanic Survival Predictor
+        </span>
       </button>
 
-      {/* Menu */}
+      {/* Dropdown Menu */}
       {open && (
         <nav
           id="mobile-menu"
           role="menu"
-          className="absolute left-0 top-12 w-60 space-y-3 rounded-xl bg-primary p-5 backdrop-blur shadow-2xl"
+          className="absolute left-0 w-full space-y-3 rounded-xl bg-primary p-5 backdrop-blur shadow-2xl z-40"
+          style={{ top: "calc(100% + 0.5rem)" }} // <-- key to position below button with gap
         >
           {LINKS.map(([label, path]) => (
             <Link
