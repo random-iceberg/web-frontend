@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ConnectionStatus from "components/connectionStatus";
 import Navbar from "components/Navbar";
+import { Hamburger } from "components/navigation/NavbarHamburger";
 import Footer from "components/Footer";
 import "./global.css";
 
