@@ -1,43 +1,55 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export function Hamburger() {
-  return (
-    <div className="relative z-50 group inline-block">
-      {/* Logo links to Landing Page */}
-      <Link
-        to="/"
-        aria-label="Go to Landing Page"
-        className="inline-block p-2 rounded transition hover:scale-105 hover:opacity-90"
-      >
-        <img src="/logo_transparent.png" alt="Menu" className="w-14" />
-      </Link>
+const LINKS: [string, string][] = [
+  ["Survival Calculator", "/calculator"],
+  ["Admin Console", "/admin"],
+  ["User Dashboard", "/dashboard"],
+  ["Sign In", "/signin"],
+  ["Sign Up", "/signup"],
+];
 
-      {/* Dropdown Menu - appears on hover */}
-      <nav
-        className="
-          absolute top-16 left-0 w-64 rounded-xl bg-primary/95 backdrop-blur-md shadow-2xl border border-white/10
-          flex flex-col items-start px-6 py-5 space-y-4
-          opacity-0 translate-y-2 pointer-events-none
-          group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
-          transition-all duration-300 ease-in-out
-        "
+/** Mobile / tablet navigation toggle */
+const NavbarHamburger: React.FC = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="relative z-50">
+      {/* Trigger */}
+      <button
+        type="button"
+        aria-label="Toggle site navigation"
+        aria-expanded={open}
+        aria-controls="mobile-menu"
+        onClick={() => setOpen((o) => !o)}
+        className="p-2 rounded focus-visible:ring transition"
       >
-        {[
-          ["Survival Calculator", "/calculator"],
-          ["Admin Console", "/admin"],
-          ["User Dashboard", "/dashboard"],
-          ["Sign In", "/signin"],
-          ["Sign Up", "/signup"],
-        ].map(([label, path]) => (
-          <Link
-            key={path}
-            to={path}
-            className="w-full text-base font-medium text-white hover:text-accent hover:translate-x-1 transition-all duration-200"
-          >
-            {label}
-          </Link>
-        ))}
-      </nav>
+        {/* decorative brand mark */}
+        <img src="/logo_transparent.png" alt="" className="w-10" />
+      </button>
+
+      {/* Menu */}
+      {open && (
+        <nav
+          id="mobile-menu"
+          role="menu"
+          className="absolute left-0 top-12 w-60 space-y-3 rounded-xl bg-primary p-5 backdrop-blur shadow-2xl"
+        >
+          {LINKS.map(([label, path]) => (
+            <Link
+              role="menuitem"
+              key={path}
+              to={path}
+              onClick={() => setOpen(false)}
+              className="block text-base font-medium text-white hover:translate-x-1 hover:text-accent transition"
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+      )}
     </div>
   );
-}
+};
+
+export default NavbarHamburger;
