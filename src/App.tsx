@@ -9,9 +9,7 @@ import "./global.css";
 /* ────── lazy-loaded pages ────── */
 const LandingPage = lazy(() => import("pages/LandingPage"));
 const AdminConsole = lazy(() => import("components/admin/AdminConsole"));
-const Calculator = lazy(
-  () => import("components/calculator/SurvivalCalculator"),
-);
+const Calculator = lazy(() => import("components/calculator/SurvivalCalculator"));
 const UserDashboard = lazy(() => import("pages/UserDashboard"));
 const SignIn = lazy(() => import("pages/SignIn"));
 const SignUp = lazy(() => import("pages/SignUp"));
@@ -23,11 +21,18 @@ const Loading = () => (
 
 const App: React.FC = () => (
   <Router>
-    <div className="min-h-screen flex flex-col">
-      {/* Use Navbar component */}
-      <Navbar />
+    <div>
+      {/* Navbar visible on md+ */}
+      <div className="hidden md:block w-full">
+        <Navbar />
+      </div>
 
-      {/* ─── Main ─── */}
+      {/* Hamburger visible on smaller screens */}
+      <div className="block md:hidden w-full">
+        <Hamburger />
+      </div>
+
+      {/* Main content */}
       <main className="flex-grow">
         <Suspense fallback={<Loading />}>
           <Routes>
@@ -41,10 +46,10 @@ const App: React.FC = () => (
         </Suspense>
       </main>
 
-      {/* Use Footer component */}
+      {/* Footer */}
       <Footer />
 
-      {/* connection health badge */}
+      {/* Connection status badge */}
       <ConnectionStatus />
     </div>
   </Router>

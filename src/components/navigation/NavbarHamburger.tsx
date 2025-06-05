@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-interface HamburgerProps {
-  onClick: () => void;
-}
-
-export function Hamburger(props: HamburgerProps) {
-  const { onClick } = props;
+export function Hamburger() {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
     setIsOpen((prev) => !prev);
-    onClick();
   };
 
   return (
