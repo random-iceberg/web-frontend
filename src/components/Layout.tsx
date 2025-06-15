@@ -1,20 +1,24 @@
+import React, { PropsWithChildren } from "react";
+import { Outlet } from "react-router-dom";
+import Footer from "components/Footer";
+import ConnectionStatus from "components/ConnectionStatus";
+
 /*
-Draft Doc
-
-This Component is for Page Layout, Use this to keep the general Outer layout of the page uniform across the app.
+  This Component is our App Layout, adding common structure to all pages.
+  Includes global components like Navbar, Footer, and ConnectionStatus to all pages.
+  The Navbar component now handles both desktop and mobile layouts internally.
 */
-import React from "react";
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-500 ease-in">
-      {children}
-    </div>
-  );
-};
+const Layout: React.FC<PropsWithChildren> = ({ children }) => (
+  <div className="min-h-screen flex flex-col">
+    <main className="flex-grow">
+      <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 transition-opacity duration-500 ease-in">
+        {children ?? <Outlet />}
+      </div>
+    </main>
+    <Footer />
+    <ConnectionStatus />
+  </div>
+);
 
 export default Layout;
