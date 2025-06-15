@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
-import ConnectionStatus from "components/connectionStatus";
+import ConnectionStatus from "components/ConnectionStatus";
 
 /*
   This Component is our App Layout, adding common structure to all pages.
