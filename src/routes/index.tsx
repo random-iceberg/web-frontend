@@ -24,6 +24,10 @@ const Routes: React.FC = () => {
       element: <LandingPage />,
     },
     {
+      path: "/calculator",
+      element: <Calculator />,
+    },
+    {
       path: "/signin",
       element: <SignIn />,
     },
@@ -39,10 +43,6 @@ const Routes: React.FC = () => {
       path: "/",
       element: <ProtectedRoute />,
       children: [
-        {
-          path: "/calculator",
-          element: <Calculator />,
-        },
         {
           path: "/admin",
           element: <AdminConsole />,
