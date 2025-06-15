@@ -17,74 +17,57 @@ const Calculator = lazy(
 const Routes: React.FC = () => {
   const { token } = useAuth();
 
-  // Routes for public access
-  const routesForPublic = [
-    {
-      index: true,
-      element: <LandingPage />,
-    },
-    {
-      path: "/calculator",
-      element: <Calculator />,
-    },
-    {
-      path: "/signin",
-      element: <SignIn />,
-    },
-    {
-      path: "/signup",
-      element: <SignUp />,
-    },
-  ];
-
-  // Routes for authenticated users only
-  const routesForAuthenticatedOnly = [
-    {
-      path: "/",
-      element: <ProtectedRoute />,
-      children: [
-        {
-          path: "/admin",
-          element: <AdminConsole />,
-        },
-        {
-          path: "/dashboard",
-          element: <UserDashboard />,
-        },
-      ],
-    },
-  ];
-
-  // Routes for not authenticated users only. TODO: maybe we don't need this?
-  const routesForNotAuthenticatedOnly = [
-    {
-      index: true,
-      element: <LandingPage />,
-    },
-    {
-      path: "/signin",
-      element: <SignIn />,
-    },
-    {
-      path: "/signup",
-      element: <SignUp />,
-    },
-  ];
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <AppLayout />, // shared AppLayout here
+      element: <AppLayout />,
       children: [
-        ...routesForPublic,
-        ...(!token ? routesForNotAuthenticatedOnly : []),
+        // Public routes - always accessible
+        {
+          index: true,
+          element: <LandingPage />,
+        },
+        {
+          path: "/calculator",
+          element: <Calculator />,
+        },
+        // Auth routes - only show when not authenticated
+        ...(token
+          ? []
+          : [
+              {
+                path: "/signin",
+                element: <SignIn />,
+              },
+              {
+                path: "/signup",
+                element: <SignUp />,
+              },
+            ]),
+        // Protected routes - only accessible when authenticated
         {
           path: "/",
           element: <ProtectedRoute />,
-          children: routesForAuthenticatedOnly.flatMap((r) => r.children),
+          children: [
+            {
+              path: "/admin",
+              element: <AdminConsole />,
+            },
+            {
+              path: "/dashboard",
+              element: <UserDashboard />,
+            },
+          ],
+        },
+        // Catch-all redirect to home
+        {
+          path: "*",
+          element: <LandingPage />,
         },
       ],
     },
   ]);
+
   return <RouterProvider router={router} />;
 };
 
