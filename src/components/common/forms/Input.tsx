@@ -101,9 +101,7 @@ const Input: React.FC<InputProps> = ({
         max={max}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400
-          focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary
-          disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+        className="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
         aria-label={label}
         aria-required={required}
         aria-describedby={descriptionId}
