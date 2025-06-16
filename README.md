@@ -5,8 +5,8 @@ React-based single-page application for the Titanic Survivor Prediction system.
 ## 🚀 Quick Start (Zero Configuration)
 
 ```bash
-# From the root docker-compose directory
-docker compose up frontend
+# From the project root directory
+docker compose -f 'compose/compose.dev.yaml' up -d --build
 
 # Access the application
 open http://localhost:8080
