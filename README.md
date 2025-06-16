@@ -34,28 +34,26 @@ No setup needed! The service starts with hot reload enabled.
 
 ## 🛠️ Development Workflow
 
-### Using Docker Compose (Recommended)
-
-```bash
-# Development mode with hot reload
-cd compose
-docker compose -f compose.dev.yaml up frontend
-
-# The app automatically reloads on code changes
-# Access at http://localhost:8080
-```
 
 ### Testing
 
 ```bash
-# Run tests in container
-docker compose exec frontend-dev npm test
+cd app/frontend
 
-# Update snapshots
-docker compose exec frontend-dev npm test -- -u
+# Install dependencies (if not already done)
+npm install
+
+# Run tests
+npm test
 
 # Check linting
-docker compose exec frontend-dev npm run lint
+npm run lint
+
+# Check code formatting
+npx prettier --check src
+
+# Auto-fix formatting
+npm run format
 ```
 
 ### Optional: Local Development
