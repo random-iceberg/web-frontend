@@ -34,49 +34,6 @@ No setup needed! The service starts with hot reload enabled.
 
 ## 🛠️ Development Workflow
 
-
-### Testing
-
-```bash
-cd app/frontend
-
-# Install dependencies (if not already done)
-npm install
-
-# Run tests
-npm test
-
-# Check linting
-npm run lint
-
-# Check code formatting
-npx prettier --check src
-
-# Auto-fix formatting
-npm run format
-```
-
-### Optional: Local Development
-
-If you need to run locally without Docker:
-
-```bash
-cd app/frontend
-
-# Install dependencies
-npm install
-
-# Start development server
-npm start
-# Runs on http://localhost:3000
-
-# Run tests
-npm test
-
-# Build for production
-npm run build
-```
-
 ## 📁 Project Structure
 
 ```
@@ -151,15 +108,24 @@ import { Input, Select, Checkbox, Button } from 'components/common/forms';
 ## 🧪 Testing Strategy
 
 ### Running Tests
+
 ```bash
-# In Docker (recommended)
-docker compose exec frontend-dev npm test
+cd app/frontend
 
-# Watch mode
-docker compose exec frontend-dev npm test -- --watchAll
+# Install dependencies (if not already done)
+npm install
 
-# Coverage report
-docker compose exec frontend-dev npm test -- --coverage
+# Run tests
+npm test
+
+# Check linting
+npm run lint
+
+# Check code formatting
+npx prettier --check src
+
+# Auto-fix formatting
+npm run format
 ```
 
 ### Test Structure
@@ -239,14 +205,15 @@ docker compose up --build
 
 **Changes not reflecting:**
 ```bash
-# Restart the frontend service
-docker compose restart frontend-dev
+# Restart the development application
+docker compose -f 'compose\compose.dev.yaml' down
+docker compose -f 'compose\compose.dev.yaml' up -d --build
 ```
 
-**Test failures after component changes:**
+**API errors in console:**
 ```bash
-# Update snapshots
-docker compose exec frontend-dev npm test -- -u
+# Check backend logs for errors
+docker compose logs -f backend
 ```
 
 ## 📚 Additional Resources
