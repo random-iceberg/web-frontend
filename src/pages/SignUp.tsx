@@ -6,6 +6,8 @@ import Input from "components/common/forms/Input";
 import Button from "components/common/Button";
 import Alert from "components/common/Alert";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import api from "services/api";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -18,13 +20,27 @@ export default function SignUpPage() {
     setError(null);
     setLoading(true);
 
-    setTimeout(() => {
-      {
-        /* TODO: do actual auth checks */
-      }
+    try {
+      await axios.post(api.url("auth/signup"), {
+        email,
+        password,
+      });
       setLoading(false);
-      setError("This email is already registered.");
-    }, 250);
+    } catch (err: any) {
+      setLoading(false);
+      if (err.response) {
+        if (err.response.status === 409) {
+          setError("This email is already registered.");
+        } else if (err.response.data && err.response.data.detail) {
+          setError(err.response.data.detail);
+        } else {
+          setError("An error occurred during sign up.");
+        }
+      } else {
+        setError("An error occurred during sign up.");
+      }
+      console.log("Signup error:", err);
+    }
   };
 
   return (
