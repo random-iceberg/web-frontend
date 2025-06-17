@@ -163,15 +163,6 @@ This creates an optimized build with:
 - Optimized images
 - Gzip compression via Nginx
 
-## 🔧 Environment Configuration
-
-The application uses these environment variables (set automatically in Docker):
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PORT` | Dev server port | `8080` |
-| `REACT_APP_API_URL` | Backend URL | Proxy via Nginx |
-
 ## 📱 Browser Support
 
 - Chrome >= 119
