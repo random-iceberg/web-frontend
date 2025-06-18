@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Section Component renders correctly with children 1`] = `
+<DocumentFragment>
+  <section
+    class="container mx-auto px-4 py-16"
+  >
+    <h1>
+      Section Title
+    </h1>
+    <p>
+      This is section content.
+    </p>
+  </section>
+</DocumentFragment>
+`;
+
+exports[`Section Component renders correctly with children and className 1`] = `
+<DocumentFragment>
+  <section
+    class="container mx-auto px-4 py-16 my-custom-section bg-blue-100"
+    id="test-section"
+  >
+    <h2>
+      Another Section
+    </h2>
+  </section>
+</DocumentFragment>
+`;
+
+exports[`Section Component renders correctly with no children 1`] = `
+<DocumentFragment>
+  <section
+    class="container mx-auto px-4 py-16"
+    id="empty-section"
+  />
+</DocumentFragment>
+`;

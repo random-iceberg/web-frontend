@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmptyState Component renders correctly with a different message 1`] = `
+<DocumentFragment>
+  <div
+    class="p-8 text-center bg-gray-50 rounded-lg"
+  >
+    Search results not found
+  </div>
+</DocumentFragment>
+`;
+
+exports[`EmptyState Component renders correctly with a message 1`] = `
+<DocumentFragment>
+  <div
+    class="p-8 text-center bg-gray-50 rounded-lg"
+  >
+    No data available
+  </div>
+</DocumentFragment>
+`;

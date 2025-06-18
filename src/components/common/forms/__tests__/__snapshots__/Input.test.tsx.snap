@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input Component renders correctly when disabled 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700 mb-2"
+      for="test-input"
+    >
+      Test Label 
+    </label>
+    <input
+      aria-label="Test Label"
+      aria-required="false"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+      disabled=""
+      id="test-input"
+      type="text"
+      value="Test Value"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Input Component renders correctly when required 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700 mb-2"
+      for="test-input"
+    >
+      Test Label
+      <span
+        class="text-red-500 ml-1"
+      >
+        *
+      </span>
+       
+    </label>
+    <input
+      aria-label="Test Label"
+      aria-required="true"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+      id="test-input"
+      required=""
+      type="text"
+      value="Test Value"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Input Component renders correctly with basic props (text type) 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700 mb-2"
+      for="test-input"
+    >
+      Test Label 
+    </label>
+    <input
+      aria-label="Test Label"
+      aria-required="false"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+      id="test-input"
+      type="text"
+      value="Test Value"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Input Component renders correctly with number type and min/max 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700 mb-2"
+      for="test-number-input"
+    >
+      Number Label 
+    </label>
+    <input
+      aria-label="Number Label"
+      aria-required="false"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+      id="test-number-input"
+      max="100"
+      min="0"
+      type="number"
+      value="10"
+    />
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Input Component renders with a description 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700 mb-2"
+      for="test-input"
+    >
+      Test Label 
+    </label>
+    <input
+      aria-describedby="test-input-description"
+      aria-label="Test Label"
+      aria-required="false"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+      id="test-input"
+      type="text"
+      value="Test Value"
+    />
+    <p
+      class="mt-2 text-sm text-gray-600"
+      id="test-input-description"
+    >
+      This is a helpful description.
+    </p>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Input Component renders with a placeholder 1`] = `
+<DocumentFragment>
+  <div
+    class="w-full"
+  >
+    <label
+      class="block text-sm font-medium text-gray-700 mb-2"
+      for="test-input"
+    >
+      Test Label 
+    </label>
+    <input
+      aria-label="Test Label"
+      aria-required="false"
+      class="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+      id="test-input"
+      placeholder="Enter text here"
+      type="text"
+      value=""
+    />
+  </div>
+</DocumentFragment>
+`;

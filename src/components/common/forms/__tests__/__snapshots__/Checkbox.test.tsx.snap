@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Checkbox Component renders correctly when checked 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-start"
+  >
+     
+    <div
+      class="flex h-5 items-center"
+    >
+      <input
+        checked=""
+        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+        id="test-checkbox"
+        type="checkbox"
+      />
+    </div>
+    <div
+      class="ml-3 text-base"
+    >
+      <label
+        class="font-medium text-gray-700"
+        for="test-checkbox"
+      >
+        Test Checkbox
+      </label>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Checkbox Component renders correctly when disabled and checked 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-start"
+  >
+     
+    <div
+      class="flex h-5 items-center"
+    >
+      <input
+        checked=""
+        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled=""
+        id="test-checkbox"
+        type="checkbox"
+      />
+    </div>
+    <div
+      class="ml-3 text-base"
+    >
+      <label
+        class="font-medium text-gray-500"
+        for="test-checkbox"
+      >
+        Test Checkbox
+      </label>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Checkbox Component renders correctly when disabled and unchecked 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-start"
+  >
+     
+    <div
+      class="flex h-5 items-center"
+    >
+      <input
+        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled=""
+        id="test-checkbox"
+        type="checkbox"
+      />
+    </div>
+    <div
+      class="ml-3 text-base"
+    >
+      <label
+        class="font-medium text-gray-500"
+        for="test-checkbox"
+      >
+        Test Checkbox
+      </label>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Checkbox Component renders correctly when unchecked 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-start"
+  >
+     
+    <div
+      class="flex h-5 items-center"
+    >
+      <input
+        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+        id="test-checkbox"
+        type="checkbox"
+      />
+    </div>
+    <div
+      class="ml-3 text-base"
+    >
+      <label
+        class="font-medium text-gray-700"
+        for="test-checkbox"
+      >
+        Test Checkbox
+      </label>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Checkbox Component renders with a description 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-start"
+  >
+     
+    <div
+      class="flex h-5 items-center"
+    >
+      <input
+        aria-describedby="test-checkbox-description"
+        class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+        id="test-checkbox"
+        type="checkbox"
+      />
+    </div>
+    <div
+      class="ml-3 text-base"
+    >
+      <label
+        class="font-medium text-gray-700"
+        for="test-checkbox"
+      >
+        Test Checkbox
+      </label>
+      <p
+        class="mt-1 text-sm text-gray-600"
+        id="test-checkbox-description"
+      >
+        This is a test description.
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;

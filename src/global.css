@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 245 40% 98%;
+    --foreground: 220 15% 20%;
+    --primary: 210 40% 30%;
+    --secondary: 210 40% 90%;
+    --accent: 210 40% 50%;
+    --font-base: "Inter", sans-serif;
+  }
+
+  body {
+    background: linear-gradient(
+      to bottom right,
+      hsl(var(--background)),
+      hsl(var(--secondary))
+    );
+    @apply text-[hsl(var(--foreground))] font-sans min-h-screen;
+  }
+
+  .frosted-glass {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+}
