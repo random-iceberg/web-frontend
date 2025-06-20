@@ -329,7 +329,7 @@ export default function SurvivalCalculator() {
                   description={FIELD_INFO.parch.description} // Pass description prop
                 />
               </div>
-
+              
               <div>
                 <Input
                   id="fare"
@@ -343,6 +343,7 @@ export default function SurvivalCalculator() {
                   step="0.01"
                   disabled={loading}
                   description={FIELD_INFO.fare.description}
+                  prefix="$"
                 />
               </div>
 

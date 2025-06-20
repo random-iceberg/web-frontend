@@ -34,6 +34,7 @@ type InputProps = {
   placeholder?: string; // Added placeholder
   required?: boolean; // Added required attribute
   description?: string; // Optional description text
+  prefix?: string;
 };
 
 /**
@@ -81,6 +82,7 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   required = false,
   description,
+  prefix,
 }) => {
   const descriptionId = description ? `${id}-description` : undefined;
   return (
@@ -93,22 +95,31 @@ const Input: React.FC<InputProps> = ({
         {required && <span className="text-red-500 ml-1">*</span>}{" "}
         {/* Indicate required fields */}
       </label>
-      <input
-        type={type}
-        id={id}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        disabled={disabled}
-        min={min}
-        max={max}
-        step={step}
-        placeholder={placeholder}
-        required={required}
-        className="w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
-        aria-label={label}
-        aria-required={required}
-        aria-describedby={descriptionId}
-      />
+      <div className="relative">
+        {prefix && (
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span className="text-gray-500 sm:text-sm">{prefix}</span>
+          </div>
+        )}
+        <input
+          type={type}
+          id={id}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          disabled={disabled}
+          min={min}
+          max={max}
+          step={step}
+          placeholder={placeholder}
+          required={required}
+          className={`w-full rounded-md border border-gray-300 shadow-sm px-3 py-2 text-base text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed ${
+            prefix ? "pl-7" : ""
+          }`}
+          aria-label={label}
+          aria-required={required}
+          aria-describedby={descriptionId}
+        />
+      </div>
       {description && (
         <p id={descriptionId} className="mt-2 text-sm text-gray-600">
           {description}
