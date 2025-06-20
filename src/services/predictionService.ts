@@ -7,6 +7,7 @@ export interface PassengerData {
   sibsp: number;
   parch: number;
   passengerClass: 1 | 2 | 3;
+  fare: number;
   sex: "male" | "female";
   embarkationPort: "C" | "Q" | "S";
   wereAlone: boolean;
