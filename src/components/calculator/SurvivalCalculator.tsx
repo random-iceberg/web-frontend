@@ -240,20 +240,25 @@ export default function SurvivalCalculator() {
                 <DropDown
                   id="title"
                   label={FIELD_INFO.title.label}
-                  value={form.title}
-                  onSelect={(val) =>
-                    setForm((f) => ({ ...f, title: val as FormState["title"] }))
+                  value={form.title || ""}
+                  onSelect={(v) =>
+                    setForm((f) => ({
+                      ...f, title: 
+                      v as "master" | "miss" | "mr" | "mrs" | "rare", }))
                   }
-                  options={[
-                    { value: "master", label: "Master" },
-                    { value: "miss", label: "Miss" },
-                    { value: "mr", label: "Mr." },
-                    { value: "mrs", label: "Mrs." },
-                    { value: "rare", label: "Rare" },
-                  ]}
-                  required
-                  description={FIELD_INFO.title.description}
-                />
+                  disabled={loading}
+                >
+                  <button type="button">Master</button>
+                  <button type="button">Miss</button>
+                  <button type="button">Mr</button>
+                  <button type="button">Mrs</button>
+                  <button type="button">Rare</button>
+                </DropDown>
+                {errors.title && (
+                  <Alert variant="error" className="mt-2 p-2 text-xs">
+                    {errors.embarkationPort}
+                  </Alert>
+                )}
               </div>
 
               <div>
