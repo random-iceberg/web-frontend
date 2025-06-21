@@ -20,6 +20,7 @@ const AGE_MIN = 1;
 const AGE_MAX = 119;
 const SIBSP_MAX = 8;
 const PARCH_MAX = 6;
+const FARE_MAX = 500;
 
 type FormState = {
   age: number;
@@ -53,19 +54,19 @@ const FIELD_INFO: Record<
   },
   age: {
     label: "Age",
-    description: "Passenger's age (1-119 years)",
+    description: `Passenger's age (${AGE_MIN}-${AGE_MAX} years)`,
   },
   sibsp: {
     label: "Siblings/Spouses",
-    description: "Number of siblings or spouses aboard (0-8)",
+    description: `Number of siblings or spouses aboard (0-${SIBSP_MAX})`,
   },
   fare: {
     label: "Fare",
-    description: "Ticket fare in USD ($0.00 - $500.00)",
+    description: `Ticket fare in USD ($0.00 - $${FARE_MAX.toFixed(2)})`,
   },
   parch: {
     label: "Parents/Children",
-    description: "Number of parents or children aboard (0-6)",
+    description: `Number of parents or children aboard (0-${PARCH_MAX})`,
   },
   wereAlone: {
     label: "Were they alone?",
@@ -81,8 +82,6 @@ const FIELD_INFO: Record<
       "Passenger's courtesy title (e.g., Mr., Mrs., Miss, Master, or Rare).",
   },
 };
-
-// FieldDescription component is no longer needed as Input, DropDown, and Checkbox handle descriptions.
 
 const initialForm: FormState = {
   age: 0,
@@ -116,21 +115,46 @@ export default function SurvivalCalculator() {
       newErrors.sex = "Please select the passenger's gender";
     }
     if (!form.embarkationPort) {
-      newErrors.embarkationPort =
-        "Please select the port where the passenger embarked (C - Cherbourg, Q - Queenstown, S - Southampton)";
+      newErrors.embarkationPort = "Please select the port of embarkation.";
     }
     if (!form.passengerClass) {
-      newErrors.passengerClass =
-        "Please select the class of travel (1st, 2nd, or 3rd class)";
+      newErrors.passengerClass = "Please select the class of travel.";
     }
-    if (form.fare < 0 || form.fare > 500) {
-      newErrors.fare = "Fare must be between $0.00 and $500.00";
+    if (form.fare < 0 || form.fare > FARE_MAX) {
+      newErrors.fare = `Fare must be between $0.00 and $${FARE_MAX.toFixed(
+        2
+      )}.`;
     }
     return newErrors;
   };
 
   const handleReset = () => {
     setForm(initialForm);
+    setResult(null);
+    setErrors({});
+  };
+
+  const handleRandomize = () => {
+    const random = <T,>(arr: T[]): T =>
+      arr[Math.floor(Math.random() * arr.length)];
+
+    const sibsp = Math.floor(Math.random() * (SIBSP_MAX + 1));
+    const parch = Math.floor(Math.random() * (PARCH_MAX + 1));
+
+    const randomForm: FormState = {
+      age: Math.floor(Math.random() * (AGE_MAX - AGE_MIN + 1)) + AGE_MIN,
+      sibsp,
+      parch,
+      passengerClass: random([1, 2, 3]),
+      fare: parseFloat((Math.random() * FARE_MAX).toFixed(2)),
+      sex: random(["male", "female"]),
+      title: random(["master", "miss", "mr", "mrs", "rare"]),
+      embarkationPort: random(["C", "Q", "S"]),
+      wereAlone: sibsp === 0 && parch === 0,
+      cabinKnown: Math.random() < 0.5,
+    };
+
+    setForm(randomForm);
     setResult(null);
     setErrors({});
   };
@@ -142,12 +166,11 @@ export default function SurvivalCalculator() {
 
     const validationErrors = validateInputs();
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors); // set the errors object
+      setErrors(validationErrors);
       setLoading(false);
       return;
     }
 
-    // Transform FormState to PassengerData
     const passengerData: PassengerData = {
       age: form.age,
       sibsp: form.sibsp,
@@ -240,20 +263,19 @@ export default function SurvivalCalculator() {
                 <DropDown
                   id="title"
                   label={FIELD_INFO.title.label}
-                  value={form.title}
+                  value={form.title || ""}
                   onSelect={(val) =>
                     setForm((f) => ({ ...f, title: val as FormState["title"] }))
                   }
-                  options={[
-                    { value: "master", label: "Master" },
-                    { value: "miss", label: "Miss" },
-                    { value: "mr", label: "Mr." },
-                    { value: "mrs", label: "Mrs." },
-                    { value: "rare", label: "Rare" },
-                  ]}
-                  required
+                  disabled={loading}
                   description={FIELD_INFO.title.description}
-                />
+                >
+                  <button type="button">master</button>
+                  <button type="button">miss</button>
+                  <button type="button">mr</button>
+                  <button type="button">mrs</button>
+                  <button type="button">rare</button>
+                </DropDown>
               </div>
 
               <div>
@@ -285,13 +307,13 @@ export default function SurvivalCalculator() {
                   id="age"
                   label={FIELD_INFO.age.label}
                   type="number"
-                  required // Mark as required
+                  required
                   value={form.age.toString()}
                   onChange={(v) => setForm((f) => ({ ...f, age: Number(v) }))}
                   min={AGE_MIN}
                   max={AGE_MAX}
                   disabled={loading}
-                  description={FIELD_INFO.age.description} // Pass description prop
+                  description={FIELD_INFO.age.description}
                 />
               </div>
 
@@ -300,13 +322,13 @@ export default function SurvivalCalculator() {
                   id="sibsp"
                   label={FIELD_INFO.sibsp.label}
                   type="number"
-                  required // Mark as required
+                  required
                   value={form.sibsp.toString()}
                   onChange={(v) => setForm((f) => ({ ...f, sibsp: Number(v) }))}
                   min={0}
                   max={SIBSP_MAX}
                   disabled={loading}
-                  description={FIELD_INFO.sibsp.description} // Pass description prop
+                  description={FIELD_INFO.sibsp.description}
                 />
               </div>
 
@@ -315,13 +337,13 @@ export default function SurvivalCalculator() {
                   id="parch"
                   label={FIELD_INFO.parch.label}
                   type="number"
-                  required // Mark as required
+                  required
                   value={form.parch.toString()}
                   onChange={(v) => setForm((f) => ({ ...f, parch: Number(v) }))}
                   min={0}
                   max={PARCH_MAX}
                   disabled={loading}
-                  description={FIELD_INFO.parch.description} // Pass description prop
+                  description={FIELD_INFO.parch.description}
                 />
               </div>
 
@@ -334,20 +356,24 @@ export default function SurvivalCalculator() {
                   value={form.fare.toString()}
                   onChange={(v) => setForm((f) => ({ ...f, fare: Number(v) }))}
                   min={0}
-                  max={500}
+                  max={FARE_MAX}
                   step="0.01"
                   disabled={loading}
                   description={FIELD_INFO.fare.description}
                 />
+                {errors.fare && (
+                  <Alert variant="error" className="mt-2 p-2 text-xs">
+                    {errors.fare}
+                  </Alert>
+                )}
               </div>
 
               <div className="md:col-span-2">
-                {" "}
                 {/* Span two columns on medium screens and above */}
                 <Checkbox
                   id="were-alone"
                   label={FIELD_INFO.wereAlone.label}
-                  description={FIELD_INFO.wereAlone.description} // Use description prop
+                  description={FIELD_INFO.wereAlone.description}
                   checked={form.wereAlone}
                   onChange={(v) => setForm((f) => ({ ...f, wereAlone: v }))}
                   disabled={loading}
@@ -355,12 +381,11 @@ export default function SurvivalCalculator() {
               </div>
 
               <div className="md:col-span-2">
-                {" "}
                 {/* Span two columns on medium screens and above */}
                 <Checkbox
                   id="cabin-known"
                   label={FIELD_INFO.cabinKnown.label}
-                  description={FIELD_INFO.cabinKnown.description} // Use description prop
+                  description={FIELD_INFO.cabinKnown.description}
                   checked={form.cabinKnown}
                   onChange={(v) => setForm((f) => ({ ...f, cabinKnown: v }))}
                   disabled={loading}
@@ -370,6 +395,14 @@ export default function SurvivalCalculator() {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-4 sm:pt-6 border-t border-gray-200">
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={handleRandomize}
+                disabled={loading}
+              >
+                Randomize
+              </Button>
               <Button
                 type="button"
                 variant="secondary"
@@ -390,7 +423,11 @@ export default function SurvivalCalculator() {
           <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
             Prediction Result
           </h2>
-          {result ? (
+          {loading ? (
+             <div className="p-4 bg-gray-100 rounded-lg border border-gray-300 text-gray-700">
+              <p>Predicting survival...</p>
+            </div>
+          ) : result ? (
             <div className="space-y-4">
               <div
                 className={`p-4 rounded-lg ${
@@ -410,8 +447,8 @@ export default function SurvivalCalculator() {
           ) : (
             <div className="p-4 bg-gray-100 rounded-lg border border-gray-300 text-gray-700">
               <p>
-                Enter passenger details and click &quot;Predict Survival&quot;
-                to see the result.
+                Enter passenger details and click "Predict" to
+                see the result.
               </p>
             </div>
           )}
