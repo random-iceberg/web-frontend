@@ -30,7 +30,7 @@ type InputProps = {
   disabled?: boolean;
   min?: number;
   max?: number;
-  step?: string | number; 
+  step?: string | number;
   placeholder?: string; // Added placeholder
   required?: boolean; // Added required attribute
   description?: string; // Optional description text

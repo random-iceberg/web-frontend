@@ -243,8 +243,9 @@ export default function SurvivalCalculator() {
                   value={form.title || ""}
                   onSelect={(v) =>
                     setForm((f) => ({
-                      ...f, title: 
-                      v as "master" | "miss" | "mr" | "mrs" | "rare", }))
+                      ...f,
+                      title: v as "master" | "miss" | "mr" | "mrs" | "rare",
+                    }))
                   }
                   disabled={loading}
                 >
@@ -329,7 +330,7 @@ export default function SurvivalCalculator() {
                   description={FIELD_INFO.parch.description} // Pass description prop
                 />
               </div>
-              
+
               <div>
                 <Input
                   id="fare"
