@@ -26,7 +26,9 @@ type FormState = {
   sibsp: number;
   parch: number;
   passengerClass: 1 | 2 | 3 | null;
+  fare: number;
   sex: "male" | "female" | null;
+  title: "master" | "miss" | "mr" | "mrs" | "rare" | null;
   embarkationPort: "C" | "Q" | "S" | null;
   wereAlone: boolean;
   cabinKnown: boolean;
@@ -57,6 +59,10 @@ const FIELD_INFO: Record<
     label: "Siblings/Spouses",
     description: "Number of siblings or spouses aboard (0-8)",
   },
+  fare: {
+    label: "Fare",
+    description: "Ticket fare in USD ($0.00 - $500.00)",
+  },
   parch: {
     label: "Parents/Children",
     description: "Number of parents or children aboard (0-6)",
@@ -69,6 +75,11 @@ const FIELD_INFO: Record<
     label: "Cabin known?",
     description: "Check if the passenger's cabin number is known",
   },
+  title: {
+    label: "Title",
+    description:
+      "Passenger's courtesy title (e.g., Mr., Mrs., Miss, Master, or Rare).",
+  },
 };
 
 // FieldDescription component is no longer needed as Input, DropDown, and Checkbox handle descriptions.
@@ -79,6 +90,8 @@ const initialForm: FormState = {
   parch: 0,
   passengerClass: null,
   sex: null,
+  fare: 0,
+  title: null,
   embarkationPort: null,
   wereAlone: false,
   cabinKnown: false,
@@ -109,6 +122,9 @@ export default function SurvivalCalculator() {
     if (!form.passengerClass) {
       newErrors.passengerClass =
         "Please select the class of travel (1st, 2nd, or 3rd class)";
+    }
+    if (form.fare < 0 || form.fare > 500) {
+      newErrors.fare = "Fare must be between $0.00 and $500.00";
     }
     return newErrors;
   };
@@ -141,6 +157,8 @@ export default function SurvivalCalculator() {
       embarkationPort: form.embarkationPort!,
       wereAlone: form.wereAlone,
       cabinKnown: form.cabinKnown,
+      fare: form.fare,
+      title: form.title!,
     };
 
     try {
@@ -221,6 +239,33 @@ export default function SurvivalCalculator() {
 
               <div>
                 <DropDown
+                  id="title"
+                  label={FIELD_INFO.title.label}
+                  value={form.title || ""}
+                  onSelect={(v) =>
+                    setForm((f) => ({
+                      ...f,
+                      title: v as "master" | "miss" | "mr" | "mrs" | "rare",
+                    }))
+                  }
+                  disabled={loading}
+                  description={FIELD_INFO.title.description}
+                >
+                  <button type="button">Master</button>
+                  <button type="button">Miss</button>
+                  <button type="button">Mr</button>
+                  <button type="button">Mrs</button>
+                  <button type="button">Rare</button>
+                </DropDown>
+                {errors.title && (
+                  <Alert variant="error" className="mt-2 p-2 text-xs">
+                    {errors.embarkationPort}
+                  </Alert>
+                )}
+              </div>
+
+              <div>
+                <DropDown
                   id="embarkation-port"
                   label={FIELD_INFO.embarkationPort.label}
                   value={form.embarkationPort || ""}
@@ -238,7 +283,7 @@ export default function SurvivalCalculator() {
                 </DropDown>
                 {errors.embarkationPort && (
                   <Alert variant="error" className="mt-2 p-2 text-xs">
-                    {errors.embarkationPort}
+                    {errors.title}
                   </Alert>
                 )}
               </div>
@@ -285,6 +330,23 @@ export default function SurvivalCalculator() {
                   max={PARCH_MAX}
                   disabled={loading}
                   description={FIELD_INFO.parch.description} // Pass description prop
+                />
+              </div>
+
+              <div>
+                <Input
+                  id="fare"
+                  label={FIELD_INFO.fare.label}
+                  type="number"
+                  required
+                  value={form.fare.toString()}
+                  onChange={(v) => setForm((f) => ({ ...f, fare: Number(v) }))}
+                  min={0}
+                  max={500}
+                  step="0.01"
+                  disabled={loading}
+                  description={FIELD_INFO.fare.description}
+                  prefix="$"
                 />
               </div>
 
