@@ -158,6 +158,7 @@ export default function SurvivalCalculator() {
       wereAlone: form.wereAlone,
       cabinKnown: form.cabinKnown,
       fare: form.fare,
+      title: form.title!,
     };
 
     try {
@@ -248,6 +249,7 @@ export default function SurvivalCalculator() {
                     }))
                   }
                   disabled={loading}
+                  description={FIELD_INFO.title.description}
                 >
                   <button type="button">Master</button>
                   <button type="button">Miss</button>
@@ -281,7 +283,7 @@ export default function SurvivalCalculator() {
                 </DropDown>
                 {errors.embarkationPort && (
                   <Alert variant="error" className="mt-2 p-2 text-xs">
-                    {errors.embarkationPort}
+                    {errors.title}
                   </Alert>
                 )}
               </div>
