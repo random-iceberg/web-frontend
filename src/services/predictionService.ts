@@ -13,7 +13,7 @@ export interface PassengerData {
   wereAlone: boolean;
   cabinKnown: boolean;
   title: "master" | "miss" | "mr" | "mrs" | "rare";
-  model_ids?: string[]; // Optional array of model IDs
+  model_ids?: string[];
 }
 
 export interface PredictionResult {
@@ -21,13 +21,17 @@ export interface PredictionResult {
   probability: number;
 }
 
+export interface MultiModelPredictionResult {
+  [modelId: string]: PredictionResult | { error: string };
+}
+
 export async function predictPassenger(
   data: PassengerData,
-  modelIds?: string[], // Accept optional modelIds
-): Promise<PredictionResult> {
+  modelIds?: string[],
+): Promise<MultiModelPredictionResult> {
   try {
-    const payload = { ...data, model_ids: modelIds }; // Include model_ids in the payload
-    const { data: result } = await axios.post<PredictionResult>(
+    const payload = { ...data, model_ids: modelIds };
+    const { data: result } = await axios.post<MultiModelPredictionResult>(
       api.url("predict"),
       payload,
     );
