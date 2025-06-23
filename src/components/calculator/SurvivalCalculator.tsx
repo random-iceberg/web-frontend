@@ -14,6 +14,7 @@ import Checkbox from "components/common/forms/Checkbox";
 import Card from "components/common/Card";
 import Button from "components/common/Button";
 import Alert from "components/common/Alert";
+import ModelSelector from "./ModelSelector"; // Import the new ModelSelector component
 
 // Constants for input validation
 const AGE_MIN = 1;
@@ -102,6 +103,7 @@ export default function SurvivalCalculator() {
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false);
+  const [selectedModelIds, setSelectedModelIds] = useState<string[]>([]); // New state for selected models
   const [_isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -161,8 +163,15 @@ export default function SurvivalCalculator() {
       title: form.title!,
     };
 
+    // Ensure at least one model is selected
+    if (selectedModelIds.length === 0) {
+      setErrors({ api: "Please select at least one model." });
+      setLoading(false);
+      return;
+    }
+
     try {
-      const res = await predictPassenger(passengerData);
+      const res = await predictPassenger(passengerData, selectedModelIds); // Pass selectedModelIds
       setResult(res);
     } catch (err: any) {
       setErrors({ api: handleApiError(err, "making the prediction") });
@@ -190,6 +199,12 @@ export default function SurvivalCalculator() {
                 {errors.api}
               </Alert>
             )}
+
+            {/* Model Selector */}
+            <ModelSelector
+              selectedModelIds={selectedModelIds}
+              onModelSelect={setSelectedModelIds}
+            />
 
             {/* Form Fields Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
