@@ -181,6 +181,7 @@ export default function SurvivalCalculator() {
       wereAlone: form.wereAlone,
       cabinKnown: form.cabinKnown,
       fare: form.fare,
+      title: form.title!,
     };
 
     try {
@@ -264,18 +265,26 @@ export default function SurvivalCalculator() {
                   id="title"
                   label={FIELD_INFO.title.label}
                   value={form.title || ""}
-                  onSelect={(val) =>
-                    setForm((f) => ({ ...f, title: val as FormState["title"] }))
+                  onSelect={(v) =>
+                    setForm((f) => ({
+                      ...f,
+                      title: v as "master" | "miss" | "mr" | "mrs" | "rare",
+                    }))
                   }
                   disabled={loading}
                   description={FIELD_INFO.title.description}
                 >
-                  <button type="button">master</button>
-                  <button type="button">miss</button>
-                  <button type="button">mr</button>
-                  <button type="button">mrs</button>
-                  <button type="button">rare</button>
+                  <button type="button">Master</button>
+                  <button type="button">Miss</button>
+                  <button type="button">Mr</button>
+                  <button type="button">Mrs</button>
+                  <button type="button">Rare</button>
                 </DropDown>
+                {errors.title && (
+                  <Alert variant="error" className="mt-2 p-2 text-xs">
+                    {errors.embarkationPort}
+                  </Alert>
+                )}
               </div>
 
               <div>
@@ -297,7 +306,7 @@ export default function SurvivalCalculator() {
                 </DropDown>
                 {errors.embarkationPort && (
                   <Alert variant="error" className="mt-2 p-2 text-xs">
-                    {errors.embarkationPort}
+                    {errors.title}
                   </Alert>
                 )}
               </div>
@@ -360,6 +369,7 @@ export default function SurvivalCalculator() {
                   step="0.01"
                   disabled={loading}
                   description={FIELD_INFO.fare.description}
+                  prefix="$"
                 />
                 {errors.fare && (
                   <Alert variant="error" className="mt-2 p-2 text-xs">

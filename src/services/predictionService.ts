@@ -12,6 +12,7 @@ export interface PassengerData {
   embarkationPort: "C" | "Q" | "S";
   wereAlone: boolean;
   cabinKnown: boolean;
+  title: "master" | "miss" | "mr" | "mrs" | "rare";
 }
 
 export interface PredictionResult {
