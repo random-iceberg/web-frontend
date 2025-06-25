@@ -148,7 +148,7 @@ export default function SurvivalCalculator() {
       passengerClass: random([1, 2, 3]),
       fare: parseFloat((Math.random() * FARE_MAX).toFixed(2)),
       sex: random(["male", "female"]),
-      title: random(["master", "miss", "mr", "mrs", "rare"]),
+      title: random(["Master", "Miss", "Mr", "Mrs", "Rare"]) as "master" | "miss" | "mr" | "mrs" | "rare",
       embarkationPort: random(["C", "Q", "S"]),
       wereAlone: sibsp === 0 && parch === 0,
       cabinKnown: Math.random() < 0.5,
