@@ -6,8 +6,6 @@ import Input from "components/common/forms/Input";
 import Button from "components/common/Button";
 import Alert from "components/common/Alert";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import api from "services/api";
 import { useAuth } from "providers/authProvider";
 
 export default function SignInPage() {
@@ -16,7 +14,7 @@ export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const { setToken, isAuthenticated } = useAuth();
+  const { isAuthenticated, login } = useAuth();
   const navigate = useNavigate();
 
   // Redirect if already authenticated
@@ -39,20 +37,7 @@ export default function SignInPage() {
     }
 
     try {
-      const response = await axios.post(api.url("auth/login"), {
-        email: email.trim(),
-        password,
-      });
-
-      console.log("Success: Signin response:", response.data);
-      const token = response.data?.access_token;
-
-      if (!token) {
-        throw new Error("No authentication token received from server.");
-      }
-
-      // Set the token (this will trigger auth state update)
-      setToken(token);
+      await login(email.trim(), password);
 
       // Navigate to dashboard after successful login
       navigate("/dashboard", { replace: true });

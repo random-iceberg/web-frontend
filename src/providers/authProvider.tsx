@@ -8,13 +8,14 @@ import React, {
   ReactNode,
   useCallback,
 } from "react";
+import api from "services/api";
 
 interface AuthContextType {
-  token: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  setToken: (token: string | null) => void;
-  logout: () => void;
+  isAdmin: boolean;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
   refreshAuth: () => Promise<boolean>;
 }
 
@@ -24,77 +25,64 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const TOKEN_KEY = "auth_token";
-
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken_] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  // Initialize auth state from localStorage
+  const updateAuthStatus = useCallback(async () => {
+    const response = await axios.get(api.url("auth/me_myself_and_I"));
+
+    // for isLoading testing. TODO: right now the pages do not look great when isLoading is true
+    // await new Promise<void>((resolve) => setTimeout(() => resolve(), 2000));
+
+    if (response.data.role === "anon") {
+      setIsAuthenticated(false);
+      return false;
+    }
+
+    setIsAuthenticated(true);
+    setIsAdmin(response.data.role == "admin");
+    return true;
+  }, []);
+
   useEffect(() => {
-    try {
-      const storedToken = localStorage.getItem(TOKEN_KEY);
-      if (storedToken) {
-        setToken_(storedToken);
-        // Set axios header immediately
-        axios.defaults.headers.common["Authorization"] =
-          `Bearer ${storedToken}`;
-      }
-    } catch (error) {
-      console.warn("Failed to load auth token from localStorage:", error);
-      // Clear any corrupted data
-      localStorage.removeItem(TOKEN_KEY);
-    } finally {
-      setIsLoading(false);
-    }
+    axios.defaults.withCredentials = true;
+    updateAuthStatus().finally(() => setIsLoading(false));
   }, []);
 
-  // Function to set the authentication token
-  const setToken = useCallback((newToken: string | null) => {
-    setToken_(newToken);
+  const login = useCallback((email: string, password: string) => {
+    setIsLoading(true);
 
-    try {
-      if (newToken) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-        localStorage.setItem(TOKEN_KEY, newToken);
-      } else {
-        delete axios.defaults.headers.common["Authorization"];
-        localStorage.removeItem(TOKEN_KEY);
-      }
-    } catch (error) {
-      console.error("Failed to update auth token:", error);
-      // If localStorage fails, at least update memory state
-      setToken_(newToken);
-      if (newToken) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-      } else {
-        delete axios.defaults.headers.common["Authorization"];
-      }
-    }
+    return axios
+      .post(api.url("auth/login"), { email, password })
+      .then(updateAuthStatus)
+      .then((isLoggedIn) => {
+        if (!isLoggedIn) {
+          throw Error("not logged in");
+        }
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
-  // Logout function
   const logout = useCallback(() => {
-    setToken(null);
-    // Clear any cached user data
-    // Could also call backend logout endpoint here if needed
-  }, [setToken]);
+    setIsLoading(true);
+
+    return axios
+      .post(api.url("auth/logout"), null)
+      .then(updateAuthStatus)
+      .then(() => {})
+      .finally(() => setIsLoading(false));
+  }, []);
 
   // Function to test/refresh authentication
   const refreshAuth = useCallback(async (): Promise<boolean> => {
-    if (!token) return false;
+    if (!isAuthenticated) return false;
+    // TODO: refreshing
 
-    try {
-      // Test the token by making a request to a protected endpoint
-      await axios.get("/api/auth/verify"); // Adjust endpoint as needed
-      return true;
-    } catch (error) {
-      console.warn("Token validation failed:", error);
-      // Token is invalid, clear it
-      logout();
-      return false;
-    }
-  }, [token, logout]);
+    // 401 should be handled by the interceptor below
+    return await updateAuthStatus();
+  }, [isAuthenticated, logout]);
 
   // Handle axios interceptor for global auth error handling
   useEffect(() => {
@@ -102,7 +90,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       (response) => response,
       (error) => {
         // If we get a 401, the token is likely expired
-        if (error.response?.status === 401 && token) {
+        if (error.response?.status === 401 && isAuthenticated) {
           console.warn("Received 401 response, clearing auth token");
           logout();
         }
@@ -114,22 +102,19 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return () => {
       axios.interceptors.response.eject(interceptor);
     };
-  }, [token, logout]);
-
-  // Derived state
-  const isAuthenticated = Boolean(token);
+  }, [isAuthenticated, logout]);
 
   // Memoized context value
   const contextValue = useMemo(
     () => ({
-      token,
       isLoading,
       isAuthenticated,
-      setToken,
+      isAdmin,
+      login,
       logout,
       refreshAuth,
     }),
-    [token, isLoading, isAuthenticated, setToken, logout, refreshAuth],
+    [isLoading, isAuthenticated, isAdmin, login, logout, refreshAuth],
   );
 
   return (
@@ -156,20 +141,6 @@ export const authTestUtils = {
       return Boolean(response.data?.access_token);
     } catch (error) {
       console.error("Login test failed:", error);
-      return false;
-    }
-  },
-
-  // Test token persistence
-  testTokenPersistence: (): boolean => {
-    try {
-      const testToken = "test_token_" + Date.now();
-      localStorage.setItem(TOKEN_KEY, testToken);
-      const retrieved = localStorage.getItem(TOKEN_KEY);
-      localStorage.removeItem(TOKEN_KEY);
-      return retrieved === testToken;
-    } catch (error) {
-      console.error("Token persistence test failed:", error);
       return false;
     }
   },

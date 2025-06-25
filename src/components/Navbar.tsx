@@ -4,7 +4,7 @@ import { useAuth } from "providers/authProvider";
 import useBreakpoint from "hooks/useBreakpoint";
 
 const Navbar: React.FC = () => {
-  const { isAuthenticated, logout, isLoading } = useAuth();
+  const { isAuthenticated, isAdmin, logout, isLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
                 Survival Calculator
               </Link>
 
-              {isAuthenticated && (
+              {isAdmin && (
                 <>
                   <Link
                     to="/admin"
@@ -59,6 +59,10 @@ const Navbar: React.FC = () => {
                   >
                     Admin Console
                   </Link>
+                </>
+              )}
+              {isAuthenticated && (
+                <>
                   <Link
                     to="/dashboard"
                     className={`hover:text-accent transition ${
@@ -130,7 +134,7 @@ const Navbar: React.FC = () => {
 // Mobile Navbar Component
 const MobileNavbar: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { isAuthenticated, logout, isLoading } = useAuth();
+  const { isAuthenticated, isAdmin, logout, isLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -191,7 +195,7 @@ const MobileNavbar: React.FC = () => {
             Survival Calculator
           </Link>
 
-          {isAuthenticated && (
+          {isAdmin && (
             <>
               <Link
                 role="menuitem"
@@ -203,6 +207,10 @@ const MobileNavbar: React.FC = () => {
               >
                 Admin Console
               </Link>
+            </>
+          )}
+          {isAuthenticated && (
+            <>
               <Link
                 role="menuitem"
                 to="/dashboard"
