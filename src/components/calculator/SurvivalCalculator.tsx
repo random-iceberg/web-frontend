@@ -157,7 +157,7 @@ export default function SurvivalCalculator() {
     setForm(randomForm);
     setResult(null);
     setErrors({});
-  };
+};
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -250,8 +250,8 @@ export default function SurvivalCalculator() {
                   }
                   disabled={loading}
                 >
-                  <button type="button">male</button>
-                  <button type="button">female</button>
+                  <button type="button">Male</button>
+                  <button type="button">Female</button>
                 </DropDown>
                 {errors.sex && (
                   <Alert variant="error" className="mt-2 p-2 text-xs">
