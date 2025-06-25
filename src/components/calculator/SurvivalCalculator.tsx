@@ -447,7 +447,7 @@ export default function SurvivalCalculator() {
           ) : (
             <div className="p-4 bg-gray-100 rounded-lg border border-gray-300 text-gray-700">
               <p>
-                Enter passenger details and click "Predict" to
+                Enter passenger details and click {'"'}Predict{'"'} to
                 see the result.
               </p>
             </div>
