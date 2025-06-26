@@ -9,7 +9,6 @@ interface ModelResultCardProps {
 }
 
 export default function ModelResultCard({
-  modelId,
   modelName,
   result,
 }: ModelResultCardProps) {

@@ -116,5 +116,4 @@ const ModelItem: React.FC<ModelItemProps> = ({ model, onDelete }) => {
   );
 };
 
-
 export default React.memo(ModelItem);

@@ -441,7 +441,8 @@ const SurvivalCalculatorContent: React.FC = () => {
           ) : (
             <div className="p-4 bg-gray-100 rounded-lg border border-gray-300 text-gray-700">
               <p>
-                Enter passenger details and click "Predict" to see the results.
+                Enter passenger details and click &quot;Predict&quot; to see the
+                results.
               </p>
             </div>
           )}
