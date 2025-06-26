@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import {
   predictPassenger,
   PassengerData,
-  PredictionResult,
+  MultiModelPredictionResult,
 } from "services/predictionService";
+import ModelResultCard from "components/calculator/ModelResultCard";
 import { handleApiError } from "services/errorService";
 import Layout from "components/Layout";
 import PageHeader from "components/common/PageHeader";
@@ -14,6 +15,11 @@ import Checkbox from "components/common/forms/Checkbox";
 import Card from "components/common/Card";
 import Button from "components/common/Button";
 import Alert from "components/common/Alert";
+import ModelSelector from "components/calculator/ModelSelector";
+import {
+  ModelProvider,
+  useModelContext,
+} from "components/context/ModelContext"; // Import ModelProvider and useModelContext
 
 // Constants for input validation
 const AGE_MIN = 1;
@@ -82,8 +88,6 @@ const FIELD_INFO: Record<
   },
 };
 
-// FieldDescription component is no longer needed as Input, DropDown, and Checkbox handle descriptions.
-
 const initialForm: FormState = {
   age: 0,
   sibsp: 0,
@@ -97,12 +101,15 @@ const initialForm: FormState = {
   cabinKnown: false,
 };
 
-export default function SurvivalCalculator() {
+// New inner component to use ModelContext
+const SurvivalCalculatorContent: React.FC = () => {
   const [form, setForm] = useState<FormState>(initialForm);
-  const [result, setResult] = useState<PredictionResult | null>(null);
+  const [result, setResult] = useState<MultiModelPredictionResult | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false);
+  const [selectedModelIds, setSelectedModelIds] = useState<string[]>([]);
   const [_isVisible, setIsVisible] = useState(false);
+  const { models } = useModelContext(); // Access models from context here
 
   useEffect(() => {
     setIsVisible(true);
@@ -161,8 +168,15 @@ export default function SurvivalCalculator() {
       title: form.title!,
     };
 
+    // Ensure at least one model is selected
+    if (selectedModelIds.length === 0) {
+      setErrors({ api: "Please select at least one model." });
+      setLoading(false);
+      return;
+    }
+
     try {
-      const res = await predictPassenger(passengerData);
+      const res = await predictPassenger(passengerData, selectedModelIds); // Pass selectedModelIds
       setResult(res);
     } catch (err: any) {
       setErrors({ api: handleApiError(err, "making the prediction") });
@@ -190,6 +204,12 @@ export default function SurvivalCalculator() {
                 {errors.api}
               </Alert>
             )}
+
+            {/* Model Selector */}
+            <ModelSelector
+              selectedModelIds={selectedModelIds}
+              onModelSelect={setSelectedModelIds}
+            />
 
             {/* Form Fields Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
@@ -251,15 +271,15 @@ export default function SurvivalCalculator() {
                   disabled={loading}
                   description={FIELD_INFO.title.description}
                 >
-                  <button type="button">Master</button>
-                  <button type="button">Miss</button>
-                  <button type="button">Mr</button>
-                  <button type="button">Mrs</button>
-                  <button type="button">Rare</button>
+                  <button type="button">master</button>
+                  <button type="button">miss</button>
+                  <button type="button">mr</button>
+                  <button type="button">mrs</button>
+                  <button type="button">rare</button>
                 </DropDown>
                 {errors.title && (
                   <Alert variant="error" className="mt-2 p-2 text-xs">
-                    {errors.embarkationPort}
+                    {errors.title}
                   </Alert>
                 )}
               </div>
@@ -397,35 +417,45 @@ export default function SurvivalCalculator() {
         {/* Result Card */}
         <Card className="p-4 sm:p-6 lg:p-8 h-fit">
           <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">
-            Prediction Result
+            Prediction Results
           </h2>
-          {result ? (
-            <div className="space-y-4">
-              <div
-                className={`p-4 rounded-lg ${
-                  result.survived
-                    ? "bg-green-100 border border-green-300 text-green-800"
-                    : "bg-red-100 border border-red-300 text-red-800"
-                }`}
-              >
-                <p className="text-lg font-semibold">
-                  {result.survived ? "Survived" : "Did Not Survive"}
-                </p>
-                <p className="text-sm mt-1">
-                  Probability: {(result.probability * 100).toFixed(1)}%
-                </p>
-              </div>
+          {loading ? (
+            <div className="p-4 bg-blue-100 rounded-lg border border-blue-300 text-blue-800">
+              <p>Processing predictions...</p>
+            </div>
+          ) : result && Object.keys(result).length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {Object.entries(result).map(([modelId, prediction]) => {
+                const model = models.find((m) => m.id === modelId);
+                const modelName = model ? model.name : modelId; // Fallback to ID if name not found
+                return (
+                  <ModelResultCard
+                    key={modelId}
+                    modelId={modelId}
+                    modelName={modelName} // Pass modelName
+                    result={prediction}
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className="p-4 bg-gray-100 rounded-lg border border-gray-300 text-gray-700">
               <p>
-                Enter passenger details and click &quot;Predict Survival&quot;
-                to see the result.
+                Enter passenger details and click &quot;Predict&quot; to see the
+                results.
               </p>
             </div>
           )}
         </Card>
       </div>
     </Layout>
+  );
+};
+
+export default function SurvivalCalculator() {
+  return (
+    <ModelProvider>
+      <SurvivalCalculatorContent />
+    </ModelProvider>
   );
 }

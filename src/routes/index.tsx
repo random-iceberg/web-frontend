@@ -15,7 +15,7 @@ const Calculator = lazy(
 );
 
 const Routes: React.FC = () => {
-  const { token } = useAuth();
+  const { token, role } = useAuth();
 
   const router = createBrowserRouter([
     {
@@ -49,10 +49,14 @@ const Routes: React.FC = () => {
           path: "/",
           element: <ProtectedRoute />,
           children: [
-            {
-              path: "/admin",
-              element: <AdminConsole />,
-            },
+            ...(role === "admin"
+              ? [
+                  {
+                    path: "/admin",
+                    element: <AdminConsole />,
+                  },
+                ]
+              : []),
             {
               path: "/dashboard",
               element: <UserDashboard />,

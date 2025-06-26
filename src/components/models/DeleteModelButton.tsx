@@ -6,12 +6,14 @@ interface DeleteModelButtonProps {
   modelId: string;
   modelName: string;
   onDelete: () => Promise<void>;
+  disabled?: boolean;
 }
 
 const DeleteModelButton: React.FC<DeleteModelButtonProps> = ({
   modelId,
   modelName,
   onDelete,
+  disabled,
 }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -53,6 +55,7 @@ const DeleteModelButton: React.FC<DeleteModelButtonProps> = ({
           onClick={handleDeleteClick}
           aria-label={`Delete model ${modelName}`}
           className="border border-red-300 bg-red-50 text-red-700 hover:bg-red-100 focus:ring-red-500" // Customizing danger to be less prominent initially
+          disabled={disabled || isDeleting}
         >
           Delete
         </Button>

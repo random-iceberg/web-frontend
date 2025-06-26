@@ -8,11 +8,15 @@ import React, {
   ReactNode,
   useCallback,
 } from "react";
+import { jwtDecode } from "jwt-decode";
+
+type UserRole = "anon" | "user" | "admin";
 
 interface AuthContextType {
   token: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  role: UserRole;
   setToken: (token: string | null) => void;
   logout: () => void;
   refreshAuth: () => Promise<boolean>;
@@ -28,7 +32,23 @@ const TOKEN_KEY = "auth_token";
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken_] = useState<string | null>(null);
+  const [role, setRole] = useState<UserRole>("anon"); // Default role to 'anon'
   const [isLoading, setIsLoading] = useState(true);
+
+  // Helper to decode token and set role
+  const decodeAndSetRole = useCallback((token: string | null) => {
+    if (token) {
+      try {
+        const decoded: { role: UserRole } = jwtDecode(token);
+        setRole(decoded.role);
+      } catch (error) {
+        console.error("Failed to decode token:", error);
+        setRole("anon"); // Fallback to anon if decoding fails
+      }
+    } else {
+      setRole("anon");
+    }
+  }, []);
 
   // Initialize auth state from localStorage
   useEffect(() => {
@@ -36,6 +56,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const storedToken = localStorage.getItem(TOKEN_KEY);
       if (storedToken) {
         setToken_(storedToken);
+        decodeAndSetRole(storedToken);
         // Set axios header immediately
         axios.defaults.headers.common["Authorization"] =
           `Bearer ${storedToken}`;
@@ -47,31 +68,36 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [decodeAndSetRole]);
 
   // Function to set the authentication token
-  const setToken = useCallback((newToken: string | null) => {
-    setToken_(newToken);
-
-    try {
-      if (newToken) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-        localStorage.setItem(TOKEN_KEY, newToken);
-      } else {
-        delete axios.defaults.headers.common["Authorization"];
-        localStorage.removeItem(TOKEN_KEY);
-      }
-    } catch (error) {
-      console.error("Failed to update auth token:", error);
-      // If localStorage fails, at least update memory state
+  const setToken = useCallback(
+    (newToken: string | null) => {
       setToken_(newToken);
-      if (newToken) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-      } else {
-        delete axios.defaults.headers.common["Authorization"];
+      decodeAndSetRole(newToken); // Decode and set role whenever token changes
+
+      try {
+        if (newToken) {
+          axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+          localStorage.setItem(TOKEN_KEY, newToken);
+        } else {
+          delete axios.defaults.headers.common["Authorization"];
+          localStorage.removeItem(TOKEN_KEY);
+        }
+      } catch (error) {
+        console.error("Failed to update auth token:", error);
+        // If localStorage fails, at least update memory state
+        setToken_(newToken);
+        decodeAndSetRole(newToken);
+        if (newToken) {
+          axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+        } else {
+          delete axios.defaults.headers.common["Authorization"];
+        }
       }
-    }
-  }, []);
+    },
+    [decodeAndSetRole],
+  );
 
   // Logout function
   const logout = useCallback(() => {
@@ -125,11 +151,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       token,
       isLoading,
       isAuthenticated,
+      role,
       setToken,
       logout,
       refreshAuth,
     }),
-    [token, isLoading, isAuthenticated, setToken, logout, refreshAuth],
+    [token, isLoading, isAuthenticated, role, setToken, logout, refreshAuth],
   );
 
   return (
