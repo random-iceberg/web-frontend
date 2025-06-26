@@ -16,6 +16,10 @@ import Card from "components/common/Card";
 import Button from "components/common/Button";
 import Alert from "components/common/Alert";
 import ModelSelector from "components/calculator/ModelSelector";
+import {
+  ModelProvider,
+  useModelContext,
+} from "components/context/ModelContext"; // Import ModelProvider and useModelContext
 
 // Constants for input validation
 const AGE_MIN = 1;
@@ -84,8 +88,6 @@ const FIELD_INFO: Record<
   },
 };
 
-
-
 const initialForm: FormState = {
   age: 0,
   sibsp: 0,
@@ -99,13 +101,15 @@ const initialForm: FormState = {
   cabinKnown: false,
 };
 
-export default function SurvivalCalculator() {
+// New inner component to use ModelContext
+const SurvivalCalculatorContent: React.FC = () => {
   const [form, setForm] = useState<FormState>(initialForm);
   const [result, setResult] = useState<MultiModelPredictionResult | null>(null);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loading, setLoading] = useState(false);
   const [selectedModelIds, setSelectedModelIds] = useState<string[]>([]);
   const [_isVisible, setIsVisible] = useState(false);
+  const { models } = useModelContext(); // Access models from context here
 
   useEffect(() => {
     setIsVisible(true);
@@ -267,15 +271,15 @@ export default function SurvivalCalculator() {
                   disabled={loading}
                   description={FIELD_INFO.title.description}
                 >
-                  <button type="button">Master</button>
-                  <button type="button">Miss</button>
-                  <button type="button">Mr</button>
-                  <button type="button">Mrs</button>
-                  <button type="button">Rare</button>
+                  <button type="button">master</button>
+                  <button type="button">miss</button>
+                  <button type="button">mr</button>
+                  <button type="button">mrs</button>
+                  <button type="button">rare</button>
                 </DropDown>
                 {errors.title && (
                   <Alert variant="error" className="mt-2 p-2 text-xs">
-                    {errors.embarkationPort}
+                    {errors.title}
                   </Alert>
                 )}
               </div>
@@ -421,20 +425,36 @@ export default function SurvivalCalculator() {
             </div>
           ) : result && Object.keys(result).length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {Object.entries(result).map(([modelId, prediction]) => (
-                <ModelResultCard key={modelId} modelId={modelId} result={prediction} />
-              ))}
+              {Object.entries(result).map(([modelId, prediction]) => {
+                const model = models.find((m) => m.id === modelId);
+                const modelName = model ? model.name : modelId; // Fallback to ID if name not found
+                return (
+                  <ModelResultCard
+                    key={modelId}
+                    modelId={modelId}
+                    modelName={modelName} // Pass modelName
+                    result={prediction}
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className="p-4 bg-gray-100 rounded-lg border border-gray-300 text-gray-700">
               <p>
-                Enter passenger details and click "Predict" to see the
-                results.
+                Enter passenger details and click "Predict" to see the results.
               </p>
             </div>
           )}
         </Card>
       </div>
     </Layout>
+  );
+};
+
+export default function SurvivalCalculator() {
+  return (
+    <ModelProvider>
+      <SurvivalCalculatorContent />
+    </ModelProvider>
   );
 }

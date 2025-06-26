@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { fetchModels, Model } from "services/modelService";
+import React from "react";
 import { useAuth } from "providers/authProvider";
+import { useModelContext } from "components/context/ModelContext";
 import Checkbox from "components/common/forms/Checkbox";
-import Radio from "components/common/forms/Radio"; // Import the new Radio component
+import Radio from "components/common/forms/Radio";
 import Alert from "components/common/Alert";
 import LoadingState from "components/common/LoadingState";
 import EmptyState from "components/common/EmptyState";
@@ -17,23 +17,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({
   selectedModelIds,
 }) => {
   const { role } = useAuth();
-  const [models, setModels] = useState<Model[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const getModels = async () => {
-      try {
-        const fetchedModels = await fetchModels();
-        setModels(fetchedModels);
-      } catch (err: any) {
-        setError(err.message || "Failed to fetch models.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    getModels();
-  }, []);
+  const { models, loading, error } = useModelContext();
 
   const handleCheckboxChange = (modelId: string, isChecked: boolean) => {
     if (isChecked) {
@@ -49,9 +33,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({
 
   const isAnon = role === "anon";
   const filteredModels = isAnon
-    ? models.filter(
-        (model) => model.algorithm === "Random Forest" || model.algorithm === "SVM",
-      )
+    ? models.filter((model) => !model.is_restricted)
     : models;
 
   if (loading) {
@@ -84,6 +66,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({
                 checked={selectedModelIds.includes(model.id)}
                 onChange={() => handleRadioChange(model.id)}
                 label={`${model.name} (${model.algorithm})`}
+                disabled={model.status !== "ready"}
               />
             ) : (
               <Checkbox
@@ -93,10 +76,19 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({
                   handleCheckboxChange(model.id, isChecked)
                 }
                 label={`${model.name} (${model.algorithm})`}
+                disabled={model.status !== "ready"}
               />
             )}
             <span className="text-sm text-gray-600 ml-2">
-              Accuracy: {model.accuracy ? `${(model.accuracy * 100).toFixed(1)}%` : "N/A"}
+              {model.status === "ready" ? (
+                `Accuracy: ${model.accuracy ? `${(model.accuracy * 100).toFixed(1)}%` : "N/A"}`
+              ) : model.status === "training_in_progress" ? (
+                <span className="text-yellow-600"> (Training in progress)</span>
+              ) : model.status === "training_failed" ? (
+                <span className="text-red-600"> (Training failed)</span>
+              ) : (
+                <span className="text-gray-500"> (Status: {model.status})</span>
+              )}
             </span>
           </div>
         ))}
