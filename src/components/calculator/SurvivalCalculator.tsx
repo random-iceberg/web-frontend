@@ -122,7 +122,7 @@ export default function SurvivalCalculator() {
     }
     if (form.fare < 0 || form.fare > FARE_MAX) {
       newErrors.fare = `Fare must be between $0.00 and $${FARE_MAX.toFixed(
-        2
+        2,
       )}.`;
     }
     return newErrors;
@@ -148,7 +148,12 @@ export default function SurvivalCalculator() {
       passengerClass: random([1, 2, 3]),
       fare: parseFloat((Math.random() * FARE_MAX).toFixed(2)),
       sex: random(["male", "female"]),
-      title: random(["Master", "Miss", "Mr", "Mrs", "Rare"]) as "master" | "miss" | "mr" | "mrs" | "rare",
+      title: random(["Master", "Miss", "Mr", "Mrs", "Rare"]) as
+        | "master"
+        | "miss"
+        | "mr"
+        | "mrs"
+        | "rare",
       embarkationPort: random(["C", "Q", "S"]),
       wereAlone: sibsp === 0 && parch === 0,
       cabinKnown: Math.random() < 0.5,
@@ -157,7 +162,7 @@ export default function SurvivalCalculator() {
     setForm(randomForm);
     setResult(null);
     setErrors({});
-};
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -434,7 +439,7 @@ export default function SurvivalCalculator() {
             Prediction Result
           </h2>
           {loading ? (
-             <div className="p-4 bg-gray-100 rounded-lg border border-gray-300 text-gray-700">
+            <div className="p-4 bg-gray-100 rounded-lg border border-gray-300 text-gray-700">
               <p>Predicting survival...</p>
             </div>
           ) : result ? (
@@ -457,8 +462,8 @@ export default function SurvivalCalculator() {
           ) : (
             <div className="p-4 bg-gray-100 rounded-lg border border-gray-300 text-gray-700">
               <p>
-                Enter passenger details and click {'"'}Predict{'"'} to
-                see the result.
+                Enter passenger details and click {'"'}Predict{'"'} to see the
+                result.
               </p>
             </div>
           )}
