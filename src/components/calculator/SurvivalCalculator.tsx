@@ -164,7 +164,7 @@ const SurvivalCalculatorContent: React.FC = () => {
         | "mrs"
         | "rare",
       embarkationPort: random(["C", "Q", "S"]),
-      wereAlone: sibsp === 0 && parch === 0,
+      wereAlone: Math.random() < 0.5,
       cabinKnown: Math.random() < 0.5,
     };
 
