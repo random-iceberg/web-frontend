@@ -10,10 +10,12 @@ import React, {
 } from "react";
 import api from "services/api";
 
+type UserRole = "anon" | "user" | "admin";
+
 interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
-  isAdmin: boolean;
+  role: UserRole;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   refreshAuth: () => Promise<boolean>;
@@ -27,23 +29,17 @@ interface AuthProviderProps {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [role, setRole] = useState<UserRole>("anon");
 
   const updateAuthStatus = useCallback(async () => {
     const response = await axios.get(api.url("auth/me_myself_and_I"));
+    // TODO: if backend is unreachable - set isLoading and start polling
 
     // for isLoading testing. TODO: right now the pages do not look great when isLoading is true
     // await new Promise<void>((resolve) => setTimeout(() => resolve(), 2000));
 
-    if (response.data.role === "anon") {
-      setIsAuthenticated(false);
-      return false;
-    }
-
-    setIsAuthenticated(true);
-    setIsAdmin(response.data.role == "admin");
-    return true;
+    setRole(response.data.role);
+    return response.data.role !== "anon";
   }, []);
 
   useEffect(() => {
@@ -77,12 +73,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Function to test/refresh authentication
   const refreshAuth = useCallback(async (): Promise<boolean> => {
-    if (!isAuthenticated) return false;
+    if (role === "anon") return false;
     // TODO: refreshing
 
     // 401 should be handled by the interceptor below
     return await updateAuthStatus();
-  }, [isAuthenticated, logout]);
+  }, [role, logout]);
 
   // Handle axios interceptor for global auth error handling
   useEffect(() => {
@@ -90,7 +86,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       (response) => response,
       (error) => {
         // If we get a 401, the token is likely expired
-        if (error.response?.status === 401 && isAuthenticated) {
+        if (error.response?.status === 401 && role !== "anon") {
           console.warn("Received 401 response, clearing auth token");
           logout();
         }
@@ -102,19 +98,19 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return () => {
       axios.interceptors.response.eject(interceptor);
     };
-  }, [isAuthenticated, logout]);
+  }, [role, logout]);
 
   // Memoized context value
   const contextValue = useMemo(
     () => ({
       isLoading,
-      isAuthenticated,
-      isAdmin,
+      isAuthenticated: role !== "anon",
+      role,
       login,
       logout,
       refreshAuth,
     }),
-    [isLoading, isAuthenticated, isAdmin, login, logout, refreshAuth],
+    [isLoading, role, login, logout, refreshAuth],
   );
 
   return (

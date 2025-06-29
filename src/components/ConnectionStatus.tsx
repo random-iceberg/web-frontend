@@ -11,7 +11,7 @@ const ConnectionStatus: React.FC = () => {
   useEffect(() => {
     const checkConnection = async () => {
       try {
-        await axios.get(api.url("models"));
+        await axios.get(api.url("health"));
         setStatus("connected");
       } catch (_error) {
         setStatus("disconnected");

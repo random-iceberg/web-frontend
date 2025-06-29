@@ -9,6 +9,8 @@ export interface Model {
   features: string[];
   created_at: string;
   accuracy: number | null;
+  status: string;
+  is_restricted: boolean;
 }
 
 export interface ModelCreateData {
