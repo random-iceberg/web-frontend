@@ -20,7 +20,6 @@ import {
   ModelProvider,
   useModelContext,
 } from "components/context/ModelContext"; // Import ModelProvider and useModelContext
-import ModelList from "components/models/ModelList";
 
 // Constants for input validation
 const AGE_MIN = 1;
@@ -158,8 +157,10 @@ const SurvivalCalculatorContent: React.FC = () => {
 
     const sibsp = Math.floor(Math.random() * (SIBSP_MAX + 1));
     const parch = Math.floor(Math.random() * (PARCH_MAX + 1));
-    const randomModels = randomizeModels(Math.floor(Math.random() * models.length) + 1);
-    const modelIDs = randomModels.map(model => model.id) 
+    const randomModels = randomizeModels(
+      Math.floor(Math.random() * models.length) + 1,
+    );
+    const modelIDs = randomModels.map((model) => model.id);
 
     const randomForm: FormState = {
       age: Math.floor(Math.random() * (AGE_MAX - AGE_MIN + 1)) + AGE_MIN,
@@ -178,7 +179,7 @@ const SurvivalCalculatorContent: React.FC = () => {
       wereAlone: Math.random() < 0.5,
       cabinKnown: Math.random() < 0.5,
     };
-  
+
     setForm(randomForm);
     setResult(null);
     setErrors({});
