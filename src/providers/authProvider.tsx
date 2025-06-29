@@ -11,9 +11,11 @@ import React, {
 import api from "services/api";
 
 type UserRole = "anon" | "user" | "admin";
+type AuthStatus = "loading" | "known" | "logging_in" | "logging_out";
 
 interface AuthContextType {
   isLoading: boolean;
+  authStatus: AuthStatus;
   isAuthenticated: boolean;
   role: UserRole;
   login: (email: string, password: string) => Promise<void>;
@@ -28,12 +30,12 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [authStatus, setAuthStatus] = useState<AuthStatus>("loading");
   const [role, setRole] = useState<UserRole>("anon");
 
   const updateAuthStatus = useCallback(async () => {
     const response = await axios.get(api.url("auth/me_myself_and_I"));
-    // TODO: if backend is unreachable - set isLoading and start polling
+    // TODO: if backend is unreachable - set authStatus to "unknown" and start polling
 
     // for isLoading testing. TODO: right now the pages do not look great when isLoading is true
     // await new Promise<void>((resolve) => setTimeout(() => resolve(), 2000));
@@ -44,11 +46,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     axios.defaults.withCredentials = true;
-    updateAuthStatus().finally(() => setIsLoading(false));
+    updateAuthStatus().finally(() => setAuthStatus("known"));
   }, []);
 
   const login = useCallback((email: string, password: string) => {
-    setIsLoading(true);
+    setAuthStatus("logging_in");
 
     return axios
       .post(api.url("auth/login"), { email, password })
@@ -58,17 +60,17 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           throw Error("not logged in");
         }
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => setAuthStatus("known"));
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoading(true);
+    setAuthStatus("logging_out");
 
     return axios
       .post(api.url("auth/logout"), null)
       .then(updateAuthStatus)
       .then(() => {})
-      .finally(() => setIsLoading(false));
+      .finally(() => setAuthStatus("known"));
   }, []);
 
   // Function to test/refresh authentication
@@ -103,14 +105,15 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Memoized context value
   const contextValue = useMemo(
     () => ({
-      isLoading,
+      isLoading: authStatus === "loading",
+      authStatus,
       isAuthenticated: role !== "anon",
       role,
       login,
       logout,
       refreshAuth,
     }),
-    [isLoading, role, login, logout, refreshAuth],
+    [authStatus, role, login, logout, refreshAuth],
   );
 
   return (
