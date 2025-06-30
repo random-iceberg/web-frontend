@@ -26,6 +26,7 @@ const AGE_MIN = 1;
 const AGE_MAX = 119;
 const SIBSP_MAX = 8;
 const PARCH_MAX = 6;
+const FARE_MAX = 500;
 
 type FormState = {
   age: number;
@@ -59,19 +60,19 @@ const FIELD_INFO: Record<
   },
   age: {
     label: "Age",
-    description: "Passenger's age (1-119 years)",
+    description: `Passenger's age (${AGE_MIN}-${AGE_MAX} years)`,
   },
   sibsp: {
     label: "Siblings/Spouses",
-    description: "Number of siblings or spouses aboard (0-8)",
+    description: `Number of siblings or spouses aboard (0-${SIBSP_MAX})`,
   },
   fare: {
     label: "Fare",
-    description: "Ticket fare in USD ($0.00 - $500.00)",
+    description: `Ticket fare in USD ($0.00 - $${FARE_MAX.toFixed(2)})`,
   },
   parch: {
     label: "Parents/Children",
-    description: "Number of parents or children aboard (0-6)",
+    description: `Number of parents or children aboard (0-${PARCH_MAX})`,
   },
   wereAlone: {
     label: "Were they alone?",
@@ -123,15 +124,15 @@ const SurvivalCalculatorContent: React.FC = () => {
       newErrors.sex = "Please select the passenger's gender";
     }
     if (!form.embarkationPort) {
-      newErrors.embarkationPort =
-        "Please select the port where the passenger embarked (C - Cherbourg, Q - Queenstown, S - Southampton)";
+      newErrors.embarkationPort = "Please select the port of embarkation.";
     }
     if (!form.passengerClass) {
-      newErrors.passengerClass =
-        "Please select the class of travel (1st, 2nd, or 3rd class)";
+      newErrors.passengerClass = "Please select the class of travel.";
     }
-    if (form.fare < 0 || form.fare > 500) {
-      newErrors.fare = "Fare must be between $0.00 and $500.00";
+    if (form.fare < 0 || form.fare > FARE_MAX) {
+      newErrors.fare = `Fare must be between $0.00 and $${FARE_MAX.toFixed(
+        2,
+      )}.`;
     }
     return newErrors;
   };
@@ -142,6 +143,49 @@ const SurvivalCalculatorContent: React.FC = () => {
     setErrors({});
   };
 
+  function randomizeModels(count: number) {
+    const scrambledModels = models.sort(() => Math.random() - 0.5);
+
+    /* Returns a portion of the array starting from index 0 (included)
+    and ending at index "count" (excluded). */
+    return scrambledModels.slice(0, count);
+  }
+
+  const handleRandomize = () => {
+    const random = <T,>(arr: T[]): T =>
+      arr[Math.floor(Math.random() * arr.length)];
+
+    const sibsp = Math.floor(Math.random() * (SIBSP_MAX + 1));
+    const parch = Math.floor(Math.random() * (PARCH_MAX + 1));
+    const randomModels = randomizeModels(
+      Math.floor(Math.random() * models.length) + 1,
+    );
+    const modelIDs = randomModels.map((model) => model.id);
+
+    const randomForm: FormState = {
+      age: Math.floor(Math.random() * (AGE_MAX - AGE_MIN + 1)) + AGE_MIN,
+      sibsp,
+      parch,
+      passengerClass: random([1, 2, 3]),
+      fare: parseFloat((Math.random() * FARE_MAX).toFixed(2)),
+      sex: random(["male", "female"]),
+      title: random(["master", "miss", "mr", "mrs", "rare"]) as
+        | "master"
+        | "miss"
+        | "mr"
+        | "mrs"
+        | "rare",
+      embarkationPort: random(["C", "Q", "S"]),
+      wereAlone: Math.random() < 0.5,
+      cabinKnown: Math.random() < 0.5,
+    };
+
+    setForm(randomForm);
+    setResult(null);
+    setErrors({});
+    setSelectedModelIds(modelIDs);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
@@ -149,12 +193,11 @@ const SurvivalCalculatorContent: React.FC = () => {
 
     const validationErrors = validateInputs();
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors); // set the errors object
+      setErrors(validationErrors);
       setLoading(false);
       return;
     }
 
-    // Transform FormState to PassengerData
     const passengerData: PassengerData = {
       age: form.age,
       sibsp: form.sibsp,
@@ -247,8 +290,8 @@ const SurvivalCalculatorContent: React.FC = () => {
                   }
                   disabled={loading}
                 >
-                  <button type="button">male</button>
-                  <button type="button">female</button>
+                  <button type="button">Male</button>
+                  <button type="button">Female</button>
                 </DropDown>
                 {errors.sex && (
                   <Alert variant="error" className="mt-2 p-2 text-xs">
@@ -313,13 +356,13 @@ const SurvivalCalculatorContent: React.FC = () => {
                   id="age"
                   label={FIELD_INFO.age.label}
                   type="number"
-                  required // Mark as required
+                  required
                   value={form.age.toString()}
                   onChange={(v) => setForm((f) => ({ ...f, age: Number(v) }))}
                   min={AGE_MIN}
                   max={AGE_MAX}
                   disabled={loading}
-                  description={FIELD_INFO.age.description} // Pass description prop
+                  description={FIELD_INFO.age.description}
                 />
               </div>
 
@@ -328,13 +371,13 @@ const SurvivalCalculatorContent: React.FC = () => {
                   id="sibsp"
                   label={FIELD_INFO.sibsp.label}
                   type="number"
-                  required // Mark as required
+                  required
                   value={form.sibsp.toString()}
                   onChange={(v) => setForm((f) => ({ ...f, sibsp: Number(v) }))}
                   min={0}
                   max={SIBSP_MAX}
                   disabled={loading}
-                  description={FIELD_INFO.sibsp.description} // Pass description prop
+                  description={FIELD_INFO.sibsp.description}
                 />
               </div>
 
@@ -343,13 +386,13 @@ const SurvivalCalculatorContent: React.FC = () => {
                   id="parch"
                   label={FIELD_INFO.parch.label}
                   type="number"
-                  required // Mark as required
+                  required
                   value={form.parch.toString()}
                   onChange={(v) => setForm((f) => ({ ...f, parch: Number(v) }))}
                   min={0}
                   max={PARCH_MAX}
                   disabled={loading}
-                  description={FIELD_INFO.parch.description} // Pass description prop
+                  description={FIELD_INFO.parch.description}
                 />
               </div>
 
@@ -362,21 +405,25 @@ const SurvivalCalculatorContent: React.FC = () => {
                   value={form.fare.toString()}
                   onChange={(v) => setForm((f) => ({ ...f, fare: Number(v) }))}
                   min={0}
-                  max={500}
+                  max={FARE_MAX}
                   step="0.01"
                   disabled={loading}
                   description={FIELD_INFO.fare.description}
                   prefix="$"
                 />
+                {errors.fare && (
+                  <Alert variant="error" className="mt-2 p-2 text-xs">
+                    {errors.fare}
+                  </Alert>
+                )}
               </div>
 
               <div className="md:col-span-2">
-                {" "}
                 {/* Span two columns on medium screens and above */}
                 <Checkbox
                   id="were-alone"
                   label={FIELD_INFO.wereAlone.label}
-                  description={FIELD_INFO.wereAlone.description} // Use description prop
+                  description={FIELD_INFO.wereAlone.description}
                   checked={form.wereAlone}
                   onChange={(v) => setForm((f) => ({ ...f, wereAlone: v }))}
                   disabled={loading}
@@ -384,12 +431,11 @@ const SurvivalCalculatorContent: React.FC = () => {
               </div>
 
               <div className="md:col-span-2">
-                {" "}
                 {/* Span two columns on medium screens and above */}
                 <Checkbox
                   id="cabin-known"
                   label={FIELD_INFO.cabinKnown.label}
-                  description={FIELD_INFO.cabinKnown.description} // Use description prop
+                  description={FIELD_INFO.cabinKnown.description}
                   checked={form.cabinKnown}
                   onChange={(v) => setForm((f) => ({ ...f, cabinKnown: v }))}
                   disabled={loading}
@@ -399,6 +445,14 @@ const SurvivalCalculatorContent: React.FC = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-4 sm:pt-6 border-t border-gray-200">
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={handleRandomize}
+                disabled={loading}
+              >
+                Randomize
+              </Button>
               <Button
                 type="button"
                 variant="secondary"
