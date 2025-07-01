@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "components/Navbar";
+import Footer from "components/Footer";
 import ConnectionStatus from "components/ConnectionStatus";
 
 /*
@@ -17,6 +18,7 @@ const Layout: React.FC = () => {
           <Outlet />
         </div>
       </main>
+      <Footer />
       <ConnectionStatus />
     </div>
   );
