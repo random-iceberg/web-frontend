@@ -46,7 +46,17 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     axios.defaults.withCredentials = true;
-    updateAuthStatus().finally(() => setAuthStatus("known"));
+    updateAuthStatus()
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          // TODO: implement redirection to re-login somewhere
+          // Clear expired/invalid token
+          return axios.post(api.url("auth/logout"), null);
+        } else {
+          throw err;
+        }
+      })
+      .finally(() => setAuthStatus("known"));
   }, []);
 
   const login = useCallback((email: string, password: string) => {
@@ -89,6 +99,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       (error) => {
         // If we get a 401, the token is likely expired
         if (error.response?.status === 401 && role !== "anon") {
+          // TODO: calculator should reload when the role changes
           console.warn("Received 401 response, clearing auth token");
           logout();
         }
