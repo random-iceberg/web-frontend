@@ -15,7 +15,7 @@ const Calculator = lazy(
 );
 
 const Routes: React.FC = () => {
-  const { token, role } = useAuth();
+  const { role } = useAuth();
 
   const router = createBrowserRouter([
     {
@@ -32,7 +32,7 @@ const Routes: React.FC = () => {
           element: <Calculator />,
         },
         // Auth routes - only show when not authenticated
-        ...(token
+        ...(role !== "anon"
           ? []
           : [
               {

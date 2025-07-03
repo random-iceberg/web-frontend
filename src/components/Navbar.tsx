@@ -4,23 +4,20 @@ import { useAuth } from "providers/authProvider";
 import useBreakpoint from "hooks/useBreakpoint";
 
 const Navbar: React.FC = () => {
-  const { isAuthenticated, logout, isLoading, role } = useAuth();
+  const { isAuthenticated, logout, isLoading, authStatus, role } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const isLoggingOut = authStatus === "logging_out";
   const { isMdUp } = useBreakpoint();
 
   const handleLogout = async () => {
     try {
-      setIsLoggingOut(true);
-      logout();
+      await logout();
 
       // Navigate to home page after logout
       navigate("/", { replace: true });
     } catch (error) {
       console.error("Logout error:", error);
-    } finally {
-      setIsLoggingOut(false);
     }
   };
 
@@ -130,21 +127,18 @@ const Navbar: React.FC = () => {
 // Mobile Navbar Component
 const MobileNavbar: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { isAuthenticated, logout, isLoading, role } = useAuth();
+  const { isAuthenticated, logout, isLoading, authStatus, role } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const isLoggingOut = authStatus === "logging_out";
 
   const handleLogout = async () => {
     try {
-      setIsLoggingOut(true);
-      logout();
+      await logout();
       setOpen(false); // Close menu
       navigate("/", { replace: true });
     } catch (error) {
       console.error("Logout error:", error);
-    } finally {
-      setIsLoggingOut(false);
     }
   };
 
