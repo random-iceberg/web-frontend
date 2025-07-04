@@ -4,21 +4,69 @@
 
 @layer base {
   :root {
+    /* Light mode colors */
     --background: 245 40% 98%;
     --foreground: 220 15% 20%;
     --primary: 210 40% 30%;
     --secondary: 210 40% 90%;
     --accent: 210 40% 50%;
-    --font-base: "Inter", sans-serif;
+    
+    /* Additional semantic colors for light mode */
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 20%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 210 40% 50%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+  }
+
+  /* Dark mode colors */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: 220 15% 10%;
+      --foreground: 210 40% 98%;
+      --primary: 210 40% 70%;
+      --secondary: 220 15% 20%;
+      --accent: 210 40% 60%;
+      
+      /* Additional semantic colors for dark mode */
+      --card: 220 15% 13%;
+      --card-foreground: 210 40% 98%;
+      --border: 220 15% 20%;
+      --input: 220 15% 20%;
+      --ring: 210 40% 60%;
+      --destructive: 0 62% 50%;
+      --destructive-foreground: 0 0% 98%;
+    }
   }
 
   body {
-    background: linear-gradient(
-      to bottom right,
-      hsl(var(--background)),
-      hsl(var(--secondary))
-    );
     @apply text-[hsl(var(--foreground))] font-sans min-h-screen;
+    background: hsl(var(--background));
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Dark mode gradient background */
+  @media (prefers-color-scheme: dark) {
+    body {
+      background: linear-gradient(
+        to bottom right,
+        hsl(var(--background)),
+        hsl(220 15% 15%)
+      );
+    }
+  }
+
+  /* Light mode gradient (existing) */
+  @media (prefers-color-scheme: light) {
+    body {
+      background: linear-gradient(
+        to bottom right,
+        hsl(var(--background)),
+        hsl(var(--secondary))
+      );
+    }
   }
 
   .frosted-glass {
@@ -26,4 +74,66 @@
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
   }
+
+  @media (prefers-color-scheme: dark) {
+    .frosted-glass {
+      background-color: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  /* Smooth transitions for theme changes */
+  * {
+    @apply transition-colors duration-200;
+  }
+
+  /* Ensure proper colors for common elements */
+  input, select, textarea {
+    @apply bg-[hsl(var(--card))] text-[hsl(var(--card-foreground))];
+  }
+
+  /* Fix for specific UI elements that might need adjustment in dark mode */
+  @media (prefers-color-scheme: dark) {
+    /* Adjust shadows to be more subtle in dark mode */
+    .shadow {
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    .shadow-md {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    }
+    
+    .shadow-lg {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+/* Alert variant adjustments for dark mode */
+@media (prefers-color-scheme: dark) {
+  .bg-green-50 { @apply bg-green-950/20; }
+  .border-green-300 { @apply border-green-700; }
+  .text-green-700 { @apply text-green-400; }
+  .text-green-800 { @apply text-green-300; }
+  
+  .bg-red-50 { @apply bg-red-950/20; }
+  .border-red-300 { @apply border-red-700; }
+  .text-red-700 { @apply text-red-400; }
+  .text-red-800 { @apply text-red-300; }
+  
+  .bg-yellow-50 { @apply bg-yellow-950/20; }
+  .border-yellow-300 { @apply border-yellow-700; }
+  .text-yellow-700 { @apply text-yellow-400; }
+  .text-yellow-800 { @apply text-yellow-300; }
+  
+  .bg-blue-50 { @apply bg-blue-950/20; }
+  .border-blue-300 { @apply border-blue-700; }
+  .text-blue-700 { @apply text-blue-400; }
+  .text-blue-800 { @apply text-blue-300; }
+  
+  .bg-gray-50 { @apply bg-gray-900; }
+  .bg-gray-100 { @apply bg-gray-800; }
+  .border-gray-300 { @apply border-gray-700; }
+  .text-gray-600 { @apply text-gray-400; }
+  .text-gray-700 { @apply text-gray-300; }
 }
