@@ -7,10 +7,13 @@ export interface PassengerData {
   sibsp: number;
   parch: number;
   passengerClass: 1 | 2 | 3;
+  fare: number;
   sex: "male" | "female";
   embarkationPort: "C" | "Q" | "S";
   wereAlone: boolean;
   cabinKnown: boolean;
+  title: "master" | "miss" | "mr" | "mrs" | "rare";
+  model_ids?: string[];
 }
 
 export interface PredictionResult {
@@ -18,13 +21,19 @@ export interface PredictionResult {
   probability: number;
 }
 
+export interface MultiModelPredictionResult {
+  [modelId: string]: PredictionResult | { error: string };
+}
+
 export async function predictPassenger(
   data: PassengerData,
-): Promise<PredictionResult> {
+  modelIds?: string[],
+): Promise<MultiModelPredictionResult> {
   try {
-    const { data: result } = await axios.post<PredictionResult>(
+    const payload = { ...data, model_ids: modelIds };
+    const { data: result } = await axios.post<MultiModelPredictionResult>(
       api.url("predict"),
-      data,
+      payload,
     );
     return result;
   } catch (error) {

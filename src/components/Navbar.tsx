@@ -4,23 +4,20 @@ import { useAuth } from "providers/authProvider";
 import useBreakpoint from "hooks/useBreakpoint";
 
 const Navbar: React.FC = () => {
-  const { isAuthenticated, logout, isLoading } = useAuth();
+  const { isAuthenticated, logout, isLoading, authStatus, role } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const isLoggingOut = authStatus === "logging_out";
   const { isMdUp } = useBreakpoint();
 
   const handleLogout = async () => {
     try {
-      setIsLoggingOut(true);
-      logout();
+      await logout();
 
       // Navigate to home page after logout
       navigate("/", { replace: true });
     } catch (error) {
       console.error("Logout error:", error);
-    } finally {
-      setIsLoggingOut(false);
     }
   };
 
@@ -49,25 +46,25 @@ const Navbar: React.FC = () => {
                 Survival Calculator
               </Link>
 
+              {isAuthenticated && role === "admin" && (
+                <Link
+                  to="/admin"
+                  className={`hover:text-accent transition ${
+                    location.pathname === "/admin" ? "text-accent" : ""
+                  }`}
+                >
+                  Admin Console
+                </Link>
+              )}
               {isAuthenticated && (
-                <>
-                  <Link
-                    to="/admin"
-                    className={`hover:text-accent transition ${
-                      location.pathname === "/admin" ? "text-accent" : ""
-                    }`}
-                  >
-                    Admin Console
-                  </Link>
-                  <Link
-                    to="/dashboard"
-                    className={`hover:text-accent transition ${
-                      location.pathname === "/dashboard" ? "text-accent" : ""
-                    }`}
-                  >
-                    User Dashboard
-                  </Link>
-                </>
+                <Link
+                  to="/dashboard"
+                  className={`hover:text-accent transition ${
+                    location.pathname === "/dashboard" ? "text-accent" : ""
+                  }`}
+                >
+                  User Dashboard
+                </Link>
               )}
             </div>
 
@@ -130,21 +127,18 @@ const Navbar: React.FC = () => {
 // Mobile Navbar Component
 const MobileNavbar: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const { isAuthenticated, logout, isLoading } = useAuth();
+  const { isAuthenticated, logout, isLoading, authStatus, role } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const isLoggingOut = authStatus === "logging_out";
 
   const handleLogout = async () => {
     try {
-      setIsLoggingOut(true);
-      logout();
+      await logout();
       setOpen(false); // Close menu
       navigate("/", { replace: true });
     } catch (error) {
       console.error("Logout error:", error);
-    } finally {
-      setIsLoggingOut(false);
     }
   };
 
@@ -191,31 +185,31 @@ const MobileNavbar: React.FC = () => {
             Survival Calculator
           </Link>
 
+          {isAuthenticated && role === "admin" && (
+            <Link
+              role="menuitem"
+              to="/admin"
+              onClick={handleLinkClick}
+              className={`block text-base font-medium hover:translate-x-1 hover:text-accent transition ${
+                location.pathname === "/admin" ? "text-accent" : "text-white"
+              }`}
+            >
+              Admin Console
+            </Link>
+          )}
           {isAuthenticated && (
-            <>
-              <Link
-                role="menuitem"
-                to="/admin"
-                onClick={handleLinkClick}
-                className={`block text-base font-medium hover:translate-x-1 hover:text-accent transition ${
-                  location.pathname === "/admin" ? "text-accent" : "text-white"
-                }`}
-              >
-                Admin Console
-              </Link>
-              <Link
-                role="menuitem"
-                to="/dashboard"
-                onClick={handleLinkClick}
-                className={`block text-base font-medium hover:translate-x-1 hover:text-accent transition ${
-                  location.pathname === "/dashboard"
-                    ? "text-accent"
-                    : "text-white"
-                }`}
-              >
-                User Dashboard
-              </Link>
-            </>
+            <Link
+              role="menuitem"
+              to="/dashboard"
+              onClick={handleLinkClick}
+              className={`block text-base font-medium hover:translate-x-1 hover:text-accent transition ${
+                location.pathname === "/dashboard"
+                  ? "text-accent"
+                  : "text-white"
+              }`}
+            >
+              User Dashboard
+            </Link>
           )}
 
           {/* Divider */}

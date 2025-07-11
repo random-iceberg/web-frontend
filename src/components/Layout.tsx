@@ -1,6 +1,5 @@
 import React, { PropsWithChildren } from "react";
 import { Outlet } from "react-router-dom";
-import Footer from "components/Footer";
 import ConnectionStatus from "components/ConnectionStatus";
 
 /*
@@ -16,7 +15,6 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => (
         {children ?? <Outlet />}
       </div>
     </main>
-    <Footer />
     <ConnectionStatus />
   </div>
 );
