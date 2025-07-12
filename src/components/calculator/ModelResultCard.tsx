@@ -5,11 +5,13 @@ import { PredictionResult } from "services/predictionService";
 interface ModelResultCardProps {
   modelId: string;
   modelName: string;
+  algorithm: string;
   result: PredictionResult | { error: string };
 }
 
 export default function ModelResultCard({
   modelName,
+  algorithm,
   result,
 }: ModelResultCardProps) {
   const isError = "error" in result;
@@ -26,15 +28,14 @@ export default function ModelResultCard({
 
   return (
     <Card className={cardClasses}>
-      <h3 className="text-lg font-semibold mb-2">Model: {modelName}</h3>{" "}
-      {/* Use modelName here */}
+      <h3 className="text-lg font-semibold">Model:</h3> {modelName}
+      <h3 className="text-lg font-semibold">Algorithm:</h3> {algorithm}
       {isError ? (
         <p className="text-sm">Error: {result.error}</p>
       ) : (
         <>
-          <p className="text-md font-medium">
-            Status: {survived ? "Survived" : "Did Not Survive"}
-          </p>
+          <h3 className="text-m font-semibold">Status:</h3>
+          {survived ? "Survived" : "Did not survive"}
           <p className="text-sm mt-1">Probability: {probability}%</p>
         </>
       )}

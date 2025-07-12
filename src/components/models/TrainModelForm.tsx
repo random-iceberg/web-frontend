@@ -17,6 +17,7 @@ const ALGORITHMS = [
   "SVM",
   "Logistic Regression",
   "Decision Tree",
+  "KNN",
 ];
 
 // TODO: Available features for selection, Update later with actual models
@@ -24,11 +25,11 @@ const AVAILABLE_FEATURES = [
   { id: "pclass", label: "Passenger Class" },
   { id: "sex", label: "Sex" },
   { id: "age", label: "Age" },
-  { id: "sibsp", label: "Siblings/Spouses" },
-  { id: "parch", label: "Parents/Children" },
   { id: "fare", label: "Fare" },
   { id: "embarked", label: "Embarked" },
   { id: "title", label: "Title" },
+  { id: "is_alone", label: "Travelled alone" },
+  { id: "age_class", label: "Age * Class" },
 ];
 
 const TrainModelForm: React.FC = () => {
@@ -90,9 +91,14 @@ const TrainModelForm: React.FC = () => {
       });
 
       // Refresh the model list after a short delay to allow the backend to create the model
-      setTimeout(() => {
-        refreshModels();
-      }, 1000);
+      for (let i = 0; i < 5; i++) {
+        setTimeout(
+          () => {
+            refreshModels();
+          },
+          500 + i * 1000,
+        );
+      }
     } catch (err: any) {
       setError(handleApiError(err, "training the model"));
     } finally {

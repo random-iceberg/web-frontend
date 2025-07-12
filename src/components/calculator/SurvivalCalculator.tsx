@@ -143,24 +143,12 @@ const SurvivalCalculatorContent: React.FC = () => {
     setErrors({});
   };
 
-  function randomizeModels(count: number) {
-    const scrambledModels = models.sort(() => Math.random() - 0.5);
-
-    /* Returns a portion of the array starting from index 0 (included)
-    and ending at index "count" (excluded). */
-    return scrambledModels.slice(0, count);
-  }
-
   const handleRandomize = () => {
     const random = <T,>(arr: T[]): T =>
       arr[Math.floor(Math.random() * arr.length)];
 
     const sibsp = Math.floor(Math.random() * (SIBSP_MAX + 1));
     const parch = Math.floor(Math.random() * (PARCH_MAX + 1));
-    const randomModels = randomizeModels(
-      Math.floor(Math.random() * models.length) + 1,
-    );
-    const modelIDs = randomModels.map((model) => model.id);
 
     const randomForm: FormState = {
       age: Math.floor(Math.random() * (AGE_MAX - AGE_MIN + 1)) + AGE_MIN,
@@ -183,7 +171,6 @@ const SurvivalCalculatorContent: React.FC = () => {
     setForm(randomForm);
     setResult(null);
     setErrors({});
-    setSelectedModelIds(modelIDs);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -487,6 +474,7 @@ const SurvivalCalculatorContent: React.FC = () => {
                     key={modelId}
                     modelId={modelId}
                     modelName={modelName} // Pass modelName
+                    algorithm={model ? model.algorithm : "Unknown"}
                     result={prediction}
                   />
                 );

@@ -59,12 +59,16 @@ const ModelItem: React.FC<ModelItemProps> = ({ model, onDelete }) => {
           >
             {expanded ? "Hide Details" : "Show Details"}
           </Button>
-          <DeleteModelButton
-            modelId={model.id}
-            modelName={model.name}
-            onDelete={onDelete}
-            disabled={isTraining}
-          />
+          {model.is_removable ? (
+            <DeleteModelButton
+              modelId={model.id}
+              modelName={model.name}
+              onDelete={onDelete}
+              disabled={isTraining}
+            />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
 

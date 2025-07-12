@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy package spec and lock files separately before `npm install`
 # so to allow docker to cache the `npm install` layer
 COPY package*.json .
-RUN npm install --omit dev
+RUN npm clean-install --omit dev
 COPY . .
 
 ##
