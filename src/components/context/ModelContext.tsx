@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { Model, fetchModels } from "services/modelService";
 import axios from "axios";
+import { useAuth } from "providers/authProvider";
 
 interface ModelContextType {
   models: Model[];
@@ -20,13 +21,15 @@ const ModelContext = createContext<ModelContextType | undefined>(undefined);
 export const ModelProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const { role } = useAuth();
+
   const [models, setModels] = useState<Model[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const refreshModels = async () => {
     try {
-      setLoading(true);
+      // setLoading(true);
       setError(null);
       const data = await fetchModels();
       setModels(data);
@@ -58,7 +61,7 @@ export const ModelProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     refreshModels();
-  }, []);
+  }, [role]);
 
   return (
     <ModelContext.Provider value={{ models, loading, error, refreshModels }}>

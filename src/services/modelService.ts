@@ -11,6 +11,7 @@ export interface Model {
   accuracy: number | null;
   status: string;
   is_restricted: boolean;
+  is_removable: boolean;
 }
 
 export interface ModelCreateData {

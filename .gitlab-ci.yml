@@ -36,7 +36,7 @@ checks:
   image: node:latest
   stage: test
   script:
-    - npm install
+    - npm clean-install
     - CI=true npm test
     - npm run lint
     - npx prettier --check src
