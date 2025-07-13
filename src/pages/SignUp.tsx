@@ -14,11 +14,13 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
+    setSuccess(false);
 
     try {
       await axios.post(api.url("auth/signup"), {
@@ -26,6 +28,7 @@ export default function SignUpPage() {
         password,
       });
       setLoading(false);
+      setSuccess(true);
     } catch (err: any) {
       setLoading(false);
       if (err.response) {
@@ -56,6 +59,11 @@ export default function SignUpPage() {
             {error && (
               <Alert variant="error" className="text-sm">
                 {error}
+              </Alert>
+            )}
+            {success && (
+              <Alert variant="success" className="text-sm">
+                {"You have succesfully signed up :)"}
               </Alert>
             )}
 

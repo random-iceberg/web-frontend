@@ -47,8 +47,8 @@ const FIELD_INFO: Record<
   { label: string; description: string }
 > = {
   passengerClass: {
-    label: "Passenger Class",
-    description: "The class of travel (1st, 2nd, or 3rd class)",
+    label: "Ticket Class",
+    description: "1st, 2nd, or 3rd",
   },
   sex: {
     label: "Sex",
@@ -56,7 +56,7 @@ const FIELD_INFO: Record<
   },
   embarkationPort: {
     label: "Embarkation Port",
-    description: "C - Cherbourg, Q - Queenstown, S - Southampton",
+    description: "First letter of the port name",
   },
   age: {
     label: "Age",
@@ -90,7 +90,7 @@ const FIELD_INFO: Record<
 };
 
 const initialForm: FormState = {
-  age: 0,
+  age: 1,
   sibsp: 0,
   parch: 0,
   passengerClass: null,
@@ -255,6 +255,7 @@ const SurvivalCalculatorContent: React.FC = () => {
                     }))
                   }
                   disabled={loading}
+                  description={FIELD_INFO.passengerClass.description}
                 >
                   <button type="button">1</button>
                   <button type="button">2</button>
@@ -277,8 +278,8 @@ const SurvivalCalculatorContent: React.FC = () => {
                   }
                   disabled={loading}
                 >
-                  <button type="button">Male</button>
-                  <button type="button">Female</button>
+                  <button type="button">male</button>
+                  <button type="button">female</button>
                 </DropDown>
                 {errors.sex && (
                   <Alert variant="error" className="mt-2 p-2 text-xs">
@@ -326,6 +327,7 @@ const SurvivalCalculatorContent: React.FC = () => {
                     }))
                   }
                   disabled={loading}
+                  description={FIELD_INFO.embarkationPort.description}
                 >
                   <button type="button">C</button>
                   <button type="button">Q</button>
