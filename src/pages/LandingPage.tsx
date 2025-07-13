@@ -26,7 +26,7 @@ const LandingPage: React.FC = () => (
           Try the Demo
         </Link>
         <a
-          href="#features"
+          href="/#features"
           className="border border-primary text-primary font-semibold px-8 py-3 rounded hover:bg-primary hover:text-[hsl(var(--background))] transition"
         >
           Learn More
@@ -116,17 +116,17 @@ const LandingPage: React.FC = () => (
           {
             title: "🎓 Build AI Web Apps – Online Course",
             body: "Our bestselling course on building full-stack AI applications with React, FastAPI & more.",
-            href: "#",
+            href: "https://th-deg.de",
           },
           {
             title: "🚀 Startup Launcher Kit",
             body: "A boilerplate with auth, payments, dashboards — launch your SaaS faster than ever.",
-            href: "#",
+            href: "https://th-deg.de",
           },
           {
             title: "📊 Real-Time Analytics Dashboard",
             body: "Visualize live data streams with beautiful, high-performance charts in React.",
-            href: "#",
+            href: "https://th-deg.de",
           },
         ].map(({ title, body, href }) => (
           <a
